@@ -28,10 +28,9 @@ class ApplicationsTableSeeder extends Seeder
 
         foreach ($users as $user) {
             $attendances = Attendance::where('user_id', $user->id)->inRandomOrder()->take(5)->get();
-            $attendances = Attendance::where('user_id', $user->id)->inRandomOrder()->take(5)->get();
 
             foreach ($attendances as $attendance) {
-                Application::factory()->create([
+                Application::create([
                     'user_id' => $user->id,
                     'attendance_id' => $attendance->id,
                     'request_reason' => $requestReasons[array_rand($requestReasons)],
