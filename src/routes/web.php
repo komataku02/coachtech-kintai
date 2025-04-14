@@ -4,8 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Attendance\StampController;
-use App\Http\Controllers\Attendance\ListController;
+use App\Http\Controllers\Attendance\ListController as AttendanceListController;
 use App\Http\Controllers\Attendance\DetailController;
+use App\Http\Controllers\Application\ListController as ApplicationListController;
+use App\Http\Controllers\Application\DetailController as ApplicationDetailController;
+use App\Http\Controllers\Application\SubmitController;
+
 use App\Http\Controllers\Admin\Attendance\DailyListController;
 
 
@@ -21,8 +25,18 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/attendance/break-in', [StampController::class, 'breakIn'])->name('attendance.breakIn');
   Route::post('/attendance/break-out', [StampController::class, 'breakOut'])->name('attendance.breakOut');
 });
-Route::get('/attendance/list', [ListController::class, 'index'])->name('attendance.list');
+Route::get('/attendance/list', [AttendanceListController::class, 'index'])->name('attendance.list');
 Route::get('/attendance/{id}', [DetailController::class, 'show'])->name('attendance.show')->middleware('auth');
+Route::get('/application/list', [ApplicationListController::class, 'index'])->name('application.list');
+Route::middleware(['auth'])->group(function () {
+  Route::get('/application/{id}', [ApplicationDetailController::class, 'show'])->name('application.detail');
+
+  //申請フォーム表示
+  Route::get('/application/create/{attendance_id}', [SubmitController::class, 'create'])->name('application.create');
+  //申請送信処理
+  Route::post('application/store',[SubmitController::class, 'store'])->name('application.store');
+});
+
 // 管理者：日別勤怠一覧
 Route::get('/admin/attendance', [DailyListController::class, 'index'])->name('admin.attendance.index');
 // 管理者：勤怠詳細
