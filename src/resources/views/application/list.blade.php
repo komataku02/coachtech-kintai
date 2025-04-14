@@ -14,6 +14,7 @@
                     <th class="px-4 py-2 border">対象日</th>
                     <th class="px-4 py-2 border">理由</th>
                     <th class="px-4 py-2 border">ステータス</th>
+                    <th class="px-4 py-2 border">詳細</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,7 +23,18 @@
                         <td class="px-4 py-2 border">{{ \Carbon\Carbon::parse($app->request_at)->format('Y年m月d日') }}</td>
                         <td class="px-4 py-2 border">{{ \Carbon\Carbon::parse($app->attendance->work_date)->format('Y年m月d日') }}</td>
                         <td class="px-4 py-2 border">{{ $app->request_reason }}</td>
-                        <td class="px-4 py-2 border">{{ $app->status }}</td>
+                        <td class="px-4 py-2 border">
+                            @if ($app->status === 'pending')
+                                <span class="text-yellow-600 font-semibold">承認待ち</span>
+                            @elseif ($app->status === 'approved')
+                                <span class="text-green-600 font-semibold">承認済</span>
+                            @else
+                                <span class="text-red-600 font-semibold">却下</span>
+                            @endif
+                        </td>
+                        <td class="px-4 py-2 border text-center">
+                            <a href="{{ route('application.detail', $app->id) }}" class="text-blue-500 hover:underline">詳細</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -12,9 +12,9 @@ class ListController extends Controller
     {
         $user = Auth::user();
 
-        $applications = Application::with('attendance')
-            ->where('user_id', $user->id)
-            ->orderByDesc('request_at')
+        $applications = Application::where('user_id', Auth::id())
+            ->with('attendance') // 勤怠情報も一緒に取得
+            ->latest('request_at') // 新しい申請順
             ->get();
 
         return view('application.list', compact('applications'));

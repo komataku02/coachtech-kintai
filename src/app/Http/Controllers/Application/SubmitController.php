@@ -22,7 +22,12 @@ class SubmitController extends Controller
             abort(403, '他人の勤怠に対しては申請できません。');
         }
 
-        return view('application.create', compact('attendance'));
+        // すでに申請済みか確認
+        $alreadyApplied = Application::where('attendance_id', $attendance->id)
+            ->where('user_id', Auth::id())
+            ->exists();
+
+        return view('application.create', compact('attendance', 'alreadyApplied'));
     }
 
     /**
