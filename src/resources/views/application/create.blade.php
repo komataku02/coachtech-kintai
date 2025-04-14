@@ -11,6 +11,9 @@
         <p><strong>ステータス：</strong>{{ $attendance->status }}</p>
     </div>
 
+    @if ($alreadyApplied)
+    <p class="text-red-500 font-semibold">この勤怠には既に申請を送信済みです。</p>
+@else
     <form method="POST" action="{{ route('application.store') }}">
         @csrf
         <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
@@ -25,5 +28,6 @@
 
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">申請する</button>
     </form>
+@endif
 </div>
 @endsection
