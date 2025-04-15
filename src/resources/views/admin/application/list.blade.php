@@ -2,14 +2,15 @@
 
 @section('content')
 <div class="container">
-    <h2 class="title">申請一覧</h2>
+    <h2 class="page-title">申請一覧（管理者）</h2>
 
     @if ($applications->isEmpty())
-        <p class="notice">申請はまだありません。</p>
+        <p class="no-data">申請はまだありません。</p>
     @else
-        <table class="table">
+        <table class="custom-table">
             <thead>
                 <tr>
+                    <th>申請者</th>
                     <th>申請日</th>
                     <th>対象日</th>
                     <th>理由</th>
@@ -20,6 +21,7 @@
             <tbody>
                 @foreach ($applications as $app)
                     <tr>
+                        <td>{{ $app->user->name }}</td>
                         <td>{{ \Carbon\Carbon::parse($app->request_at)->format('Y年m月d日') }}</td>
                         <td>{{ \Carbon\Carbon::parse($app->attendance->work_date)->format('Y年m月d日') }}</td>
                         <td>{{ $app->request_reason }}</td>
@@ -33,7 +35,7 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            <a href="{{ route('application.detail', $app->id) }}" class="link">詳細</a>
+                            <a href="{{ route('admin.application.detail', $app->id) }}" class="link">詳細</a>
                         </td>
                     </tr>
                 @endforeach

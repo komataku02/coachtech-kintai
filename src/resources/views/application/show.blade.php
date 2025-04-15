@@ -1,20 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto p-4">
-    <h2 class="text-2xl font-bold mb-4">申請詳細</h2>
+<div class="container">
+    <h2 class="title">申請詳細</h2>
 
-    <div class="mb-4">
-        <p><strong>申請理由：</strong>{{ $application->request_reason }}</p>
-        <p><strong>申請日：</strong>{{ $application->request_at }}</p>
-        <p><strong>ステータス：</strong>{{ $application->status }}</p>
+    <div class="detail-box">
+        <p><span class="label">申請理由：</span>{{ $application->request_reason }}</p>
+        <p><span class="label">申請日：</span>{{ \Carbon\Carbon::parse($application->request_at)->format('Y年m月d日') }}</p>
+        <p><span class="label">ステータス：</span>
+            @if ($application->status === 'pending')
+                <span class="status pending">承認待ち</span>
+            @elseif ($application->status === 'approved')
+                <span class="status approved">承認済</span>
+            @else
+                <span class="status rejected">却下</span>
+            @endif
+        </p>
         @if($application->approved_at)
-            <p><strong>承認日：</strong>{{ $application->approved_at }}</p>
+            <p><span class="label">承認日：</span>{{ \Carbon\Carbon::parse($application->approved_at)->format('Y年m月d日') }}</p>
         @endif
     </div>
 
-    <div>
-        <a href="{{ route('application.list') }}" class="text-blue-500 underline">← 申請一覧に戻る</a>
+    <div class="mt-3">
+        <a href="{{ route('application.list') }}" class="link">&larr; 申請一覧に戻る</a>
     </div>
 </div>
 @endsection
