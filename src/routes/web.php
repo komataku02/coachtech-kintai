@@ -9,7 +9,7 @@ use App\Http\Controllers\Attendance\DetailController;
 use App\Http\Controllers\Application\ListController as ApplicationListController;
 use App\Http\Controllers\Application\DetailController as ApplicationDetailController;
 use App\Http\Controllers\Application\SubmitController;
-
+use App\Http\Controllers\Admin\Application\ApplicationListController as AdminApplicationListController;
 use App\Http\Controllers\Admin\Attendance\DailyListController;
 
 
@@ -35,6 +35,8 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/application/create/{attendance_id}', [SubmitController::class, 'create'])->name('application.create');
   //申請送信処理
   Route::post('application/store',[SubmitController::class, 'store'])->name('application.store');
+  Route::get('/admin/application/list', [AdminApplicationListController::class, 'index'])
+    ->name('admin.application.list');
 });
 
 // 管理者：日別勤怠一覧
