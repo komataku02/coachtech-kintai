@@ -4,23 +4,27 @@
 <div class="container">
     <h2 class="page-title">勤怠詳細（管理者）</h2>
 
-    <div class="record-box">
-        <p><span class="label">日付：</span>{{ $attendance->work_date }}</p>
-        <p><span class="label">出勤：</span>{{ $attendance->clock_in_time ?? '未登録' }}</p>
-        <p><span class="label">退勤：</span>{{ $attendance->clock_out_time ?? '未登録' }}</p>
-        <p><span class="label">ステータス：</span>{{ $attendance->status }}</p>
-        <p><span class="label">備考：</span>{{ $attendance->note ?? 'なし' }}</p>
+    <div class="detail-box">
+        <p><strong>日付：</strong>{{ $attendance->work_date }}</p>
+        <p><strong>出勤：</strong>{{ $attendance->clock_in_time ?? '未登録' }}</p>
+        <p><strong>退勤：</strong>{{ $attendance->clock_out_time ?? '未登録' }}</p>
+        <p><strong>ステータス：</strong>{{ $attendance->status }}</p>
+        <p><strong>備考：</strong>{{ $attendance->note ?? 'なし' }}</p>
     </div>
 
-    <div class="record-box">
-        <h3 class="section-title">休憩時間</h3>
+    <h3 class="sub-title">休憩時間</h3>
+    @if ($attendance->breakTimes->isEmpty())
+        <p class="no-break">休憩記録なし</p>
+    @else
         <ul class="break-list">
-            @forelse ($attendance->breakTimes as $break)
+            @foreach ($attendance->breakTimes as $break)
                 <li>{{ $break->break_start }} ～ {{ $break->break_end }}</li>
-            @empty
-                <li>休憩記録なし</li>
-            @endforelse
+            @endforeach
         </ul>
+    @endif
+
+    <div class="back-link">
+        <a href="{{ route('admin.attendance.index') }}">← 日別勤怠一覧に戻る</a>
     </div>
 </div>
 @endsection
