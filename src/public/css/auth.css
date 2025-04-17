@@ -1,0 +1,70 @@
+/* ログイン・登録画面用CSS */
+
+.auth-container {
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.auth-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #0d47a1;
+}
+
+.auth-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.auth-form .error-text {
+  color: #e53935;
+  font-size: 0.9rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+.auth-form button {
+  width: 100%;
+  background-color: #1976d2;
+  color: white;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.auth-form button:hover {
+  background-color: #0d47a1;
+}
+
+.auth-form .link {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+  color: #1976d2;
+  text-decoration: underline;
+}
+
+.auth-form .link:hover {
+  color: #0b3c91;
+}

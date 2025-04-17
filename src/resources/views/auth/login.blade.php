@@ -1,4 +1,8 @@
 @extends('layouts.app')
+@section('page-css')
+<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+@endsection
+
 
 @section('content')
 <div class="form-container">

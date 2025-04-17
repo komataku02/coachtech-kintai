@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Application\ApplicationDetailController as AdminA
 use App\Http\Controllers\Admin\Attendance\DailyListController;
 use App\Http\Controllers\Admin\Staff\StaffListController;
 use App\Http\Controllers\Admin\Staff\MonthlyAttendanceListController;
+use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 
 // -------------------- 認証（共通） --------------------
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
@@ -54,4 +55,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
   // 管理者：勤怠管理（日別）
   Route::get('/attendance', [DailyListController::class, 'index'])->name('attendance.index');
   Route::get('/attendance/{id}', [DetailController::class, 'show'])->name('attendance.detail');
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+  Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
+  Route::post('/login', [AdminLoginController::class, 'login'])->name('login.submit');
 });

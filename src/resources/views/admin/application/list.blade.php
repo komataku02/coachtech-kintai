@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('page-css')
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <h2 class="page-title">申請一覧（管理者）</h2>
@@ -7,7 +11,7 @@
     @if ($applications->isEmpty())
         <p class="no-data">申請はまだありません。</p>
     @else
-        <table class="custom-table">
+        <table class="styled-table">
             <thead>
                 <tr>
                     <th>申請者</th>
@@ -34,8 +38,8 @@
                                 <span class="status rejected">却下</span>
                             @endif
                         </td>
-                        <td class="text-center">
-                            <a href="{{ route('admin.application.detail', $app->id) }}" class="link">詳細</a>
+                        <td>
+                            <a href="{{ route('admin.application.detail', $app->id) }}" class="btn-link">詳細</a>
                         </td>
                     </tr>
                 @endforeach
