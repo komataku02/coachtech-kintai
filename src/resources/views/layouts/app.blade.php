@@ -6,6 +6,7 @@
     <title>勤怠管理アプリ</title>
     <link rel="stylesheet" href="{{ asset('css/reset.css') }}?v={{ time() }}">
 <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
+@yield('page-css')
 
 </head>
 <body>

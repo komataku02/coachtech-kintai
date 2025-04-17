@@ -1,0 +1,202 @@
+/* 管理者画面用CSS */
+
+/* タイトル */
+.page-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  border-left: 6px solid #1976d2;
+  padding-left: 1rem;
+  color: #0d47a1;
+}
+
+/* 一覧テーブル */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  margin-top: 1rem;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.styled-table th {
+  background-color: #eeeeee;
+  font-weight: bold;
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* CSVダウンロードボタン */
+.btn-csv {
+  display: inline-block;
+  background-color: #4caf50;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 1rem;
+}
+
+.btn-csv:hover {
+  background-color: #388e3c;
+}
+
+/* ステータス別勤怠件数 */
+.status-summary {
+  margin-top: 2rem;
+  border-collapse: collapse;
+  width: 50%;
+}
+
+.status-summary th,
+.status-summary td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.status-summary th {
+  background-color: #f0f0f0;
+}
+
+/* 申請詳細テーブル */
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.detail-table th,
+.detail-table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-table th {
+  background-color: #f9f9f9;
+  width: 30%;
+  font-weight: bold;
+  color: #444;
+}
+
+.detail-table td {
+  color: #333;
+}
+
+/* 承認ボタン・状態表示 */
+.btn-approve {
+  background-color: #4caf50;
+  color: white;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-approve:hover {
+  background-color: #388e3c;
+}
+
+.status-label {
+  display: inline-block;
+  background-color: #eee;
+  color: #333;
+  padding: 0.6rem 1.4rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* === 管理者用のスタイル === */
+
+.page-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #0d47a1;
+  margin-bottom: 1.5rem;
+  border-left: 6px solid #1976d2;
+  padding-left: 1rem;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  margin-top: 1rem;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.styled-table th {
+  background-color: #eeeeee;
+  font-weight: bold;
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.btn-link {
+  display: inline-block;
+  background-color: #1976d2;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.btn-link:hover {
+  background-color: #0d47a1;
+}
+
+.no-data {
+  color: #999;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+.status {
+  padding: 0.4em 0.8em;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.status.pending {
+  background-color: #fff8e1;
+  color: #f9a825;
+}
+
+.status.approved {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.status.rejected {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
