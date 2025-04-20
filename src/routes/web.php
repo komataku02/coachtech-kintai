@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Attendance\DailyListController;
 use App\Http\Controllers\Admin\Staff\StaffListController;
 use App\Http\Controllers\Admin\Staff\MonthlyAttendanceListController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
+use App\Http\Controllers\Admin\Attendance\DetailController as AdminAttendanceDetailController;
 
 // -------------------- 認証（共通） --------------------
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
@@ -47,14 +48,14 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
   Route::get('/application/list', [AdminApplicationListController::class, 'index'])->name('application.list');
   Route::get('/application/{id}', [AdminApplicationDetailController::class, 'show'])->name('application.detail');
   Route::post('/application/{id}/approve', [AdminApplicationDetailController::class, 'approve'])->name('application.approve');
+  // 管理者：勤怠管理（日別）
+  Route::get('/attendance', [DailyListController::class, 'index'])->name('attendance.index');
+  Route::get('/attendance/{id}', [AdminAttendanceDetailController::class, 'show'])->name('attendance.detail');
+  Route::put('/attendance/{id}', [AdminAttendanceDetailController::class, 'update'])->name('attendance.update');
 
   // 管理者：スタッフ管理
   Route::get('/staff/list', [StaffListController::class, 'index'])->name('staff.list');
   Route::get('/staff/{id}/attendance', [MonthlyAttendanceListController::class, 'show'])->name('staff.attendance');
-
-  // 管理者：勤怠管理（日別）
-  Route::get('/attendance', [DailyListController::class, 'index'])->name('attendance.index');
-  Route::get('/attendance/{id}', [DetailController::class, 'show'])->name('attendance.detail');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
