@@ -123,3 +123,12 @@ textarea {
   color: #444;
   margin-right: 0.5rem;
 }
+
+.info-message {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 1rem;
+  font-weight: bold;
+}

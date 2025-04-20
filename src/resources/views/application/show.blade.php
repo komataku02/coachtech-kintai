@@ -23,6 +23,10 @@
         @if($application->approved_at)
             <p><span class="label">承認日：</span>{{ \Carbon\Carbon::parse($application->approved_at)->format('Y年m月d日') }}</p>
         @endif
+        
+        @if ($application->status === 'pending')
+            <p class="info-message">承認待ちのため修正はできません。</p>
+        @endif
     </div>
 
     <div class="mt-3">
