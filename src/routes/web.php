@@ -56,6 +56,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
   // 管理者：スタッフ管理
   Route::get('/staff/list', [StaffListController::class, 'index'])->name('staff.list');
   Route::get('/staff/{id}/attendance', [MonthlyAttendanceListController::class, 'show'])->name('staff.attendance');
+  Route::get('/staff/{id}/attendance/csv', [MonthlyAttendanceListController::class, 'downloadCsv'])
+    ->name('staff.attendance.csv');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

@@ -214,3 +214,34 @@
   font-size: 0.9rem;
   margin-top: 0.25rem;
 }
+
+.month-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.month-navigation .btn-nav {
+  margin: 0 20px;
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.current-month {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.btn-csv {
+  display: inline-block;
+  background-color: #000;
+  color: #fff;
+  padding: 8px 20px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  float: right;
+  margin-top: 20px;
+}
