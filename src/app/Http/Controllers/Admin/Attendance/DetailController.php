@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Admin\AttendanceFormRequest;
 
 class DetailController extends Controller
 {
@@ -17,27 +18,18 @@ class DetailController extends Controller
         return view('admin.attendance.detail', compact('attendance'));
     }
 
-    public function update(Request $request, $id)
+    public function update(AttendanceFormRequest $request, $id)
     {
-        $request->validate([
-            'clock_in_time' => 'nullable|date_format:H:i',
-            'clock_out_time' => 'nullable|date_format:H:i|after_or_equal:clock_in_time',
-            'break_start_times.*' => 'nullable|date_format:H:i',
-            'break_end_times.*' => 'nullable|date_format:H:i',
-            'note' => 'required|string|max:255',
-        ]);
-
         DB::transaction(function () use ($request, $id) {
             $attendance = Attendance::findOrFail($id);
+
             $attendance->clock_in_time = $request->clock_in_time;
             $attendance->clock_out_time = $request->clock_out_time;
             $attendance->note = $request->note;
             $attendance->save();
 
-            // 古い休憩データ削除
             $attendance->breakTimes()->delete();
 
-            // 新しい休憩データ登録（複数対応）
             $starts = $request->input('break_start_times', []);
             $ends = $request->input('break_end_times', []);
 
