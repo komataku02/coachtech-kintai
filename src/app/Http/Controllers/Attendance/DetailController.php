@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
 use App\Models\BreakTime;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\User\AttendanceFormRequest;
 
 class DetailController extends Controller
 {
@@ -20,20 +21,8 @@ class DetailController extends Controller
         return view('attendance.show', compact('attendance'));
     }
 
-    public function update(Request $request, $id)
+    public function update(AttendanceFormRequest $request, $id)
     {
-        $request->validate([
-            'clock_in_time' => ['nullable', 'date_format:H:i'],
-            'clock_out_time' => ['nullable', 'date_format:H:i', 'after_or_equal:clock_in_time'],
-            'note' => ['nullable', 'string'],
-            'breaks.*.start' => ['nullable', 'date_format:H:i'],
-            'breaks.*.end' => ['nullable', 'date_format:H:i'],
-        ], [
-            'clock_out_time.after_or_equal' => '退勤時刻は出勤時刻より後である必要があります。',
-            'breaks.*.start.date_format' => '休憩開始時刻の形式が不正です。',
-            'breaks.*.end.date_format' => '休憩終了時刻の形式が不正です。',
-        ]);
-
         DB::transaction(function () use ($request, $id) {
             $attendance = Attendance::findOrFail($id);
 
@@ -55,6 +44,6 @@ class DetailController extends Controller
             }
         });
 
-        return redirect()->route('admin.attendance.detail', $id)->with('message', '勤怠情報を更新しました。');
+        return redirect()->route('attendance.show', $id)->with('message', '勤怠情報を更新しました。');
     }
 }

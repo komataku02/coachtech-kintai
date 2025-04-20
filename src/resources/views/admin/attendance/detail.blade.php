@@ -6,14 +6,8 @@
 
 @section('content')
 <div class="container">
-    <h2 class="page-title">勤怠詳細（管理者）</h2>
+    <h2 class="page-title">勤怠詳細（管理者編集）</h2>
 
-    {{-- 成功メッセージ --}}
-    @if (session('message'))
-        <div class="alert-success">{{ session('message') }}</div>
-    @endif
-
-    {{-- バリデーションエラー --}}
     @if ($errors->any())
         <div class="alert-error">
             <ul>
@@ -24,7 +18,7 @@
         </div>
     @endif
 
-    {{-- 編集フォーム --}}
+    {{-- 勤怠編集フォーム --}}
     <form method="POST" action="{{ route('admin.attendance.update', $attendance->id) }}">
         @csrf
         @method('PUT')
@@ -34,54 +28,62 @@
                 <th>日付</th>
                 <td>{{ $attendance->work_date }}</td>
             </tr>
+
             <tr>
-                <th>出勤</th>
+                <th>出勤時間</th>
                 <td>
-                    <input type="time" name="clock_in_time" value="{{ old('clock_in_time', $attendance->clock_in_time) }}">
-                </td>
-            </tr>
-            <tr>
-                <th>退勤</th>
-                <td>
-                    <input type="time" name="clock_out_time" value="{{ old('clock_out_time', $attendance->clock_out_time) }}">
+                    <input type="time" name="clock_in_time" value="{{ old('clock_in_time', \Carbon\Carbon::parse($attendance->clock_in_time)->format('H:i')) }}">
                 </td>
             </tr>
 
-            {{-- 休憩時間 --}}
-            @forelse ($attendance->breakTimes as $i => $break)
+            <tr>
+                <th>退勤時間</th>
+                <td>
+                    <input type="time" name="clock_out_time" value="{{ old('clock_out_time', \Carbon\Carbon::parse($attendance->clock_out_time)->format('H:i')) }}">
+                </td>
+            </tr>
+
+            @forelse ($attendance->breakTimes as $index => $break)
                 <tr>
-                    <th>休憩{{ $i + 1 }}</th>
+                    <th>休憩{{ $index + 1 }} 開始</th>
                     <td>
-                        <input type="time" name="break_start_times[{{ $i }}]" value="{{ old("break_start_times.$i", $break->break_start) }}">
-                        ～
-                        <input type="time" name="break_end_times[{{ $i }}]" value="{{ old("break_end_times.$i", $break->break_end) }}">
+                        <input type="time" name="break_start_times[]" value="{{ old('break_start_times.' . $index, \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>休憩{{ $index + 1 }} 終了</th>
+                    <td>
+                        <input type="time" name="break_end_times[]" value="{{ old('break_end_times.' . $index, \Carbon\Carbon::parse($break->break_end)->format('H:i')) }}">
                     </td>
                 </tr>
             @empty
+                {{-- 空欄フォームを1つ用意（必要に応じてJSで追加も可能） --}}
                 <tr>
-                    <th>休憩1</th>
-                    <td>
-                        <input type="time" name="break_start_times[0]"> ～ <input type="time" name="break_end_times[0]">
-                    </td>
+                    <th>休憩1 開始</th>
+                    <td><input type="time" name="break_start_times[]"></td>
+                </tr>
+                <tr>
+                    <th>休憩1 終了</th>
+                    <td><input type="time" name="break_end_times[]"></td>
                 </tr>
             @endforelse
 
-            {{-- 備考 --}}
             <tr>
                 <th>備考</th>
                 <td>
-                    <input type="text" name="note" value="{{ old('note', $attendance->note) }}">
+                    <textarea name="note" rows="3">{{ old('note', $attendance->note) }}</textarea>
                 </td>
             </tr>
         </table>
 
-        <div class="form-actions">
-            <button type="submit" class="btn btn-approve">修正を保存</button>
+        <div class="action-area">
+            <button type="submit" class="btn-approve">更新する</button>
         </div>
     </form>
 
-    <div class="back-link mt-4">
-        <a href="{{ route('admin.attendance.index') }}">← 日別勤怠一覧に戻る</a>
+    <div class="back-link">
+        <a href="{{ route('admin.attendance.index') }}">← 一覧に戻る</a>
     </div>
 </div>
 @endsection
+

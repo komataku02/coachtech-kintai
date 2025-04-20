@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\RegisterFormRequest;
+use App\Http\Requests\User\RegisterFormRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
