@@ -6,64 +6,69 @@
 
 @section('content')
 <div class="container">
-    <h2 class="page-title">{{ $user->name }}さんの月次勤怠</h2>
+    <h2 class="page-title">{{ $user->name }}さんの勤怠</h2>
 
-    {{-- CSVダウンロード --}}
-    <div class="csv-download">
-        <a href="{{ route('admin.staff.attendance.csv', $user->id) }}" class="btn-csv">CSVダウンロード</a>
+    {{-- 月ナビゲーション --}}
+    @php
+    $currentMonth = \Carbon\Carbon::parse($month);
+    $prevMonth = $currentMonth->copy()->subMonth()->format('Y-m');
+    $nextMonth = $currentMonth->copy()->addMonth()->format('Y-m');
+    @endphp
+
+    <div class="month-navigation">
+        <a href="{{ route('admin.staff.attendance', ['id' => $user->id, 'month' => $prevMonth]) }}" class="btn-nav">← 前月</a>
+        <span class="current-month">{{ $currentMonth->format('Y年m月') }}</span>
+        <a href="{{ route('admin.staff.attendance', ['id' => $user->id, 'month' => $nextMonth]) }}" class="btn-nav">翌月 →</a>
     </div>
 
-    {{-- 勤怠テーブル --}}
+
     <table class="styled-table">
         <thead>
             <tr>
                 <th>日付</th>
                 <th>出勤</th>
                 <th>退勤</th>
-                <th>ステータス</th>
-                <th>備考</th>
+                <th>休憩</th>
+                <th>合計</th>
+                <th>詳細</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($attendances as $attendance)
+            @foreach ($attendances as $attendance)
+                @php
+                    $clockIn = $attendance->clock_in_time ? \Carbon\Carbon::parse($attendance->clock_in_time)->format('H:i') : '-';
+                    $clockOut = $attendance->clock_out_time ? \Carbon\Carbon::parse($attendance->clock_out_time)->format('H:i') : '-';
+                    $breakMinutes = $attendance->breakTimes->sum(function ($break) {
+                        return ($break->break_start && $break->break_end)
+                            ? \Carbon\Carbon::parse($break->break_end)->diffInMinutes(\Carbon\Carbon::parse($break->break_start))
+                            : 0;
+                    });
+                    $breakFormatted = sprintf('%d:%02d', floor($breakMinutes / 60), $breakMinutes % 60);
+                    $totalMinutes = ($attendance->clock_in_time && $attendance->clock_out_time)
+                        ? \Carbon\Carbon::parse($attendance->clock_out_time)->diffInMinutes(\Carbon\Carbon::parse($attendance->clock_in_time)) - $breakMinutes
+                        : null;
+                    $totalFormatted = $totalMinutes !== null ? sprintf('%d:%02d', floor($totalMinutes / 60), $totalMinutes % 60) : '-';
+                @endphp
                 <tr>
-                    <td>{{ $attendance->work_date }}</td>
-                    <td>{{ $attendance->clock_in_time ?? '-' }}</td>
-                    <td>{{ $attendance->clock_out_time ?? '-' }}</td>
-                    <td>{{ $attendance->status }}</td>
-                    <td>{{ $attendance->note ?? '-' }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="5" class="text-center">勤怠情報がありません。</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-
-    {{-- ステータスサマリー --}}
-    <h3 class="sub-title">ステータス別 勤怠件数</h3>
-    <table class="status-summary">
-        <thead>
-            <tr>
-                <th>ステータス</th>
-                <th>件数</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($statusCounts as $status => $count)
-                <tr>
-                    <td>{{ $status }}</td>
-                    <td>{{ $count }} 件</td>
+                    <td>{{ \Carbon\Carbon::parse($attendance->work_date)->format('m/d(D)') }}</td>
+                    <td>{{ $clockIn }}</td>
+                    <td>{{ $clockOut }}</td>
+                    <td>{{ $breakFormatted }}</td>
+                    <td>{{ $totalFormatted }}</td>
+                    <td><a href="{{ route('admin.attendance.detail', $attendance->id) }}" class="btn-link">詳細</a></td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
-    {{-- 戻るリンク --}}
+    <div class="csv-download right">
+        <a href="{{ route('admin.staff.attendance.csv', ['id' => $user->id]) }}" class="btn-csv">CSV出力</a>
+    </div>
+
     <div class="back-link">
         <a href="{{ route('admin.staff.list') }}">← スタッフ一覧に戻る</a>
     </div>
 </div>
 @endsection
+
 
