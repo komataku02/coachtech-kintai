@@ -46,6 +46,12 @@
             <th>修正理由</th>
             <td>{{ $application->request_reason ?? '記載なし' }}</td>
         </tr>
+        @if ($application->approved_at)
+        <tr>
+            <th>承認日時</th>
+            <td>{{ \Carbon\Carbon::parse($application->approved_at)->format('Y年n月j日 H:i') }}</td>
+        </tr>
+        @endif
     </table>
 
     {{-- 承認済 or 承認ボタン --}}
@@ -53,7 +59,7 @@
         @if ($application->status === 'pending')
             <form method="POST" action="{{ route('admin.application.approve', ['id' => $application->id]) }}">
                 @csrf
-                <button type="submit" class="btn btn-approve">承認する</button>
+                <button type="submit" class="btn btn-approve" onclick="this.disabled = true; this.form.submit();">承認する</button>
             </form>
         @else
             <p class="status-label">承認済み</p>
