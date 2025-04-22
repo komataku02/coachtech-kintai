@@ -49,6 +49,7 @@ class StampController extends Controller
             'clock_in_time' => now()->format('H:i:s'),
             'status' => '出勤',
         ]);
+        return redirect()->route('attendance.index')->with('message', '出勤しました。');
     }
 
     public function clockOut()

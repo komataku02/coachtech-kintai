@@ -25,21 +25,26 @@
         </tr>
 
         {{-- 休憩時間 --}}
-        @forelse ($application->attendance->breakTimes as $index => $break)
-        <tr>
-            <th>休憩{{ $index + 1 }}</th>
-            <td>
-                {{ \Carbon\Carbon::parse($break->break_start)->format('H:i') }}
-                ～ 
-                {{ \Carbon\Carbon::parse($break->break_end)->format('H:i') }}
-            </td>
-        </tr>
-        @empty
-        <tr>
-            <th>休憩</th>
-            <td></td>
-        </tr>
-        @endforelse
+        @php
+    // JSONで保存されていたものを並び替え（controllerから渡ってない場合）
+    $breaks = $application->attendance->breakTimes->sortBy('break_start')->values();
+@endphp
+
+@forelse ($breaks as $index => $break)
+    <tr>
+        <th>休憩{{ $index + 1 }}</th>
+        <td>
+            {{ \Carbon\Carbon::parse($break->break_start)->format('H:i') }}
+            ～
+            {{ \Carbon\Carbon::parse($break->break_end)->format('H:i') }}
+        </td>
+    </tr>
+@empty
+    <tr>
+        <th>休憩</th>
+        <td></td>
+    </tr>
+@endforelse
 
         {{-- 修正理由（note → request_reason） --}}
         <tr>

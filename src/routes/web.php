@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Attendance\StampController;
@@ -22,6 +23,12 @@ Route::get('/register', [RegisterController::class, 'create'])->name('register')
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+Route::post('/logout', function () {
+  Auth::logout();
+  request()->session()->invalidate();
+  request()->session()->regenerateToken();
+  return redirect('/login');
+})->name('logout');
 
 // -------------------- 勤怠（一般ユーザー） --------------------
 Route::middleware(['auth'])->group(function () {

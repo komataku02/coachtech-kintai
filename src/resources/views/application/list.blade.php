@@ -8,6 +8,16 @@
 <div class="container">
     <h2 class="title">申請一覧</h2>
 
+    {{-- タブ切替 --}}
+    <div class="tab-switch">
+        <a href="{{ route('application.list', ['status' => 'pending']) }}" class="{{ $status === 'pending' ? 'active' : '' }}">
+            承認待ち
+        </a>
+        <a href="{{ route('application.list', ['status' => 'approved']) }}" class="{{ $status === 'approved' ? 'active' : '' }}">
+            承認済み
+        </a>
+    </div>
+
     @if ($applications->isEmpty())
         <p class="notice">申請はまだありません。</p>
     @else
@@ -32,8 +42,6 @@
                                 <span class="status pending">承認待ち</span>
                             @elseif ($app->status === 'approved')
                                 <span class="status approved">承認済</span>
-                            @else
-                                <span class="status rejected">却下</span>
                             @endif
                         </td>
                         <td class="text-center">
@@ -43,6 +51,10 @@
                 @endforeach
             </tbody>
         </table>
+
+        <div class="pagination">
+            {{ $applications->links() }}
+        </div>
     @endif
 </div>
 @endsection

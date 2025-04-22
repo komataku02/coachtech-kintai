@@ -112,3 +112,30 @@ button,
   border-radius: 4px;
   margin-bottom: 1rem;
 }
+
+.nav-header {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.nav-list {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+}
+
+.nav-list li {
+  display: inline-block;
+}
+
+.logout-link {
+  background: none;
+  border: none;
+  color: #333;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+}
