@@ -27,21 +27,67 @@ class ApplicationDetailController extends Controller
     {
         $application = Application::with('attendance')->findOrFail($id);
 
-        // すでに承認済みの場合はリダイレクト
         if ($application->status === 'approved') {
             return redirect()->route('admin.application.detail', $id)
                 ->with('message', 'この申請はすでに承認されています。');
         }
 
-        // 該当の勤怠レコードを取得して申請内容で上書き
         $attendance = $application->attendance;
-        $attendance->update([
-            'clock_in_time' => $application->request_clock_in,
-            'clock_out_time' => $application->request_clock_out,
-            'note' => $application->request_note,
-        ]);
 
-        // 申請のステータス更新
+        // 出退勤・備考の更新
+        if ($application->request_clock_in !== null) {
+            $attendance->clock_in_time = $application->request_clock_in;
+        }
+        if ($application->request_clock_out !== null) {
+            $attendance->clock_out_time = $application->request_clock_out;
+        }
+        if ($application->request_note !== null) {
+            $attendance->note = $application->request_note;
+        }
+        $attendance->save();
+
+        // 休憩時間の更新
+        $attendance->breakTimes()->delete();
+
+        $breaks = json_decode($application->request_breaks, true);
+        if (is_array($breaks)) {
+            // 開始時間昇順にソート
+            usort($breaks, fn($a, $b) => strtotime($a['start']) <=> strtotime($b['start']));
+
+            $validBreaks = [];
+
+            foreach ($breaks as $break) {
+                if (!empty($break['start']) && !empty($break['end'])) {
+                    $start = strtotime($break['start']);
+                    $end = strtotime($break['end']);
+
+                    if ($end <= $start) {
+                        continue; // 不正な時刻（終了が開始より前）
+                    }
+
+                    // 重複チェック
+                    $isOverlapping = false;
+                    foreach ($validBreaks as $valid) {
+                        $s = strtotime($valid['start']);
+                        $e = strtotime($valid['end']);
+                        if ($start < $e && $end > $s) {
+                            $isOverlapping = true;
+                            break;
+                        }
+                    }
+
+                    if (!$isOverlapping) {
+                        $attendance->breakTimes()->create([
+                            'break_start' => $break['start'],
+                            'break_end' => $break['end'],
+                        ]);
+                        $validBreaks[] = $break;
+                    }
+                }
+            }
+        }
+
+        // ステータス更新
         $application->status = 'approved';
         $application->approved_at = now();
         $application->save();

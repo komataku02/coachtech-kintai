@@ -6,6 +6,9 @@
 @section('content')
 <div class="container">
     <h2 class="title">勤怠一覧</h2>
+    @php
+    $weekDays = ['日', '月', '火', '水', '木', '金', '土'];
+    @endphp
 
     <table class="table">
         <thead>
@@ -18,16 +21,19 @@
         </thead>
         <tbody>
             @forelse ($attendances as $attendance)
-                <tr>
-                    <td>{{ $attendance->work_date }}</td>
-                    <td>{{ $attendance->clock_in_time ?? '-' }}</td>
-                    <td>{{ $attendance->clock_out_time ?? '-' }}</td>
-                    <td>{{ $attendance->status }}</td>
-                </tr>
+                @php
+                    $date = \Carbon\Carbon::parse($attendance->work_date);
+                @endphp
+            <tr>
+                <td>{{ $date->format('Y年m月d日') }}（{{ $weekDays[$date->dayOfWeek] }}）</td>
+                <td>{{ $attendance->clock_in_time ?? '-' }}</td>
+                <td>{{ $attendance->clock_out_time ?? '-' }}</td>
+                <td>{{ $attendance->status }}</td>
+            </tr>
             @empty
-                <tr>
-                    <td colspan="4" class="text-center">勤怠情報がありません。</td>
-                </tr>
+            <tr>
+                <td colspan="4" class="text-center">勤怠情報がありません。</td>
+            </tr>
             @endforelse
         </tbody>
     </table>
