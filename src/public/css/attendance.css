@@ -140,3 +140,22 @@
   font-size: 1.2rem;
   margin-top: 20px;
 }
+
+.month-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.btn-nav {
+  margin: 0 16px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.current-month {
+  font-size: 1.2rem;
+  font-weight: bold;
+}

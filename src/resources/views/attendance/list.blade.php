@@ -7,10 +7,18 @@
 <div class="container">
     <h2 class="title">勤怠一覧</h2>
 
-    @php
-        $weekDays = ['日', '月', '火', '水', '木', '金', '土'];
-    @endphp
+    {{-- 月ナビゲーション --}}
+    <div class="month-nav">
+        @php
+            $prevMonth = $month->copy()->subMonth()->format('Y-m');
+            $nextMonth = $month->copy()->addMonth()->format('Y-m');
+        @endphp
+        <a href="{{ route('attendance.list', ['month' => $prevMonth]) }}" class="btn-nav">← 前月</a>
+        <span class="current-month">{{ $month->format('Y年n月') }}</span>
+        <a href="{{ route('attendance.list', ['month' => $nextMonth]) }}" class="btn-nav">翌月 →</a>
+    </div>
 
+    {{-- テーブル以下（そのまま） --}}
     <table class="table">
         <thead>
             <tr>
@@ -36,26 +44,22 @@
                     });
 
                     $breakFormatted = $breakMinutes > 0 ? sprintf('%d:%02d', floor($breakMinutes / 60), $breakMinutes % 60) : '-';
-
                     $totalMinutes = ($clockIn && $clockOut) ? $clockOut->diffInMinutes($clockIn) - $breakMinutes : null;
                     $totalFormatted = $totalMinutes !== null ? sprintf('%d:%02d', floor($totalMinutes / 60), $totalMinutes % 60) : '-';
                 @endphp
                 <tr>
-                    <td>{{ $date->format('Y年m月d日') }}（{{ $weekDays[$date->dayOfWeek] }}）</td>
+                    <td>{{ $date->format('Y年m月d日') }}（{{ ['日','月','火','水','木','金','土'][$date->dayOfWeek] }}）</td>
                     <td>{{ $clockIn ? $clockIn->format('H:i') : '-' }}</td>
                     <td>{{ $clockOut ? $clockOut->format('H:i') : '-' }}</td>
                     <td>{{ $breakFormatted }}</td>
                     <td>{{ $totalFormatted }}</td>
-                    <td>
-                        <a href="{{ route('attendance.show', $attendance->id) }}" class="btn-link">詳細</a>
-                    </td>
+                    <td><a href="{{ route('attendance.show', $attendance->id) }}" class="btn-link">詳細</a></td>
                 </tr>
             @empty
-                <tr>
-                    <td colspan="6" class="text-center">勤怠情報がありません。</td>
-                </tr>
+                <tr><td colspan="6" class="text-center">勤怠情報がありません。</td></tr>
             @endforelse
         </tbody>
     </table>
 </div>
+
 @endsection

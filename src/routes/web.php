@@ -40,8 +40,6 @@ Route::middleware(['auth'])->group(function () {
 
   Route::get('/attendance/list', [AttendanceListController::class, 'index'])->name('attendance.list');
   Route::get('/attendance/{id}', [DetailController::class, 'show'])->name('attendance.show');
-  // 👇 不要なので削除しました
-  // Route::post('/attendance/{id}', [DetailController::class, 'update'])->name('attendance.update');
 });
 
 // -------------------- 申請（一般ユーザー） --------------------
