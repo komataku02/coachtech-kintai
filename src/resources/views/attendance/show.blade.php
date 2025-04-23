@@ -59,11 +59,9 @@
             <label>休憩</label>
             @forelse ($attendance->breakTimes as $break)
                 <div class="break-pair">
-                    <input type="time" name="breaks[{{ $break->id }}][start]"
-                           value="{{ old("breaks.{$break->id}.start", \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}">
+                    <input type="time" name="breaks[{{ $break->id }}][start]" value="{{ old("breaks.{$break->id}.start", \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}">
                     ～
-                    <input type="time" name="breaks[{{ $break->id }}][end]"
-                           value="{{ $break->break_end ? old("breaks.{$break->id}.end", \Carbon\Carbon::parse($break->break_end)->format('H:i')) : '' }}">
+                    <input type="time" name="breaks[{{ $break->id }}][end]" value="{{ $break->break_end ? old("breaks.{$break->id}.end", \Carbon\Carbon::parse($break->break_end)->format('H:i')) : '' }}">
                 </div>
             @empty
                 <p class="no-break">記録された休憩はありません</p>
@@ -71,17 +69,9 @@
         </div>
 
         <div class="form-group">
-            <label for="note">備考（任意）</label>
+            <label for="note">備考（必須）</label>
             <textarea name="note" id="note" rows="3">{{ old('note', $attendance->note) }}</textarea>
             @error('note')
-                <p class="error-text">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div class="form-group">
-            <label for="request_reason">修正理由（必須）</label>
-            <textarea name="request_reason" id="request_reason" rows="3">{{ old('request_reason') }}</textarea>
-            @error('request_reason')
                 <p class="error-text">{{ $message }}</p>
             @enderror
         </div>
