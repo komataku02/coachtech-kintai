@@ -16,27 +16,19 @@ class MonthlyAttendanceListController extends Controller
     {
         $user = User::findOrFail($userId);
 
-        // クエリから月を取得、なければ今月
         $month = $request->input('month', Carbon::now()->format('Y-m'));
-
-        // 該当月の範囲を定義
         $startOfMonth = Carbon::parse($month)->startOfMonth();
         $endOfMonth = Carbon::parse($month)->endOfMonth();
 
-        // 勤怠データを取得（月内）
         $attendances = Attendance::with('breakTimes')
             ->where('user_id', $userId)
             ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
             ->orderBy('work_date')
             ->get();
 
-        // ステータス集計
-        $statusCounts = $attendances->groupBy('status')->map->count();
-
         return view('admin.staff.attendance', [
             'user' => $user,
             'attendances' => $attendances,
-            'statusCounts' => $statusCounts,
             'month' => $month,
         ]);
     }
@@ -77,8 +69,8 @@ class MonthlyAttendanceListController extends Controller
 
             $csvData[] = [
                 $attendance->work_date,
-                $clockIn?->format('H:i') ?? '',
-                $clockOut?->format('H:i') ?? '',
+                $clockIn ? $clockIn->format('H:i') : '',
+                $clockOut ? $clockOut->format('H:i') : '',
                 $totalBreak,
                 $totalWork,
                 $attendance->status,
@@ -87,13 +79,11 @@ class MonthlyAttendanceListController extends Controller
         }
 
         $filename = "{$month}_{$user->name}_勤怠一覧.csv";
-        // Windows環境向け：ファイル名の文字コードを Shift-JIS に変換
         $filename = mb_convert_encoding($filename, 'SJIS-win', 'UTF-8');
 
         return Response::stream(function () use ($csvData) {
             $stream = fopen('php://output', 'w');
             foreach ($csvData as $row) {
-                // 文字列を Shift-JIS に変換して書き込み
                 $convertedRow = array_map(function ($field) {
                     return mb_convert_encoding($field, 'SJIS-win', 'UTF-8');
                 }, $row);
