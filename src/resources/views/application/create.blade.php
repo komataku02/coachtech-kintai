@@ -19,19 +19,27 @@
         <p class="alert-error">この勤怠には既に申請を送信済みです。</p>
     @else
         <form method="POST" action="{{ route('application.store') }}">
-            @csrf
-            <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
+    @csrf
+    <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
 
-            <div class="form-group">
-                <label for="request_reason">申請理由</label>
-                <textarea name="request_reason" id="request_reason" rows="4">{{ old('request_reason') }}</textarea>
-                @error('request_reason')
-                    <p class="error-text">{{ $message }}</p>
-                @enderror
-            </div>
+    <div class="form-group">
+        <label for="request_reason">申請理由</label>
+        <textarea name="request_reason" id="request_reason" rows="4">{{ old('request_reason') }}</textarea>
+        @error('request_reason')
+            <p class="error-text">{{ $message }}</p>
+        @enderror
+    </div>
 
-            <button type="submit" class="btn btn-primary">申請する</button>
-        </form>
+    <div class="form-group">
+        <label for="note">備考</label>
+        <textarea name="note" id="note" rows="3">{{ old('note', $attendance->note) }}</textarea>
+        @error('note')
+            <p class="error-text">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <button type="submit" class="btn btn-primary">申請する</button>
+</form>
     @endif
 </div>
 @endsection

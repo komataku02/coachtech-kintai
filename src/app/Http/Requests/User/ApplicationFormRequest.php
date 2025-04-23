@@ -26,6 +26,7 @@ class ApplicationFormRequest extends FormRequest
         return [
             'attendance_id' => 'required|exists:attendances,id',
             'request_reason' => 'required|string|max:500',
+            'note' => 'nullable|string|max:255',
         ];
     }
 
@@ -37,6 +38,7 @@ class ApplicationFormRequest extends FormRequest
             'request_reason.required' => '申請理由は必須です。',
             'request_reason.string' => '申請理由は文字列で入力してください。',
             'request_reason.max' => '申請理由は500文字以内で入力してください。',
+            'note.max' => '備考は255文字以内で入力してください。',
         ];
     }
 }

@@ -20,7 +20,7 @@ class CreateApplicationsTable extends Migration
             $table->text('request_reason');
             $table->time('request_clock_in')->nullable();
             $table->time('request_clock_out')->nullable();
-            $table->string('request_note')->nullable();
+            $table->string('note')->nullable();
             $table->json('request_breaks')->nullable();
             $table->timestamp('request_at');
             $table->string('status')->default('pending');
