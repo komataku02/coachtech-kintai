@@ -61,7 +61,6 @@ class ApplicationsTableSeeder extends Seeder
                     'request_at' => now()->subDays(rand(1, 10)),
                     'status' => 'pending',
                     'approved_at' => null,
-                    
                 ]);
             }
         }

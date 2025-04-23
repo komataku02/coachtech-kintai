@@ -15,6 +15,10 @@ class Application extends Model
         'user_id',
         'attendance_id',
         'request_reason',
+        'request_clock_in',
+        'request_clock_out',
+        'note',
+        'request_breaks',
         'request_at',
         'status',
         'approved_at'

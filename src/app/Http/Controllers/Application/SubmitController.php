@@ -15,14 +15,12 @@ class SubmitController extends Controller
      */
     public function create($attendance_id)
     {
-        $attendance = Attendance::findOrFail($attendance_id);
+        $attendance = Attendance::with('breakTimes')->findOrFail($attendance_id);
 
-        // 自分の勤怠以外には申請できないよう制限
         if ($attendance->user_id !== Auth::id()) {
             abort(403, '他人の勤怠に対しては申請できません。');
         }
 
-        // すでに申請済みか確認
         $alreadyApplied = Application::where('attendance_id', $attendance->id)
             ->where('user_id', Auth::id())
             ->exists();
@@ -31,16 +29,34 @@ class SubmitController extends Controller
     }
 
     /**
-     * 申請の登録処理
+     * 修正申請の登録処理
      */
     public function store(ApplicationFormRequest $request)
     {
+        $attendance = Attendance::with('breakTimes')->findOrFail($request->attendance_id);
+
+        // 休憩時間を配列で保存（JSONとして格納）
+        $breaks = [];
+        foreach ($attendance->breakTimes as $break) {
+            $id = $break->id;
+            if (isset($request->breaks[$id]['start'], $request->breaks[$id]['end'])) {
+                $breaks[] = [
+                    'start' => $request->breaks[$id]['start'],
+                    'end'   => $request->breaks[$id]['end'],
+                ];
+            }
+        }
+
         Application::create([
-            'user_id' => Auth::id(),
-            'attendance_id' => $request->attendance_id,
-            'request_reason' => $request->request_reason,
-            'request_at' => now(),
-            'status' => 'pending',
+            'user_id'           => Auth::id(),
+            'attendance_id'     => $attendance->id,
+            'request_reason'    => $request->request_reason,
+            'request_clock_in'  => $request->clock_in_time,
+            'request_clock_out' => $request->clock_out_time,
+            'note'      => $request->note,
+            'request_breaks'    => json_encode($breaks),
+            'request_at'        => now(),
+            'status'            => 'pending',
         ]);
 
         return redirect()->route('application.list')
