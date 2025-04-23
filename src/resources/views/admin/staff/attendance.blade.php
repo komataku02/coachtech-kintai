@@ -62,11 +62,11 @@
     </table>
 
     <div class="csv-download right">
-        <a href="{{ route('admin.staff.attendance.csv', ['id' => $user->id]) }}" class="btn-csv">CSV出力</a>
+        <a href="{{ route('admin.staff.attendance.csv', ['id' => $user->id, 'month' => $currentMonth->format('Y-m')]) }}" class="btn-csv">CSV出力</a>
     </div>
 
-    <div class="back-link">
-        <a href="{{ route('admin.staff.list') }}">← スタッフ一覧に戻る</a>
+    <div class="csv-download right">
+    <a href="{{ route('admin.staff.attendance.csv', ['id' => $user->id, 'month' => $currentMonth->format('Y-m')]) }}" class="btn-csv">CSV出力</a>
     </div>
 </div>
 @endsection

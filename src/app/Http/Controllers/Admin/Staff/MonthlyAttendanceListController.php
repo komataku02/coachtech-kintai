@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MonthlyAttendanceListController extends Controller
 {
@@ -40,25 +41,27 @@ class MonthlyAttendanceListController extends Controller
         ]);
     }
 
-    public function downloadCsv($userId)
+    public function downloadCsv(Request $request, $userId)
     {
         $user = User::findOrFail($userId);
 
+        $month = $request->input('month', now()->format('Y-m'));
+        $startOfMonth = Carbon::parse($month)->startOfMonth();
+        $endOfMonth = Carbon::parse($month)->endOfMonth();
+
         $attendances = Attendance::with('breakTimes')
             ->where('user_id', $userId)
-            ->orderBy('work_date', 'desc')
+            ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
+            ->orderBy('work_date')
             ->get();
 
-        // CSVヘッダ
         $csvData = [];
         $csvData[] = ['日付', '出勤', '退勤', '休憩時間（分）', '合計勤務時間（分）', 'ステータス', '備考'];
 
         foreach ($attendances as $attendance) {
-            // 出勤・退勤のCarbonインスタンス作成
             $clockIn = $attendance->clock_in_time ? Carbon::createFromFormat('H:i:s', $attendance->clock_in_time) : null;
             $clockOut = $attendance->clock_out_time ? Carbon::createFromFormat('H:i:s', $attendance->clock_out_time) : null;
 
-            // 合計休憩時間（分）
             $totalBreak = $attendance->breakTimes->sum(function ($break) {
                 if ($break->break_start && $break->break_end) {
                     $start = Carbon::createFromFormat('H:i:s', $break->break_start);
@@ -68,15 +71,14 @@ class MonthlyAttendanceListController extends Controller
                 return 0;
             });
 
-            // 合計勤務時間（分）＝退勤 - 出勤 - 休憩
             $totalWork = ($clockIn && $clockOut)
                 ? $clockOut->diffInMinutes($clockIn) - $totalBreak
                 : null;
 
             $csvData[] = [
                 $attendance->work_date,
-                $clockIn ? $clockIn->format('H:i') : '',
-                $clockOut ? $clockOut->format('H:i') : '',
+                $clockIn?->format('H:i') ?? '',
+                $clockOut?->format('H:i') ?? '',
                 $totalBreak,
                 $totalWork,
                 $attendance->status,
@@ -84,16 +86,22 @@ class MonthlyAttendanceListController extends Controller
             ];
         }
 
-        $filename = 'attendance_' . $user->name . '_' . now()->format('Ymd_His') . '.csv';
+        $filename = "{$month}_{$user->name}_勤怠一覧.csv";
+        // Windows環境向け：ファイル名の文字コードを Shift-JIS に変換
+        $filename = mb_convert_encoding($filename, 'SJIS-win', 'UTF-8');
 
         return Response::stream(function () use ($csvData) {
             $stream = fopen('php://output', 'w');
             foreach ($csvData as $row) {
-                fputcsv($stream, $row);
+                // 文字列を Shift-JIS に変換して書き込み
+                $convertedRow = array_map(function ($field) {
+                    return mb_convert_encoding($field, 'SJIS-win', 'UTF-8');
+                }, $row);
+                fputcsv($stream, $convertedRow);
             }
             fclose($stream);
         }, 200, [
-            'Content-Type' => 'text/csv',
+            'Content-Type' => 'text/csv; charset=Shift_JIS',
             'Content-Disposition' => "attachment; filename=\"$filename\"",
         ]);
     }
