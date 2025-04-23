@@ -50,10 +50,10 @@ class SubmitController extends Controller
         Application::create([
             'user_id'           => Auth::id(),
             'attendance_id'     => $attendance->id,
-            'request_reason'    => $request->request_reason,
+            'request_reason'    => 'ユーザーによる勤怠修正申請', // ← 固定値
             'request_clock_in'  => $request->clock_in_time,
             'request_clock_out' => $request->clock_out_time,
-            'note'      => $request->note,
+            'note'              => $request->note,
             'request_breaks'    => json_encode($breaks),
             'request_at'        => now(),
             'status'            => 'pending',

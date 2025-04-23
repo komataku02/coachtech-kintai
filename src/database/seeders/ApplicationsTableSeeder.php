@@ -56,7 +56,7 @@ class ApplicationsTableSeeder extends Seeder
                     'request_reason' => $requestReasons[array_rand($requestReasons)],
                     'request_clock_in' => $attendance->clock_in_time,
                     'request_clock_out' => $attendance->clock_out_time,
-                    'request_note' => $attendance->note,
+                    'note' => $attendance->note,
                     'request_breaks' => json_encode($breaks),
                     'request_at' => now()->subDays(rand(1, 10)),
                     'status' => 'pending',
