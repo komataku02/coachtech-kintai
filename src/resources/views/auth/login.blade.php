@@ -30,6 +30,10 @@
         <div class="form-group text-center">
             <button type="submit" class="submit-button">ログイン</button>
         </div>
+
+        <div class="form-group">
+            <a 
+        </div>
     </form>
 </div>
 @endsection

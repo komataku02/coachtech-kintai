@@ -159,3 +159,14 @@
   font-size: 1.2rem;
   font-weight: bold;
 }
+
+.inline-form {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.inline-form input[type="month"],
+.inline-form input[type="date"] {
+  padding: 4px;
+  font-size: 1em;
+}

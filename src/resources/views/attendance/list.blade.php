@@ -14,7 +14,12 @@
             $nextMonth = $month->copy()->addMonth()->format('Y-m');
         @endphp
         <a href="{{ route('attendance.list', ['month' => $prevMonth]) }}" class="btn-nav">← 前月</a>
-        <span class="current-month">{{ $month->format('Y年n月') }}</span>
+
+        {{-- カレンダーで自動送信 --}}
+    <form method="GET" action="{{ route('attendance.list') }}" class="inline-form">
+        <input type="month" name="month" value="{{ $month->format('Y-m') }}" onchange="this.form.submit()">
+    </form>
+
         <a href="{{ route('attendance.list', ['month' => $nextMonth]) }}" class="btn-nav">翌月 →</a>
     </div>
 

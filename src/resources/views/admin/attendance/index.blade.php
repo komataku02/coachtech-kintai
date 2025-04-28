@@ -8,9 +8,14 @@
 <div class="container">
     <h2 class="page-title">日別勤怠一覧</h2>
     <div class="date-navigation">
-    <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->subDay()->format('Y-m-d')]) }}" class="btn-link">← 前日</a>
-    <span class="current-date">{{ \Carbon\Carbon::parse($date)->format('Y年m月d日') }}</span>
-    <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->addDay()->format('Y-m-d')]) }}" class="btn-link">翌日 →</a>
+        <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->subDay()->format('Y-m-d')]) }}" class="btn-link">← 前日</a>
+
+    {{-- 月選択で自動送信 --}}
+    <form method="GET" action="{{ route('admin.staff.attendance', ['id' => $user->id]) }}" class="inline-form">
+        <input type="month" name="month" value="{{ $currentMonth->format('Y-m') }}" onchange="this.form.submit()">
+    </form>
+
+        <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->addDay()->format('Y-m-d')]) }}" class="btn-link">翌日 →</a>
     </div>
 
     @if ($attendances->isEmpty())
