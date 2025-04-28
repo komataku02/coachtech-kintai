@@ -17,7 +17,13 @@
 
     <div class="month-navigation">
         <a href="{{ route('admin.staff.attendance', ['id' => $user->id, 'month' => $prevMonth]) }}" class="btn-nav">← 前月</a>
-        <span class="current-month">{{ $currentMonth->format('Y年m月') }}</span>
+
+        {{-- カレンダー入力 --}}
+        <form method="GET" action="{{ route('admin.staff.attendance', ['id' => $user->id]) }}" class="inline-form">
+            <input type="month" name="month" value="{{ $currentMonth->format('Y-m') }}">
+            <button type="submit" class="btn-submit">移動</button>
+        </form>
+
         <a href="{{ route('admin.staff.attendance', ['id' => $user->id, 'month' => $nextMonth]) }}" class="btn-nav">翌月 →</a>
     </div>
 
