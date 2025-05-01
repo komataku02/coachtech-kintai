@@ -139,3 +139,105 @@ input[type="password"]:focus {
   border-left: 5px solid #f44336;
   border-radius: 4px;
 }
+
+.container {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.message-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.btn-wrapper {
+  margin-bottom: 20px;
+}
+
+.btn-verify {
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-verify:hover {
+  background-color: #e0e0e0;
+}
+
+.resend-link {
+  margin-top: 10px;
+}
+
+.link-resend {
+  background: none;
+  border: none;
+  color: #007BFF;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.link-resend:hover {
+  color: #0056b3;
+}
+
+.container {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.message-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.btn-wrapper {
+  margin-bottom: 20px;
+}
+
+.btn-verify {
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-verify:hover {
+  background-color: #e0e0e0;
+}
+
+.resend-link {
+  margin-top: 10px;
+}
+
+.link-resend {
+  background: none;
+  border: none;
+  color: #007BFF;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.link-resend:hover {
+  color: #0056b3;
+}
