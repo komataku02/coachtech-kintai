@@ -10,13 +10,18 @@
 
     <div class="user-info">
         <p><strong></strong>{{ $attendance->status ?? '勤務外' }}</p>
-        <p><strong></strong>{{ $user->name }}</p>
         @php
-        $today = \Carbon\Carbon::today();
-        $weekDays = ['日', '月', '火', '水', '木', '金', '土'];
+            $now = \Carbon\Carbon::now();
+            $weekDays = ['日', '月', '火', '水', '木', '金', '土'];
         @endphp
 
-        <p><strong></strong>{{ $today->format('Y年m月d日') }}（{{ $weekDays[$today->dayOfWeek] }}）</p>
+        <div class="user-info">
+            {{-- 年月日（曜日） --}}
+            <p><strong></strong>{{ $now->format('Y年n月j日') }}（{{ $weekDays[$now->dayOfWeek] }}）</p>
+
+            {{-- 時：分（2桁ゼロ埋め） --}}
+            <p class="time-display"><strong></strong>{{ $now->format('H:i') }}</p>
+        </div>
     </div>
 
     <div class="button-group">
