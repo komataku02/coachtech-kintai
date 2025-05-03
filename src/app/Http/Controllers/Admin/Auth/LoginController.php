@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\LoginFormRequest;
 
@@ -26,7 +25,7 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'ログイン情報が正しくありません',
+            'email' => 'ログイン情報が登録されていません',
         ])->withInput();
     }
 }

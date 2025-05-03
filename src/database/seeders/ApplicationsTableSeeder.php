@@ -34,19 +34,17 @@ class ApplicationsTableSeeder extends Seeder
                     continue;
                 }
 
-                // 利用可能なスロット（30分単位、1分間隔あり）
                 $availableSlots = [];
-                $slotStart = $clockIn->copy()->addMinutes(30); // 開始30分後から
+                $slotStart = $clockIn->copy()->addMinutes(30);
                 while ($slotStart->addMinutes(30)->lte($clockOut)) {
                     $end = $slotStart->copy()->addMinutes(30);
                     $availableSlots[] = [
                         'start' => $slotStart->copy()->format('H:i'),
                         'end' => $end->format('H:i'),
                     ];
-                    $slotStart = $end->copy()->addMinutes(1); // 最低1分空ける
+                    $slotStart = $end->copy()->addMinutes(1);
                 }
 
-                // スロットからランダムに1〜3件を選択
                 shuffle($availableSlots);
                 $breaks = array_slice($availableSlots, 0, rand(1, min(3, count($availableSlots))));
 
@@ -58,7 +56,7 @@ class ApplicationsTableSeeder extends Seeder
                     'request_clock_out' => $attendance->clock_out_time,
                     'note' => $attendance->note,
                     'request_breaks' => json_encode($breaks),
-                    'request_at' => now()->subDays(rand(1, 10)),
+                    'request_at' => Carbon::now()->subDays(rand(1, 10)),
                     'status' => 'pending',
                     'approved_at' => null,
                 ]);

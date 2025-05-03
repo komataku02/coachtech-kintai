@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Attendance;
+use Carbon\Carbon;
 
 class AttendancesTableSeeder extends Seeder
 {
@@ -15,7 +15,7 @@ class AttendancesTableSeeder extends Seeder
 
         foreach ($users as $index => $user) {
             for ($i = 0; $i < 10; $i++) {
-                $workDate = now()->subDays($index * 20 + $i)->toDateString();
+                $workDate = Carbon::now()->subDays($index * 20 + $i)->toDateString();
 
                 Attendance::factory()->create([
                     'user_id' => $user->id,
