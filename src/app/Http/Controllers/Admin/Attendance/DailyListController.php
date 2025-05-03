@@ -18,9 +18,12 @@ class DailyListController extends Controller
             ->orderBy('user_id')
             ->paginate(10);
 
+        $currentMonth = \Carbon\Carbon::parse($date)->startOfMonth();
+
         return view('admin.attendance.index', [
             'attendances' => $attendances,
             'date' => $date,
+            'currentMonth' => $currentMonth,
         ]);
     }
 }
