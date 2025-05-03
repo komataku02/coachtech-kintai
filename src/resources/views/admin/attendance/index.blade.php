@@ -10,10 +10,21 @@
     <div class="date-navigation">
         <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->subDay()->format('Y-m-d')]) }}" class="btn-link">← 前日</a>
 
-    {{-- 月選択で自動送信 --}}
-    <form method="GET" action="{{ route('admin.staff.attendance', ['id' => $user->id]) }}" class="inline-form">
-        <input type="month" name="month" value="{{ $currentMonth->format('Y-m') }}" onchange="this.form.submit()">
-    </form>
+        {{-- 月選択で自動送信（attendancesが空でない場合のみ） --}}
+        @php
+            $firstUserId = optional(optional($attendances->first())->user)->id;
+        @endphp
+
+        @if ($firstUserId)
+        <form method="GET" action="{{ route('admin.attendance.index') }}" class="inline-form">
+            <input
+        type="date"
+        name="date"
+        value="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}"
+        onchange="this.form.submit()"
+    >
+        </form>
+        @endif
 
         <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->addDay()->format('Y-m-d')]) }}" class="btn-link">翌日 →</a>
     </div>
@@ -34,52 +45,48 @@
             </thead>
             <tbody>
                 @foreach ($attendances as $attendance)
-            @php
-    $in = $attendance->clock_in_time ? \Carbon\Carbon::createFromFormat('H:i:s', $attendance->clock_in_time) : null;
-    $out = $attendance->clock_out_time ? \Carbon\Carbon::createFromFormat('H:i:s', $attendance->clock_out_time) : null;
+                    @php
+                        $in = $attendance->clock_in_time ? \Carbon\Carbon::createFromFormat('H:i:s', $attendance->clock_in_time) : null;
+                        $out = $attendance->clock_out_time ? \Carbon\Carbon::createFromFormat('H:i:s', $attendance->clock_out_time) : null;
 
-    // 休憩時間合計（分）
-    $totalBreak = $attendance->breakTimes->sum(function ($break) {
-        return \Carbon\Carbon::parse($break->break_start)->diffInMinutes(\Carbon\Carbon::parse($break->break_end));
-    });
+                        $totalBreak = $attendance->breakTimes->sum(function ($break) {
+                            return \Carbon\Carbon::parse($break->break_start)->diffInMinutes(\Carbon\Carbon::parse($break->break_end));
+                        });
 
-    // 合計勤務時間（分）
-    $totalWorkMinutes = ($in && $out) ? $in->diffInMinutes($out) - $totalBreak : null;
+                        $totalWorkMinutes = ($in && $out) ? $in->diffInMinutes($out) - $totalBreak : null;
 
-    // 時刻表示（H:i形式）
-    $inTime = $in ? $in->format('H:i') : '-';
-    $outTime = $out ? $out->format('H:i') : '-';
+                        $inTime = $in ? $in->format('H:i') : '-';
+                        $outTime = $out ? $out->format('H:i') : '-';
 
-    // 休憩時間（H:i形式で時間:分）
-    $breakHours = floor($totalBreak / 60);
-    $breakMinutes = str_pad($totalBreak % 60, 2, '0', STR_PAD_LEFT);
-    $breakFormatted = sprintf('%d:%s', $breakHours, $breakMinutes);
+                        $breakHours = floor($totalBreak / 60);
+                        $breakMinutes = str_pad($totalBreak % 60, 2, '0', STR_PAD_LEFT);
+                        $breakFormatted = sprintf('%d:%s', $breakHours, $breakMinutes);
 
-    // 勤務時間（H:i形式）
-    if ($totalWorkMinutes !== null && $totalWorkMinutes >= 0) {
-        $workHours = floor($totalWorkMinutes / 60);
-        $workMinutes = str_pad($totalWorkMinutes % 60, 2, '0', STR_PAD_LEFT);
-        $workFormatted = sprintf('%d:%s', $workHours, $workMinutes);
-    } else {
-        $workFormatted = '-';
-    }
-    @endphp
-            <tr>
-                <td>{{ $attendance->user->name }}</td>
-    <td>{{ $inTime }}</td>
-    <td>{{ $outTime }}</td>
-    <td>{{ $attendance->breakTimes->isNotEmpty() ? $breakFormatted : '-' }}</td>
-    <td>{{ $workFormatted }}</td>
-    <td>
-        <a href="{{ route('admin.attendance.detail', $attendance->id) }}" class="btn-link">詳細</a>
-    </td>
-            </tr>
-        @endforeach
+                        if ($totalWorkMinutes !== null && $totalWorkMinutes >= 0) {
+                            $workHours = floor($totalWorkMinutes / 60);
+                            $workMinutes = str_pad($totalWorkMinutes % 60, 2, '0', STR_PAD_LEFT);
+                            $workFormatted = sprintf('%d:%s', $workHours, $workMinutes);
+                        } else {
+                            $workFormatted = '-';
+                        }
+                    @endphp
+                    <tr>
+                        <td>{{ optional($attendance->user)->name ?? '-' }}</td>
+                        <td>{{ $inTime }}</td>
+                        <td>{{ $outTime }}</td>
+                        <td>{{ $attendance->breakTimes->isNotEmpty() ? $breakFormatted : '-' }}</td>
+                        <td>{{ $workFormatted }}</td>
+                        <td>
+                            <a href="{{ route('admin.attendance.detail', $attendance->id) }}" class="btn-link">詳細</a>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     @endif
+
     <div class="pagination">
-            {{ $attendances->links() }}
-        </div>
+        {{ $attendances->links() }}
+    </div>
 </div>
 @endsection
