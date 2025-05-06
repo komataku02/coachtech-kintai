@@ -41,8 +41,8 @@ class ApplicationDetailController extends Controller
         if ($application->request_clock_out !== null) {
             $attendance->clock_out_time = $application->request_clock_out;
         }
-        if ($application->request_note !== null) {
-            $attendance->note = $application->request_note;
+        if ($application->note !== null) {
+            $attendance->note = $application->note;
         }
         $attendance->save();
 

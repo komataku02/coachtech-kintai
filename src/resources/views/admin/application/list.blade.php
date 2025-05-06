@@ -10,12 +10,10 @@
 
     {{-- タブ切替 --}}
     <div class="tab-switch">
-        <a href="{{ route('admin.application.list', ['status' => 'pending']) }}"
-           class="{{ $status === 'pending' ? 'active' : '' }}">
+        <a href="{{ route('admin.application.list', ['status' => 'pending']) }}" class="{{ $status === 'pending' ? 'active' : '' }}">
             承認待ち
         </a>
-        <a href="{{ route('admin.application.list', ['status' => 'approved']) }}"
-           class="{{ $status === 'approved' ? 'active' : '' }}">
+        <a href="{{ route('admin.application.list', ['status' => 'approved']) }}" class="{{ $status === 'approved' ? 'active' : '' }}">
             承認済み
         </a>
     </div>
@@ -40,7 +38,7 @@
                         <td>{{ $application->user->name }}</td>
                         <td>{{ \Carbon\Carbon::parse($application->request_at)->format('Y/m/d') }}</td>
                         <td>{{ \Carbon\Carbon::parse($application->attendance->work_date)->format('Y/m/d') }}</td>
-                        <td>{{ Str::limit($application->request_reason, 30) }}</td>
+                        <td>{{ $application->note }}</td>
                         <td>{{ $application->status === 'pending' ? '承認待ち' : '承認済み' }}</td>
                         <td>
                             <a href="{{ route('admin.application.detail', $application->id) }}" class="btn-link">詳細</a>

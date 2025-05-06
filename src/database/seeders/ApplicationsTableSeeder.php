@@ -24,7 +24,10 @@ class ApplicationsTableSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            $attendances = Attendance::where('user_id', $user->id)->inRandomOrder()->take(5)->get();
+            $attendances = Attendance::where('user_id', $user->id)
+                ->inRandomOrder()
+                ->take(5)
+                ->get();
 
             foreach ($attendances as $attendance) {
                 $clockIn = $attendance->clock_in_time ? Carbon::createFromFormat('H:i:s', $attendance->clock_in_time) : null;
@@ -34,12 +37,13 @@ class ApplicationsTableSeeder extends Seeder
                     continue;
                 }
 
+                // 30分スロット＋1分間隔で休憩時間候補を生成
                 $availableSlots = [];
                 $slotStart = $clockIn->copy()->addMinutes(30);
-                while ($slotStart->addMinutes(30)->lte($clockOut)) {
+                while ($slotStart->copy()->addMinutes(30)->lte($clockOut)) {
                     $end = $slotStart->copy()->addMinutes(30);
                     $availableSlots[] = [
-                        'start' => $slotStart->copy()->format('H:i'),
+                        'start' => $slotStart->format('H:i'),
                         'end' => $end->format('H:i'),
                     ];
                     $slotStart = $end->copy()->addMinutes(1);
@@ -49,16 +53,15 @@ class ApplicationsTableSeeder extends Seeder
                 $breaks = array_slice($availableSlots, 0, rand(1, min(3, count($availableSlots))));
 
                 Application::create([
-                    'user_id' => $user->id,
-                    'attendance_id' => $attendance->id,
-                    'request_reason' => $requestReasons[array_rand($requestReasons)],
-                    'request_clock_in' => $attendance->clock_in_time,
+                    'user_id'           => $user->id,
+                    'attendance_id'     => $attendance->id,
+                    'request_clock_in'  => $attendance->clock_in_time,
                     'request_clock_out' => $attendance->clock_out_time,
-                    'note' => $attendance->note,
-                    'request_breaks' => json_encode($breaks),
-                    'request_at' => Carbon::now()->subDays(rand(1, 10)),
-                    'status' => 'pending',
-                    'approved_at' => null,
+                    'note'              => $requestReasons[array_rand($requestReasons)],
+                    'request_breaks'    => json_encode($breaks),
+                    'request_at'        => Carbon::now()->subDays(rand(1, 10)),
+                    'status'            => 'pending',
+                    'approved_at'       => null,
                 ]);
             }
         }

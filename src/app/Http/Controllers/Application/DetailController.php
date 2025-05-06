@@ -12,9 +12,8 @@ class DetailController extends Controller
     {
         $application = Application::with('attendance')->findOrFail($id);
 
-        // 自分の申請以外は見れないようにする
-        if ($application->user_id !== Auth::id()) {
-            abort(403, 'この申請情報にアクセスする権限がありません。');
+        if ($application->user_id != Auth::id()) {
+            return redirect()->route('application.list')->with('error', '他のユーザーの申請情報にはアクセスできません。');
         }
 
         return view('application.show', compact('application'));
