@@ -14,9 +14,9 @@ class DetailController extends Controller
     public function show($id)
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
-        // 自分の勤怠データ以外は見れないよう制限
-        if ($attendance->user_id !== Auth::id()) {
-            abort(403, 'この勤怠情報にアクセスする権限がありません。');
+        $user = Auth::user();
+        if ($attendance->user_id !== $user->id) {
+            return redirect()->route('attendance.index')->with('error', '他のユーザーの勤怠情報は表示できません。');
         }
         return view('attendance.show', compact('attendance'));
     }

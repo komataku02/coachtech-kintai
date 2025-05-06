@@ -37,7 +37,7 @@
 
         <div class="form-group">
             <label>日付</label>
-            <p>{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年n月j日（'.$weekDay = ['日', '月', '火', '水', '木', '金', '土'][\Carbon\Carbon::parse($attendance->work_date)->dayOfWeek].'）') }}</p>
+            <p>{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年n月j日') }}</p>
         </div>
 
         <div class="form-group">
