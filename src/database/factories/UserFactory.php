@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class UserFactory extends Factory
 {
@@ -19,7 +20,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password' => bcrypt('password123'),
             'role' => 'user',
-            'email_verified_at' => now(),
+            'email_verified_at' => Carbon::now(),
         ];
     }
 

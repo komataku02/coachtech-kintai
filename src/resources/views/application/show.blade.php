@@ -1,28 +1,57 @@
 @extends('layouts.app')
+@section('page-css')
+<link rel="stylesheet" href="{{ asset('css/application.css') }}">
+@endsection
 
 @section('content')
 <div class="container">
     <h2 class="title">申請詳細</h2>
 
-    <div class="detail-box">
-        <p><span class="label">申請理由：</span>{{ $application->request_reason }}</p>
-        <p><span class="label">申請日：</span>{{ \Carbon\Carbon::parse($application->request_at)->format('Y年m月d日') }}</p>
-        <p><span class="label">ステータス：</span>
-            @if ($application->status === 'pending')
-                <span class="status pending">承認待ち</span>
-            @elseif ($application->status === 'approved')
-                <span class="status approved">承認済</span>
-            @else
-                <span class="status rejected">却下</span>
-            @endif
-        </p>
-        @if($application->approved_at)
-            <p><span class="label">承認日：</span>{{ \Carbon\Carbon::parse($application->approved_at)->format('Y年m月d日') }}</p>
-        @endif
-    </div>
+    <table class="detail-table">
+        <tr>
+            <th>名前</th>
+            <td>{{ $application->user->name }}</td>
+        </tr>
+        <tr>
+            <th>日付</th>
+            <td>{{ \Carbon\Carbon::parse($application->attendance->work_date)->format('Y年m月d日') }}</td>
+        </tr>
+        <tr>
+            <th>出勤・退勤</th>
+            <td>
+                {{ $application->request_clock_in ? \Carbon\Carbon::createFromFormat('H:i', $application->request_clock_in,'Asia/Tokyo')->format('H:i') : '-' }}
+                ～
+                {{ $application->request_clock_out ? \Carbon\Carbon::createFromFormat('H:i', $application->request_clock_out,'Asia/Tokyo')->format('H:i') : '-' }}
+            </td>
+        </tr>
 
-    <div class="mt-3">
-        <a href="{{ route('application.list') }}" class="link">&larr; 申請一覧に戻る</a>
+        @php
+            $breaks = json_decode($application->request_breaks, true);
+        @endphp
+        @if (!empty($breaks))
+            @foreach ($breaks as $index => $break)
+                <tr>
+                    <th>休憩{{ $index + 1 }}</th>
+                    <td>{{ \Carbon\Carbon::createFromFormat('H:i', $break['start'])->format('H:i') }}
+                        ～
+                        {{ \Carbon\Carbon::createFromFormat('H:i', $break['end'])->format('H:i') }}
+                    </td>
+                </tr>
+            @endforeach
+        @endif
+
+        <tr>
+            <th>備考</th>
+            <td>{{ $application->note }}</td>
+        </tr>
+    </table>
+
+    @if ($application->status === 'pending')
+        <p class="info-message">※ 承認待ちのため修正はできません。</p>
+    @endif
+
+    <div class="back-link">
+        <a href="{{ route('application.list') }}">← 申請一覧に戻る</a>
     </div>
 </div>
 @endsection

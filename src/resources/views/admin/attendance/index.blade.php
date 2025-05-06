@@ -1,31 +1,81 @@
 @extends('layouts.app')
 
+@section('page-css')
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <h2 class="page-title">日別勤怠一覧</h2>
+    <div class="date-navigation">
+        <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->subDay()->format('Y-m-d')]) }}" class="btn-link">← 前日</a>
+
+        {{-- 月選択で自動送信（attendancesが空でない場合のみ） --}}
+        @php
+            $firstUserId = optional(optional($attendances->first())->user)->id;
+        @endphp
+
+        @if ($firstUserId)
+        <form method="GET" action="{{ route('admin.attendance.index') }}" class="inline-form">
+            <input
+        type="date"
+        name="date"
+        value="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}"
+        onchange="this.form.submit()"
+    >
+        </form>
+        @endif
+
+        <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->addDay()->format('Y-m-d')]) }}" class="btn-link">翌日 →</a>
+    </div>
 
     @if ($attendances->isEmpty())
-        <p>勤怠情報が見つかりませんでした。</p>
+        <p class="no-data">勤怠情報がありません。</p>
     @else
-        <table>
+        <table class="styled-table">
             <thead>
                 <tr>
-                    <th>日付</th>
-                    <th>ユーザー名</th>
+                    <th>名前</th>
                     <th>出勤</th>
                     <th>退勤</th>
-                    <th>ステータス</th>
+                    <th>休憩時間</th>
+                    <th>合計</th>
                     <th>詳細</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($attendances as $attendance)
+                    @php
+                        $in = $attendance->clock_in_time ? \Carbon\Carbon::createFromFormat('H:i:s', $attendance->clock_in_time) : null;
+                        $out = $attendance->clock_out_time ? \Carbon\Carbon::createFromFormat('H:i:s', $attendance->clock_out_time) : null;
+
+                        $totalBreak = $attendance->breakTimes->sum(function ($break) {
+                            return \Carbon\Carbon::parse($break->break_start)->diffInMinutes(\Carbon\Carbon::parse($break->break_end));
+                        });
+
+                        $totalWorkMinutes = ($in && $out) ? $in->diffInMinutes($out) - $totalBreak : null;
+
+                        $inTime = $in ? $in->format('H:i') : '-';
+                        $outTime = $out ? $out->format('H:i') : '-';
+
+                        $breakHours = floor($totalBreak / 60);
+                        $breakMinutes = str_pad($totalBreak % 60, 2, '0', STR_PAD_LEFT);
+                        $breakFormatted = sprintf('%d:%s', $breakHours, $breakMinutes);
+
+                        if ($totalWorkMinutes !== null && $totalWorkMinutes >= 0) {
+                            $workHours = floor($totalWorkMinutes / 60);
+                            $workMinutes = str_pad($totalWorkMinutes % 60, 2, '0', STR_PAD_LEFT);
+                            $workFormatted = sprintf('%d:%s', $workHours, $workMinutes);
+                        } else {
+                            $workFormatted = '-';
+                        }
+                    @endphp
                     <tr>
-                        <td>{{ $attendance->work_date }}</td>
-                        <td>{{ $attendance->user->name ?? '未登録' }}</td>
-                        <td>{{ $attendance->clock_in_time ?? '-' }}</td>
-                        <td>{{ $attendance->clock_out_time ?? '-' }}</td>
-                        <td>{{ $attendance->status }}</td>
+                        <td>{{ optional($attendance->user)->name ?? '-' }}</td>
+                        <td>{{ $inTime }}</td>
+                        <td>{{ $outTime }}</td>
+                        <td>{{ $attendance->breakTimes->isNotEmpty() ? $breakFormatted : '-' }}</td>
+                        <td>{{ $workFormatted }}</td>
                         <td>
                             <a href="{{ route('admin.attendance.detail', $attendance->id) }}" class="btn-link">詳細</a>
                         </td>
@@ -33,10 +83,10 @@
                 @endforeach
             </tbody>
         </table>
-
-        <div class="pagination">
-            {{ $attendances->links() }}
-        </div>
     @endif
+
+    <div class="pagination">
+        {{ $attendances->links() }}
+    </div>
 </div>
 @endsection

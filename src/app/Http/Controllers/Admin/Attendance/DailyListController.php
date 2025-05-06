@@ -5,14 +5,25 @@ namespace App\Http\Controllers\Admin\Attendance;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use Carbon\Carbon;
 
 class DailyListController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // 日付でグループ化して勤怠を取得
-        $attendances = Attendance::orderBy('work_date', 'desc')->paginate(20);
+        $date = $request->input('date', Carbon::today()->format('Y-m-d'));
 
-        return view('admin.attendance.index', compact('attendances'));
+        $attendances = Attendance::with('user','breakTimes')
+            ->where('work_date', $date)
+            ->orderBy('user_id')
+            ->paginate(10);
+
+        $currentMonth = \Carbon\Carbon::parse($date)->startOfMonth();
+
+        return view('admin.attendance.index', [
+            'attendances' => $attendances,
+            'date' => $date,
+            'currentMonth' => $currentMonth,
+        ]);
     }
 }

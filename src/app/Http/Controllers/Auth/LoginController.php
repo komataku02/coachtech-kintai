@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\User\LoginFormRequest;
 
 class LoginController extends Controller
 {
@@ -20,7 +19,7 @@ class LoginController extends Controller
     /**
      * ログイン処理
      */
-    public function login(LoginRequest $request)
+    public function login(LoginFormRequest $request)
     {
         $credentials = $request->only('email', 'password');
 

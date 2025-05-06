@@ -1,0 +1,154 @@
+/* === application.css: 申請関連画面用 === */
+
+/* タイトル */
+.title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #0d47a1;
+  margin-bottom: 1.5rem;
+}
+
+/* フォーム周辺 */
+.form-group label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: bold;
+  color: #333;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.error-text {
+  color: #e53935;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+.alert-error {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 0.8rem 1rem;
+  border-left: 4px solid #c62828;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+/* ボタン */
+.btn.btn-primary {
+  background-color: #1976d2;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn.btn-primary:hover {
+  background-color: #0d47a1;
+}
+
+/* テーブル */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.table th {
+  background-color: #eeeeee;
+  font-weight: bold;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* ステータス表示 */
+.status {
+  font-weight: bold;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.status.pending {
+  color: #f9a825;
+}
+
+.status.approved {
+  color: #2e7d32;
+}
+
+.status.rejected {
+  color: #c62828;
+}
+
+/* リンク */
+.link {
+  color: #1976d2;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: #0d47a1;
+}
+
+/* 詳細ページ */
+.detail-box {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.label {
+  font-weight: bold;
+  color: #444;
+  margin-right: 0.5rem;
+}
+
+.info-message {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.tab-switch {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tab-switch a {
+  padding: 8px 16px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  color: #333;
+  border-radius: 4px;
+}
+
+.tab-switch a.active {
+  background-color: #3498db;
+  color: #fff;
+  border-color: #3498db;
+}

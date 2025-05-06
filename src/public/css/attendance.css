@@ -1,0 +1,300 @@
+/* =======================
+  勤怠画面用 CSS
+======================= */
+
+/* タイトル */
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0d47a1;
+  margin-bottom: 1.5rem;
+}
+
+/* ユーザー情報・ステータス */
+.user-info,
+.status-info {
+  margin-bottom: 1rem;
+}
+
+.user-info p,
+.status-info p {
+  margin: 0.5rem 0;
+}
+
+/* ボタンスタイル */
+.button-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.button-group .btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.button-group .btn.blue {
+  background-color: #1976d2;
+}
+
+.button-group .btn.blue:hover {
+  background-color: #1565c0;
+}
+
+.button-group .btn.yellow {
+  background-color: #fbc02d;
+}
+
+.button-group .btn.yellow:hover {
+  background-color: #f9a825;
+}
+
+.button-group .btn.green {
+  background-color: #4caf50;
+}
+
+.button-group .btn.green:hover {
+  background-color: #388e3c;
+}
+
+.button-group .btn.red {
+  background-color: #e53935;
+}
+
+.button-group .btn.red:hover {
+  background-color: #c62828;
+}
+
+/* 勤怠一覧テーブル */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #eeeeee;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* 勤怠詳細 */
+.detail-box {
+  background-color: #f4f4f4;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.breaks-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.breaks-section ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.breaks-section li {
+  margin-bottom: 0.5rem;
+}
+
+.back-link {
+  margin-top: 1.5rem;
+}
+
+.back-link a {
+  color: #0d47a1;
+  text-decoration: none;
+}
+
+.back-link a:hover {
+  text-decoration: underline;
+}
+
+.thanks-message {
+  text-align: center;
+  font-weight: bold;
+  color: #555;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+.month-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.btn-nav {
+  margin: 0 16px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.current-month {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.inline-form {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.inline-form input[type="month"],
+.inline-form input[type="date"] {
+  padding: 4px;
+  font-size: 1em;
+}
+
+.user-info {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.user-info .status {
+  display: inline-block;
+  background-color: #eee;
+  color: #555;
+  font-size: 0.9rem;
+  padding: 0.3em 1em;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+}
+
+.user-info .username {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.user-info .current-date {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.user-info .current-time {
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.button-group form {
+  width: 100%;
+  max-width: 300px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s;
+}
+
+/* 色別クラス */
+.btn.blue {
+  background-color: #007bff;
+}
+
+.btn.blue:hover {
+  background-color: #0056b3;
+}
+
+.btn.red {
+  background-color: #dc3545;
+}
+
+.btn.red:hover {
+  background-color: #b02a37;
+}
+
+.btn.yellow {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.btn.yellow:hover {
+  background-color: #e0a800;
+}
+
+.btn.green {
+  background-color: #28a745;
+}
+
+.btn.green:hover {
+  background-color: #218838;
+}
+
+/* 「お疲れさまでした」メッセージ */
+.thanks-message {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 2rem;
+}
+
+
+
+@media (max-width: 768px) {
+  .button-group {
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+
+  .thanks-message {
+    font-size: 1rem;
+    margin-top: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+}
