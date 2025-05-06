@@ -3,22 +3,42 @@
 namespace App\Http\Controllers\Attendance;
 
 use App\Http\Controllers\Controller;
-use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
+<<<<<<< HEAD
 use App\Models\BreakTime;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\User\AttendanceFormRequest;
+=======
+use App\Models\Attendance;
+use App\Models\Application;
+>>>>>>> feature/admin-analytics
 
 class DetailController extends Controller
 {
     public function show($id)
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
+<<<<<<< HEAD
         $user = Auth::user();
         if ($attendance->user_id !== $user->id) {
             return redirect()->route('attendance.index')->with('error', '他のユーザーの勤怠情報は表示できません。');
+=======
+
+        // 自分の勤怠でなければ403
+        if ($attendance->user_id !== Auth::id()) {
+            abort(403, '他人の勤怠にはアクセスできません。');
+>>>>>>> feature/admin-analytics
         }
-        return view('attendance.show', compact('attendance'));
+
+        // 修正申請済みかどうかをチェック
+        $alreadyApplied = Application::where('user_id', Auth::id())
+            ->where('attendance_id', $attendance->id)
+            ->exists();
+
+        return view('attendance.show', [
+            'attendance' => $attendance,
+            'alreadyApplied' => $alreadyApplied,
+        ]);
     }
 
     public function update(AttendanceFormRequest $request, $id)

@@ -33,5 +33,9 @@
             <button type="submit" class="btn btn-primary">申請する</button>
         </form>
     @endif
+
+    <div class="back-link">
+    <a href="{{ route('attendance.show', ['id' => $attendance->id]) }}">← 勤怠詳細に戻る</a>
+</div>
 </div>
 @endsection

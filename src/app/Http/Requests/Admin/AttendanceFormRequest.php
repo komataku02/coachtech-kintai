@@ -3,7 +3,8 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Validator;
+use Carbon\Carbon;
 class AttendanceFormRequest extends FormRequest
 {
   public function authorize(): bool
@@ -21,6 +22,27 @@ class AttendanceFormRequest extends FormRequest
       'break_end_times.*' => 'nullable|date_format:H:i',
       'note' => 'required|string|max:255',
     ];
+  }
+
+  public function withValidator($validator)
+  {
+    $validator->after(function (Validator $validator) {
+      $clockOut = $this->input('clock_out_time');
+
+      // break_start_times のチェック
+      foreach ($this->input('break_start_times', []) as $index => $start) {
+        if ($start && $clockOut && Carbon::parse($start)->gt(Carbon::parse($clockOut))) {
+          $validator->errors()->add("break_start_times.$index", '出勤時間もしくは退勤時間が不適切な値です');
+        }
+      }
+
+      // break_end_times のチェック
+      foreach ($this->input('break_end_times', []) as $index => $end) {
+        if ($end && $clockOut && Carbon::parse($end)->gt(Carbon::parse($clockOut))) {
+          $validator->errors()->add("break_end_times.$index", '出勤時間もしくは退勤時間が不適切な値です');
+        }
+      }
+    });
   }
 
   public function messages(): array

@@ -24,39 +24,9 @@
         </div>
     @endif
 
-    <h2 class="title">勤怠詳細（修正）</h2>
-
-    <form method="POST" action="{{ route('application.store') }}">
-        @csrf
-        <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
-
-        <div class="form-group">
-            <label>名前</label>
-            <p>{{ $attendance->user->name ?? Auth::user()->name }}</p>
-        </div>
-
-        <div class="form-group">
-            <label>日付</label>
-            <p>{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年n月j日') }}</p>
-        </div>
-
-        <div class="form-group">
-            <label for="clock_in_time">出勤・退勤</label>
-            <div class="time-range">
-                <input type="time" name="clock_in_time" value="{{ old('clock_in_time', optional($attendance->clock_in_time ? \Carbon\Carbon::parse($attendance->clock_in_time) : null)->format('H:i')) }}">
-                ～
-                <input type="time" name="clock_out_time" value="{{ old('clock_out_time', optional($attendance->clock_out_time ? \Carbon\Carbon::parse($attendance->clock_out_time) : null)->format('H:i')) }}">
-            </div>
-            @error('clock_in_time')
-                <p class="error-text">{{ $message }}</p>
-            @enderror
-            @error('clock_out_time')
-                <p class="error-text">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div class="form-group">
-            <label>休憩</label>
+    <div class="breaks-section">
+        <h3 class="subtitle">休憩時間</h3>
+        <ul class="breaks-list">
             @forelse ($attendance->breakTimes as $break)
                 <div class="break-pair">
                     <input type="time" name="breaks[{{ $break->id }}][start]" value="{{ old("breaks.{$break->id}.start", \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}">
@@ -81,8 +51,18 @@
         </div>
     </form>
 
+    {{-- 修正申請ボタン --}}
+    <div class="apply-link">
+        @if ($alreadyApplied)
+            <p class="apply-alert">※この勤怠にはすでに申請済みです。</p>
+        @else
+            <a href="{{ route('application.create', ['attendance_id' => $attendance->id]) }}"
+               class="btn btn-apply">修正申請する</a>
+        @endif
+    </div>
+
     <div class="back-link">
-        <a href="{{ route('attendance.list') }}">← 勤怠一覧に戻る</a>
+        <a href="{{ route('attendance.list') }}" class="btn btn-back">← 勤怠一覧に戻る</a>
     </div>
 </div>
 @endsection
