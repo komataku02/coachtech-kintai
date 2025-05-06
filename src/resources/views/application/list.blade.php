@@ -24,19 +24,17 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>申請日</th>
-                    <th>対象日</th>
-                    <th>理由</th>
-                    <th>ステータス</th>
+                    <th>状態</th>
+                    <th>名前</th>
+                    <th>対象日時</th>
+                    <th>申請理由</th>
+                    <th>申請日時</th>
                     <th>詳細</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($applications as $app)
                     <tr>
-                        <td>{{ \Carbon\Carbon::parse($app->request_at)->format('Y年m月d日') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($app->attendance->work_date)->format('Y年m月d日') }}</td>
-                        <td>{{ $app->request_reason }}</td>
                         <td>
                             @if ($app->status === 'pending')
                                 <span class="status pending">承認待ち</span>
@@ -44,6 +42,10 @@
                                 <span class="status approved">承認済</span>
                             @endif
                         </td>
+                        <td>{{ $app->user->name}}</td>
+                        <td>{{ \Carbon\Carbon::parse($app->attendance->work_date)->format('Y/m/d') }}</td>
+                        <td>{{ $app->note }}</td>
+                        <td>{{ \Carbon\Carbon::parse($app->request_at)->format('Y/m/d') }}</td>
                         <td class="text-center">
                             <a href="{{ route('application.detail', $app->id) }}" class="link">詳細</a>
                         </td>

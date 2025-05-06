@@ -46,10 +46,9 @@
     </tr>
 @endforelse
 
-        {{-- 修正理由（note → request_reason） --}}
         <tr>
-            <th>修正理由</th>
-            <td>{{ $application->request_reason ?? '記載なし' }}</td>
+            <th>備考</th>
+            <td>{{ $application->note }}</td>
         </tr>
         @if ($application->approved_at)
         <tr>

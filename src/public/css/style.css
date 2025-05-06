@@ -140,3 +140,12 @@ button,
   font-size: 1rem;
   padding: 0;
 }
+
+.alert-error {
+  background-color: #ffe0e0;
+  color: #a00;
+  border: 1px solid #a00;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}

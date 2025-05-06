@@ -18,7 +18,7 @@ class SubmitController extends Controller
         $attendance = Attendance::with('breakTimes')->findOrFail($attendance_id);
 
         if ($attendance->user_id !== Auth::id()) {
-            abort(403, '他人の勤怠に対しては申請できません。');
+            return redirect()->route('attendance.index')->with('error', '他のユーザーの勤怠には申請できません。');
         }
 
         $alreadyApplied = Application::where('attendance_id', $attendance->id)
@@ -50,7 +50,6 @@ class SubmitController extends Controller
         Application::create([
             'user_id'           => Auth::id(),
             'attendance_id'     => $attendance->id,
-            'request_reason'    => 'ユーザーによる勤怠修正申請', // ← 固定値
             'request_clock_in'  => $request->clock_in_time,
             'request_clock_out' => $request->clock_out_time,
             'note'              => $request->note,
