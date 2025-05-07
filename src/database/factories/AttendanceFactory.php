@@ -21,6 +21,7 @@ class AttendanceFactory extends Factory
         $clockOut = $this->faker->dateTimeBetween($clockIn->format('Y-m-d H:i:s'),"$today 20:00:00");
 
         return [
+            'user_id' => 1,
             'clock_in_time' => $clockIn->format('H:i:s'),
             'clock_out_time' => $clockOut->format('H:i:s'),
             'status' => $status,
