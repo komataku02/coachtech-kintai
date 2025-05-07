@@ -18,14 +18,17 @@
     <div class="month-navigation">
         <a href="{{ route('admin.staff.attendance', ['id' => $user->id, 'month' => $prevMonth]) }}" class="btn-nav">← 前月</a>
 
-        {{-- カレンダー入力 --}}
         <form method="GET" action="{{ route('admin.staff.attendance', ['id' => $user->id]) }}" class="inline-form">
-            <input type="month" name="month" value="{{ $currentMonth->format('Y-m') }}">
-            <button type="submit" class="btn-submit">移動</button>
+            <input type="month" name="month" value="{{ \Carbon\Carbon::parse($month)->format('Y-m') }}" onchange="this.form.submit()">
         </form>
 
         <a href="{{ route('admin.staff.attendance', ['id' => $user->id, 'month' => $nextMonth]) }}" class="btn-nav">翌月 →</a>
     </div>
+    @if ($attendances->isEmpty())
+    {{ dump($attendances->pluck('work_date')) }}
+
+        <p class="no-data">勤怠情報がありません。</p>
+    @else
 
     <table class="styled-table">
         <thead>
@@ -69,7 +72,7 @@
             @endforeach
         </tbody>
     </table>
-
+    @endif
     <div class="csv-download right">
         <a href="{{ route('admin.staff.attendance.csv', ['id' => $user->id, 'month' => $currentMonth->format('Y-m')]) }}" class="btn-csv">CSV出力</a>
     </div>
