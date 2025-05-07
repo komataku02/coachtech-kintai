@@ -10,21 +10,9 @@
     <div class="date-navigation">
         <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->subDay()->format('Y-m-d')]) }}" class="btn-link">← 前日</a>
 
-        {{-- 月選択で自動送信（attendancesが空でない場合のみ） --}}
-        @php
-            $firstUserId = optional(optional($attendances->first())->user)->id;
-        @endphp
-
-        @if ($firstUserId)
         <form method="GET" action="{{ route('admin.attendance.index') }}" class="inline-form">
-            <input
-        type="date"
-        name="date"
-        value="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}"
-        onchange="this.form.submit()"
-    >
+            <input type="date" name="date" value="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}" onchange="this.form.submit()">
         </form>
-        @endif
 
         <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->addDay()->format('Y-m-d')]) }}" class="btn-link">翌日 →</a>
     </div>
