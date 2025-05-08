@@ -19,9 +19,9 @@
         <tr>
             <th>出勤・退勤</th>
             <td>
-                {{ $application->request_clock_in ? \Carbon\Carbon::createFromFormat('H:i', $application->request_clock_in,'Asia/Tokyo')->format('H:i') : '-' }}
+                {{ $application->request_clock_in ? \Carbon\Carbon::createFromFormat('H:i', $application->request_clock_in, 'Asia/Tokyo')->format('H:i') : '-' }}
                 ～
-                {{ $application->request_clock_out ? \Carbon\Carbon::createFromFormat('H:i', $application->request_clock_out,'Asia/Tokyo')->format('H:i') : '-' }}
+                {{ $application->request_clock_out ? \Carbon\Carbon::createFromFormat('H:i', $application->request_clock_out, 'Asia/Tokyo')->format('H:i') : '-' }}
             </td>
         </tr>
 
@@ -33,8 +33,7 @@
                 <tr>
                     <th>休憩{{ $index + 1 }}</th>
                     <td>{{ \Carbon\Carbon::createFromFormat('H:i', $break['start'])->format('H:i') }}
-                        ～
-                        {{ \Carbon\Carbon::createFromFormat('H:i', $break['end'])->format('H:i') }}
+                        ～ {{ \Carbon\Carbon::createFromFormat('H:i', $break['end'])->format('H:i') }}
                     </td>
                 </tr>
             @endforeach
@@ -51,7 +50,7 @@
     @endif
 
     <div class="back-link">
-        <a href="{{ route('application.list') }}">← 申請一覧に戻る</a>
+        <a href="{{ route('application.list') }}" class="btn btn-back">← 申請一覧に戻る</a>
     </div>
 </div>
 @endsection

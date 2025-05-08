@@ -5,22 +5,23 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="admin-attendance-container">
     <h2 class="page-title">日別勤怠一覧</h2>
-    <div class="date-navigation">
-        <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->subDay()->format('Y-m-d')]) }}" class="btn-link">← 前日</a>
 
-        <form method="GET" action="{{ route('admin.attendance.index') }}" class="inline-form">
-            <input type="date" name="date" value="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}" onchange="this.form.submit()">
+    <div class="date-navigation">
+        <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->subDay()->format('Y-m-d')]) }}" class="btn-nav btn-prev">← 前日</a>
+
+        <form method="GET" action="{{ route('admin.attendance.index') }}" class="date-form">
+            <input type="date" name="date" class="date-input" value="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}" onchange="this.form.submit()">
         </form>
 
-        <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->addDay()->format('Y-m-d')]) }}" class="btn-link">翌日 →</a>
+        <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->addDay()->format('Y-m-d')]) }}" class="btn-nav btn-next">翌日 →</a>
     </div>
 
     @if ($attendances->isEmpty())
         <p class="no-data">勤怠情報がありません。</p>
     @else
-        <table class="styled-table">
+        <table class="attendance-table styled-table">
             <thead>
                 <tr>
                     <th>名前</th>
@@ -46,17 +47,10 @@
                         $inTime = $in ? $in->format('H:i') : '-';
                         $outTime = $out ? $out->format('H:i') : '-';
 
-                        $breakHours = floor($totalBreak / 60);
-                        $breakMinutes = str_pad($totalBreak % 60, 2, '0', STR_PAD_LEFT);
-                        $breakFormatted = sprintf('%d:%s', $breakHours, $breakMinutes);
-
-                        if ($totalWorkMinutes !== null && $totalWorkMinutes >= 0) {
-                            $workHours = floor($totalWorkMinutes / 60);
-                            $workMinutes = str_pad($totalWorkMinutes % 60, 2, '0', STR_PAD_LEFT);
-                            $workFormatted = sprintf('%d:%s', $workHours, $workMinutes);
-                        } else {
-                            $workFormatted = '-';
-                        }
+                        $breakFormatted = sprintf('%d:%02d', intdiv($totalBreak, 60), $totalBreak % 60);
+                        $workFormatted = $totalWorkMinutes !== null && $totalWorkMinutes >= 0
+                            ? sprintf('%d:%02d', intdiv($totalWorkMinutes, 60), $totalWorkMinutes % 60)
+                            : '-';
                     @endphp
                     <tr>
                         <td>{{ optional($attendance->user)->name ?? '-' }}</td>
@@ -65,7 +59,7 @@
                         <td>{{ $attendance->breakTimes->isNotEmpty() ? $breakFormatted : '-' }}</td>
                         <td>{{ $workFormatted }}</td>
                         <td>
-                            <a href="{{ route('admin.attendance.detail', $attendance->id) }}" class="btn-link">詳細</a>
+                            <a href="{{ route('admin.attendance.detail', $attendance->id) }}" class="btn-detail">詳細</a>
                         </td>
                     </tr>
                 @endforeach
@@ -73,7 +67,7 @@
         </table>
     @endif
 
-    <div class="pagination">
+    <div class="pagination-wrapper">
         {{ $attendances->links() }}
     </div>
 </div>

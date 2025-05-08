@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<div class="container login-form">
+<div class="container login-form-wrapper">
     <h2 class="form-title">管理者ログイン</h2>
 
     @if ($errors->any())
@@ -18,21 +18,21 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('admin.login.submit') }}">
+    <form method="POST" action="{{ route('admin.login.submit') }}" class="login-form-box">
         @csrf
 
         <div class="form-group">
-            <label for="email">メールアドレス</label>
-            <input type="email" name="email" id="email" value="{{ old('email') }}" required>
+            <label for="email" class="form-label">メールアドレス</label>
+            <input type="email" name="email" id="email" class="form-input" value="{{ old('email') }}" required>
         </div>
 
         <div class="form-group">
-            <label for="password">パスワード</label>
-            <input type="password" name="password" id="password" required>
+            <label for="password" class="form-label">パスワード</label>
+            <input type="password" name="password" id="password" class="form-input" required>
         </div>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">ログイン</button>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-login">ログイン</button>
         </div>
     </form>
 </div>

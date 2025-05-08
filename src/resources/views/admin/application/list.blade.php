@@ -5,15 +5,14 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container admin-application-list">
     <h2 class="page-title">修正申請一覧</h2>
 
-    {{-- タブ切替 --}}
-    <div class="tab-switch">
-        <a href="{{ route('admin.application.list', ['status' => 'pending']) }}" class="{{ $status === 'pending' ? 'active' : '' }}">
+    <div class="tab-switch" id="application-tabs">
+        <a href="{{ route('admin.application.list', ['status' => 'pending']) }}" class="tab-link {{ $status === 'pending' ? 'active' : '' }}">
             承認待ち
         </a>
-        <a href="{{ route('admin.application.list', ['status' => 'approved']) }}" class="{{ $status === 'approved' ? 'active' : '' }}">
+        <a href="{{ route('admin.application.list', ['status' => 'approved']) }}" class="tab-link {{ $status === 'approved' ? 'active' : '' }}">
             承認済み
         </a>
     </div>
@@ -21,7 +20,7 @@
     @if ($applications->isEmpty())
         <p class="no-data">該当する申請はありません。</p>
     @else
-        <table class="styled-table">
+        <table class="styled-table application-table">
             <thead>
                 <tr>
                     <th>氏名</th>
@@ -39,23 +38,24 @@
                         <td>{{ \Carbon\Carbon::parse($application->request_at)->format('Y/m/d') }}</td>
                         <td>{{ \Carbon\Carbon::parse($application->attendance->work_date)->format('Y/m/d') }}</td>
                         <td>{{ $application->note }}</td>
-                        <td>{{ $application->status === 'pending' ? '承認待ち' : '承認済み' }}</td>
+                        <td class="status-cell">
+                            {{ $application->status === 'pending' ? '承認待ち' : '承認済み' }}
+                        </td>
                         <td>
-                            <a href="{{ route('admin.application.detail', $application->id) }}" class="btn-link">詳細</a>
+                            <a href="{{ route('admin.application.detail', $application->id) }}" class="btn-link btn-detail">詳細</a>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
 
-        <div class="pagination">
+        <div class="pagination-wrapper">
             {{ $applications->links() }}
         </div>
     @endif
 
     <div class="back-link">
-        <a href="{{ route('admin.attendance.index') }}">← 日別勤怠一覧に戻る</a>
+        <a href="{{ route('admin.attendance.index') }}" class="btn btn-back">← 日別勤怠一覧に戻る</a>
     </div>
 </div>
 @endsection
-
