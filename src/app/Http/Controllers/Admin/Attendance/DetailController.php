@@ -12,7 +12,7 @@ class DetailController extends Controller
 {
     public function show($id)
     {
-        $attendance = Attendance::with(['breakTimes','user'])->findOrFail($id);
+        $attendance = Attendance::with(['breakTimes', 'user'])->findOrFail($id);
 
         return view('admin.attendance.detail', compact('attendance'));
     }

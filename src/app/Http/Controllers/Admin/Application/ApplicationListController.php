@@ -10,7 +10,7 @@ class ApplicationListController extends Controller
 {
     public function index(Request $request)
     {
-        $status = $request->query('status', 'pending'); // デフォルトは「承認待ち」
+        $status = $request->query('status', 'pending');
 
         $applications = Application::with(['user', 'attendance'])
             ->where('status', $status)

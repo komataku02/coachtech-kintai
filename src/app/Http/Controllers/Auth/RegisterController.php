@@ -19,7 +19,6 @@ class RegisterController extends Controller
 
     public function store(RegisterFormRequest $request)
     {
-        // ユーザーを作成（email_verified_at は null のままでOK）
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -27,13 +26,10 @@ class RegisterController extends Controller
             'role' => 'user',
         ]);
 
-        // 認証メール送信イベント
         event(new Registered($user));
 
-        // 自動ログイン
         Auth::login($user);
 
-        // 認証案内画面へリダイレクト
         return redirect()->route('verification.notice');
     }
 }

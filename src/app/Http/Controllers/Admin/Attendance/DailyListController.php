@@ -13,12 +13,12 @@ class DailyListController extends Controller
     {
         $date = $request->input('date', Carbon::today()->format('Y-m-d'));
 
-        $attendances = Attendance::with('user','breakTimes')
+        $attendances = Attendance::with('user', 'breakTimes')
             ->where('work_date', $date)
             ->orderBy('user_id')
             ->paginate(10);
 
-        $currentMonth = \Carbon\Carbon::parse($date)->startOfMonth();
+        $currentMonth = Carbon::parse($date)->startOfMonth();
 
         return view('admin.attendance.index', [
             'attendances' => $attendances,
