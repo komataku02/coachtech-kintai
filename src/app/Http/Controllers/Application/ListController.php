@@ -11,7 +11,7 @@ class ListController extends Controller
 {
     public function index(Request $request)
     {
-        $status = $request->input('status', 'pending'); // デフォルトは「承認待ち」
+        $status = $request->input('status', 'pending');
 
         $applications = Application::with('attendance')
             ->where('user_id', Auth::id())

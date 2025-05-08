@@ -34,7 +34,6 @@ class ApplicationDetailController extends Controller
 
         $attendance = $application->attendance;
 
-        // 出退勤・備考の更新
         if ($application->request_clock_in !== null) {
             $attendance->clock_in_time = $application->request_clock_in;
         }
@@ -46,12 +45,10 @@ class ApplicationDetailController extends Controller
         }
         $attendance->save();
 
-        // 休憩時間の更新
         $attendance->breakTimes()->delete();
 
         $breaks = json_decode($application->request_breaks, true);
         if (is_array($breaks)) {
-            // 開始時間昇順にソート
             usort($breaks, fn($a, $b) => strtotime($a['start']) <=> strtotime($b['start']));
 
             $validBreaks = [];
@@ -62,10 +59,9 @@ class ApplicationDetailController extends Controller
                     $end = strtotime($break['end']);
 
                     if ($end <= $start) {
-                        continue; // 不正な時刻（終了が開始より前）
+                        continue;
                     }
 
-                    // 重複チェック
                     $isOverlapping = false;
                     foreach ($validBreaks as $valid) {
                         $s = strtotime($valid['start']);
@@ -87,7 +83,6 @@ class ApplicationDetailController extends Controller
             }
         }
 
-        // ステータス更新
         $application->status = 'approved';
         $application->approved_at = now();
         $application->save();

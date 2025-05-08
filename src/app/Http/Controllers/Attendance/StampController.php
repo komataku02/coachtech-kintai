@@ -11,18 +11,11 @@ use Carbon\Carbon;
 
 class StampController extends Controller
 {
-    /**
-     * 勤怠登録画面を表示
-     */
     public function index()
     {
-        // 現在ログイン中のユーザーを取得
         $user = Auth::user();
-
-        // 今日の日付を取得
         $today = now()->toDateString();
 
-        // 今日の出勤情報を取得（なければ null）
         $attendance = Attendance::where('user_id', $user->id)
             ->where('work_date', $today)
             ->first();
@@ -49,6 +42,7 @@ class StampController extends Controller
             'clock_in_time' => now()->format('H:i:s'),
             'status' => '出勤',
         ]);
+
         return redirect()->route('attendance.index')->with('message', '出勤しました。');
     }
 
@@ -58,12 +52,14 @@ class StampController extends Controller
             ->whereDate('work_date', now()->toDateString())
             ->first();
 
-        if ($attendance) {
-            $attendance->update([
-                'clock_out_time' => now()->format('H:i:s'),
-                'status' => '退勤済',
-            ]);
+        if (!$attendance) {
+            return redirect()->route('attendance.index')->with('message', '出勤記録が見つかりません。');
         }
+
+        $attendance->update([
+            'clock_out_time' => now()->format('H:i:s'),
+            'status' => '退勤済',
+        ]);
 
         return redirect()->route('attendance.index')->with('message', '退勤しました。');
     }
@@ -101,11 +97,13 @@ class StampController extends Controller
             ->latest()
             ->first();
 
-        if ($break) {
-            $break->update([
-                'break_end' => now()->format('H:i:s'),
-            ]);
+        if (!$break) {
+            return redirect()->route('attendance.index')->with('message', '休憩中の記録が見つかりませんでした。');
         }
+
+        $break->update([
+            'break_end' => now()->format('H:i:s'),
+        ]);
 
         $this->updateStatus('出勤');
 

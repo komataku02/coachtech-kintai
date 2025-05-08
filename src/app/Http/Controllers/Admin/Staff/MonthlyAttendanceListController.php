@@ -17,12 +17,12 @@ class MonthlyAttendanceListController extends Controller
         $user = User::findOrFail($userId);
 
         $month = $request->input('month', Carbon::now()->format('Y-m'));
-        $startOfMonth = Carbon::parse($month)->startOfMonth()->startOfDay(); // ★追加
-        $endOfMonth = Carbon::parse($month)->endOfMonth()->endOfDay();       // ★追加
+        $startOfMonth = Carbon::parse($month)->startOfMonth()->startOfDay();
+        $endOfMonth = Carbon::parse($month)->endOfMonth()->endOfDay();
 
         $attendances = Attendance::with('breakTimes')
             ->where('user_id', $userId)
-            ->whereBetween('work_date', [$startOfMonth, $endOfMonth]) // ← これで確実に日付範囲内に含まれるようになる
+            ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
             ->orderBy('work_date')
             ->get();
 

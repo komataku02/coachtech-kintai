@@ -10,9 +10,6 @@ use App\Models\Application;
 
 class SubmitController extends Controller
 {
-    /**
-     * 申請フォームの表示
-     */
     public function create($attendance_id)
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($attendance_id);
@@ -28,14 +25,10 @@ class SubmitController extends Controller
         return view('application.create', compact('attendance', 'alreadyApplied'));
     }
 
-    /**
-     * 修正申請の登録処理
-     */
     public function store(ApplicationFormRequest $request)
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($request->attendance_id);
 
-        // 休憩時間を配列で保存（JSONとして格納）
         $breaks = [];
         foreach ($attendance->breakTimes as $break) {
             $id = $break->id;
