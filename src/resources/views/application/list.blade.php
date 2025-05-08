@@ -3,12 +3,10 @@
 <link rel="stylesheet" href="{{ asset('css/application.css') }}">
 @endsection
 
-
 @section('content')
 <div class="container">
     <h2 class="title">申請一覧</h2>
 
-    {{-- タブ切替 --}}
     <div class="tab-switch">
         <a href="{{ route('application.list', ['status' => 'pending']) }}" class="{{ $status === 'pending' ? 'active' : '' }}">
             承認待ち
@@ -42,11 +40,11 @@
                                 <span class="status approved">承認済</span>
                             @endif
                         </td>
-                        <td>{{ $app->user->name}}</td>
+                        <td>{{ $app->user->name }}</td>
                         <td>{{ \Carbon\Carbon::parse($app->attendance->work_date)->format('Y/m/d') }}</td>
                         <td>{{ $app->note }}</td>
                         <td>{{ \Carbon\Carbon::parse($app->request_at)->format('Y/m/d') }}</td>
-                        <td class="text-center">
+                        <td class="cell-center">
                             <a href="{{ route('application.detail', $app->id) }}" class="link">詳細</a>
                         </td>
                     </tr>

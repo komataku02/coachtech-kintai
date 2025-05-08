@@ -10,23 +10,20 @@
 </head>
 <body>
     <header>
-        <h1>勤怠管理アプリ</h1>
+        <h1 class="app-title">勤怠管理アプリ</h1>
 
         @auth
         @php
             $user = Auth::user();
-            $route = Route::currentRouteName();
         @endphp
 
         <nav class="nav-header">
             <ul class="nav-list">
                 @if ($user->role === 'admin')
-                    {{-- 管理者メニュー --}}
                     <li><a href="{{ route('admin.attendance.index') }}">日別勤怠</a></li>
                     <li><a href="{{ route('admin.staff.list') }}">スタッフ一覧</a></li>
                     <li><a href="{{ route('admin.application.list') }}">申請一覧</a></li>
                 @else
-                    {{-- 一般ユーザーメニュー --}}
                     <li><a href="{{ route('attendance.index') }}">勤怠</a></li>
                     <li><a href="{{ route('application.list') }}">申請一覧</a></li>
                 @endif
@@ -41,23 +38,20 @@
         @endauth
     </header>
 
-    <main class="container">
+    <main class="main-content container">
         @if (session('message'))
-            <div class="alert-success">
+            <div class="alert alert-success">
                 {{ session('message') }}
             </div>
         @endif
+
         @if (session('error'))
-            <div class="alert-error">
+            <div class="alert alert-error">
                 {{ session('error') }}
             </div>
         @endif
 
         @yield('content')
     </main>
-
-    <footer>
-        &copy; {{ date('Y') }} 勤怠管理アプリ
-    </footer>
 </body>
 </html>

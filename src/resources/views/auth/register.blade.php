@@ -1,8 +1,8 @@
 @extends('layouts.app')
+
 @section('page-css')
 <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 @endsection
-
 
 @section('content')
 <div class="form-container">
@@ -40,8 +40,12 @@
             <input type="password" name="password_confirmation">
         </div>
 
-        <div class="form-group text-center">
+        <div class="form-group center">
             <button type="submit" class="submit-button">登録</button>
+        </div>
+
+        <div class="form-group center">
+            <a href="{{ route('login') }}" class="link-login">ログインはこちら</a>
         </div>
     </form>
 </div>
