@@ -6,8 +6,6 @@
 
 @section('content')
 <div class="attendance-container">
-    <h2 class="title">勤怠登録</h2>
-
     <div class="user-info">
         <p class="status-label">{{ $attendance->status ?? '勤務外' }}</p>
 
@@ -26,24 +24,20 @@
                 @csrf
                 <button type="submit" class="btn-clock clock-in">出勤</button>
             </form>
-
         @elseif ($attendance->status === '出勤')
-            <form method="POST" action="{{ route('attendance.breakIn') }}">
-                @csrf
-                <button type="submit" class="btn-clock break-in">休憩入</button>
-            </form>
-
             <form method="POST" action="{{ route('attendance.clockOut') }}">
                 @csrf
                 <button type="submit" class="btn-clock clock-out">退勤</button>
             </form>
-
+            <form method="POST" action="{{ route('attendance.breakIn') }}">
+                @csrf
+                <button type="submit" class="btn-clock break-in">休憩入</button>
+            </form>
         @elseif ($attendance->status === '休憩中')
             <form method="POST" action="{{ route('attendance.breakOut') }}">
                 @csrf
                 <button type="submit" class="btn-clock break-out">休憩戻</button>
             </form>
-
         @elseif ($attendance->status === '退勤済')
             <p class="thanks-message">お疲れさまでした。</p>
         @endif
