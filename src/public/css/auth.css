@@ -1,243 +1,137 @@
-/* ログイン・登録画面用CSS */
+/* === 認証画面用スタイル（修正済み） === */
 
-.auth-container {
-  max-width: 480px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 6px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.auth-title {
-  font-size: 1.6rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #0d47a1;
+main.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.auth-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.auth-form input[type="text"],
-.auth-form input[type="email"],
-.auth-form input[type="password"] {
+.form-container {
+  max-width: 600px;
   width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-  font-size: 1rem;
+  margin: 0 auto;
+  padding: 2rem 2rem;
+  background-color: white;
 }
 
-.auth-form .error-text {
-  color: #e53935;
-  font-size: 0.9rem;
-  margin-top: -0.5rem;
-  margin-bottom: 1rem;
-}
-
-.auth-form button {
+.form-box{
   width: 100%;
-  background-color: #1976d2;
-  color: white;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.auth-form button:hover {
-  background-color: #0d47a1;
-}
-
-.auth-form .link {
-  display: block;
-  margin-top: 1rem;
-  text-align: center;
-  color: #1976d2;
-  text-decoration: underline;
-}
-
-.auth-form .link:hover {
-  color: #0b3c91;
-}
-
-/* === 管理者・ユーザー共通 ログイン・登録画面用 === */
-
-.login-form {
-  max-width: 500px;
-  margin: 3rem auto;
-  background-color: #fff;
-  padding: 2rem 2.5rem;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-title {
-  text-align: center;
-  font-size: 1.5rem;
-  color: #0d47a1;
-  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #000;
 }
 
 .form-group {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
 }
 
-label {
+.form-group label {
   display: block;
-  font-weight: 600;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  font-size: 1rem;
   color: #333;
 }
 
-input[type="email"],
-input[type="password"] {
+.form-input {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 0.6rem;
   font-size: 1rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-input[type="email"]:focus,
-input[type="password"]:focus {
-  outline: none;
-  border-color: #1976d2;
-  box-shadow: 0 0 3px rgba(25, 118, 210, 0.3);
-}
-
-.btn-primary {
-  background-color: #1976d2;
-  color: white;
+.form-group.center {
   width: 100%;
-  padding: 0.7rem;
+}
+
+.submit-button {
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  padding: 1rem;
   border: none;
-  border-radius: 6px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-}
-
-.btn-primary:hover {
-  background-color: #0d47a1;
-}
-
-.alert-error {
-  background-color: #fbeaea;
-  color: #d32f2f;
-  padding: 0.8rem 1rem;
-  margin-bottom: 1.2rem;
-  border-left: 5px solid #f44336;
   border-radius: 4px;
 }
 
-.container {
-  margin-top: 100px;
+.submit-button:hover {
+  background-color: #333;
+}
+
+.link-login {
+  color: #1976d2;
+  text-decoration: none;
+  font-size: 0.9rem;
   text-align: center;
+  display: block;
+  margin-top: 0.5rem;
 }
 
-.message-box {
-  background: #fff;
-  padding: 30px;
-  border-radius: 8px;
-}
-
-p {
-  font-size: 18px;
-  margin-bottom: 30px;
-  font-weight: bold;
-}
-
-.btn-wrapper {
-  margin-bottom: 20px;
-}
-
-.btn-verify {
-  background-color: #f2f2f2;
-  border: 1px solid #ccc;
-  padding: 10px 30px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.btn-verify:hover {
-  background-color: #e0e0e0;
-}
-
-.resend-link {
-  margin-top: 10px;
-}
-
-.link-resend {
-  background: none;
-  border: none;
-  color: #007BFF;
-  font-size: 14px;
-  cursor: pointer;
+.link-login:hover {
   text-decoration: underline;
+  color: #0d47a1;
 }
 
-.link-resend:hover {
-  color: #0056b3;
+.error-message {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 0.2rem;
 }
 
-.container {
-  margin-top: 100px;
-  text-align: center;
+/* === レスポンシブ対応 === */
+
+/* タブレット対応（768px以上） */
+@media screen and (min-width: 768px) {
+  .form-container {
+    max-width: 600px;
+    padding: 2rem 3rem;
+  }
+
+  .form-title {
+    font-size: 2rem;
+  }
+
+  .submit-button {
+    font-size: 1.1rem;
+    padding: 1rem;
+  }
 }
 
-.message-box {
-  background: #fff;
-  padding: 30px;
-  border-radius: 8px;
-}
+/* PC対応（1400px以上） */
+@media screen and (min-width: 1400px) {
+  .form-container {
+    max-width: 720px;
+    padding: 3rem 4rem;
+  }
 
-p {
-  font-size: 18px;
-  margin-bottom: 30px;
-  font-weight: bold;
-}
+  .form-title {
+    font-size: 2.2rem;
+  }
 
-.btn-wrapper {
-  margin-bottom: 20px;
-}
+  .form-input {
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
 
-.btn-verify {
-  background-color: #f2f2f2;
-  border: 1px solid #ccc;
-  padding: 10px 30px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.btn-verify:hover {
-  background-color: #e0e0e0;
-}
-
-.resend-link {
-  margin-top: 10px;
-}
-
-.link-resend {
-  background: none;
-  border: none;
-  color: #007BFF;
-  font-size: 14px;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.link-resend:hover {
-  color: #0056b3;
+  .submit-button {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+  }
 }
