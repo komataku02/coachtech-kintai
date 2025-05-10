@@ -1,20 +1,25 @@
 /* === 共通レイアウト（全画面） === */
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: white;
+  color: #000;
   margin: 0;
   padding: 0;
 }
 
-header,
-footer {
-  background-color: #0d47a1;
+header {
+  background-color: #000;
   color: white;
-  text-align: center;
-  padding: 1rem;
+  text-align: left;
+  padding: 1rem 2rem;
 }
 
+header .app-title {
+  font-size: 2rem;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+}
 .container {
   max-width: none;
     width: 100%;
@@ -77,7 +82,7 @@ button,
   margin-bottom: 1rem;
   border-left: 6px solid #1976d2;
   padding-left: 1rem;
-  color: #0d47a1;
+  color: #000;
 }
 
 .sub-title {
@@ -131,7 +136,6 @@ button,
   display: inline-block;
 }
 
-<<<<<<< HEAD
 .logout-link {
   background: none;
   border: none;
@@ -149,7 +153,7 @@ button,
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 4px;
-=======
+}
 .btn-csv:hover {
   background-color: #388e3c;
 }
@@ -231,5 +235,4 @@ button,
 
 .back-link a:hover {
   text-decoration: underline;
->>>>>>> feature/admin-analytics
 }

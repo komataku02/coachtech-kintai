@@ -13,7 +13,7 @@
 
         <div class="form-group">
             <label for="name">名前</label>
-            <input type="text" name="name" value="{{ old('name') }}">
+            <input type="text" name="name" value="{{ old('name') }}" class="form-input">
             @error('name')
                 <p class="error-message">{{ $message }}</p>
             @enderror
@@ -21,7 +21,7 @@
 
         <div class="form-group">
             <label for="email">メールアドレス</label>
-            <input type="email" name="email" value="{{ old('email') }}">
+            <input type="email" name="email" value="{{ old('email') }}" class="form-input">
             @error('email')
                 <p class="error-message">{{ $message }}</p>
             @enderror
@@ -29,7 +29,7 @@
 
         <div class="form-group">
             <label for="password">パスワード</label>
-            <input type="password" name="password">
+            <input type="password" name="password" class="form-input">
             @error('password')
                 <p class="error-message">{{ $message }}</p>
             @enderror
@@ -37,11 +37,11 @@
 
         <div class="form-group">
             <label for="password_confirmation">パスワード確認</label>
-            <input type="password" name="password_confirmation">
+            <input type="password" name="password_confirmation" class="form-input">
         </div>
 
         <div class="form-group center">
-            <button type="submit" class="submit-button">登録</button>
+            <button type="submit" class="submit-button">登録する</button>
         </div>
 
         <div class="form-group center">

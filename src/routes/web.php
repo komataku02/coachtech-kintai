@@ -21,7 +21,7 @@ use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 
 // ユーザー認証
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
-Route::post('/register', [RegisterController::class, 'store']);
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', function () {
