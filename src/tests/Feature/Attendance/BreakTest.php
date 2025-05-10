@@ -63,20 +63,23 @@ class BreakTest extends TestCase
   public function 休憩戻後ステータスが出勤に戻る()
   {
     $user = User::factory()->create(['email_verified_at' => now()]);
-    Attendance::factory()->create([
+    $attendance = Attendance::factory()->create([
       'user_id' => $user->id,
       'work_date' => now()->toDateString(),
       'clock_in_time' => '08:00:00',
       'status' => '休憩中',
     ]);
 
+    $attendance->breakTimes()->create([
+      'break_start' => now()->subMinutes(30)->format('H:i:s'),
+      'break_end' => null,
+    ]);
+
     $this->actingAs($user instanceof Authenticatable ? $user : User::find($user->id));
     $this->post(route('attendance.breakOut'));
 
-    $this->assertDatabaseHas('attendances', [
-      'user_id' => $user->id,
-      'status' => '出勤',
-    ]);
+    $attendance->refresh();
+    $this->assertEquals('出勤', $attendance->status);
   }
 
   /** @test */

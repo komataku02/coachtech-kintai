@@ -8,13 +8,17 @@
 <div class="attendance-detail-container">
     <h2 class="page-title">勤怠詳細</h2>
 
+    <div class="attendance-user">
+        <p><strong>名前</strong>{{ Auth::user()->name }}</p>
+        </div>
+
     <div class="attendance-date">
-        <p><strong>日付：</strong>{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年n月j日') }}</p>
+        <p><strong>日付</strong>{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年n月j日') }}</p>
     </div>
 
     <div class="attendance-times">
-        <p><strong>出勤：</strong>{{ $attendance->clock_in_time ?? '--:--' }}</p>
-        <p><strong>退勤：</strong>{{ $attendance->clock_out_time ?? '--:--' }}</p>
+        <p><strong>出勤</strong>{{ $attendance->clock_in_time ?? '--:--' }}</p>
+        <p><strong>退勤</strong>{{ $attendance->clock_out_time ?? '--:--' }}</p>
     </div>
 
     <div class="breaks-section">

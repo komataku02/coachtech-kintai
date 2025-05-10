@@ -19,76 +19,70 @@ use App\Http\Controllers\Admin\Staff\StaffListController;
 use App\Http\Controllers\Admin\Staff\MonthlyAttendanceListController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 
+// ユーザー認証
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
-Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
-
+Route::post('/register', [RegisterController::class, 'store']);
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
-
+Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', function () {
   Auth::logout();
-  request()->session()->invalidate();
-  request()->session()->regenerateToken();
   return redirect('/login');
 })->name('logout');
 
+// メール認証
+Route::get('/email/verify', function () {
+  return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
 
-Route::middleware(['auth'])->group(function () {
-  Route::get('/email/verify', function () {
-    return view('auth.verify');
-  })->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+  $request->fulfill();
+  return redirect()->route('attendance.index');
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
-  Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect(\App\Providers\RouteServiceProvider::HOME);
-  })->middleware(['signed'])->name('verification.verify');
+Route::post('/email/verification-notification', function (Illuminate\Http\Request $request) {
+  $request->user()->sendEmailVerificationNotification();
+  return back()->with('message', '確認リンクを再送しました');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-  Route::post('/email/verification-notification', function () {
-    request()->user()->sendEmailVerificationNotification();
-    return back()->with('resent', true);
-  })->name('verification.send');
-});
-
-
+// 打刻・勤怠画面（ユーザー）
 Route::middleware(['auth', 'verified'])->group(function () {
-  Route::get('/attendance', [StampController::class, 'index'])->name('attendance.index');
-  Route::post('/attendance/clock-in', [StampController::class, 'clockIn'])->name('attendance.clockIn');
-  Route::post('/attendance/clock-out', [StampController::class, 'clockOut'])->name('attendance.clockOut');
-  Route::post('/attendance/break-in', [StampController::class, 'breakIn'])->name('attendance.breakIn');
-  Route::post('/attendance/break-out', [StampController::class, 'breakOut'])->name('attendance.breakOut');
+  Route::get('/', [StampController::class, 'index'])->name('attendance.index');
+  Route::post('/clock-in', [StampController::class, 'clockIn'])->name('attendance.clockIn');
+  Route::post('/clock-out', [StampController::class, 'clockOut'])->name('attendance.clockOut');
+  Route::post('/break-in', [StampController::class, 'breakIn'])->name('attendance.breakIn');
+  Route::post('/break-out', [StampController::class, 'breakOut'])->name('attendance.breakOut');
 
   Route::get('/attendance/list', [AttendanceListController::class, 'index'])->name('attendance.list');
   Route::get('/attendance/{id}', [DetailController::class, 'show'])->name('attendance.show');
+
+  // 修正申請（ユーザー）
+  Route::get('/application/list', [ApplicationListController::class, 'index'])->name('application.list');
+  Route::get('/application/{id}', [ApplicationDetailController::class, 'show'])->name('application.detail');
+  Route::get('/application/create/{attendance_id}', [SubmitController::class, 'create'])->name('application.create');
+  Route::post('/application/store', [SubmitController::class, 'store'])->name('application.store');
 });
 
-
-Route::middleware(['auth', 'verified'])->prefix('stamp_correction_request')->name('application.')->group(function () {
-  Route::get('/list', [ApplicationListController::class, 'index'])->name('list');
-  Route::get('/{id}', [ApplicationDetailController::class, 'show'])->name('detail');
-  Route::get('/create/{attendance_id}', [SubmitController::class, 'create'])->name('create');
-  Route::post('/store', [SubmitController::class, 'store'])->name('store');
-});
-
-
+// 管理者ログイン
 Route::prefix('admin')->name('admin.')->group(function () {
   Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
-  Route::post('/login', [AdminLoginController::class, 'login'])->name('login.submit');
+  Route::post('/login', [AdminLoginController::class, 'login']);
+  Route::post('/logout', function () {
+    Auth::logout();
+    return redirect()->route('admin.login');
+  })->name('logout');
 });
 
+// 管理者専用ルーティング
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+  Route::get('/attendance', [DailyListController::class, 'index'])->name('attendance.index');
+  Route::get('/attendance/{id}/detail', [AdminAttendanceDetailController::class, 'show'])->name('attendance.detail');
+  Route::put('/attendance/{id}/update', [AdminAttendanceDetailController::class, 'update'])->name('attendance.update');
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-  Route::get('/attendance/list', [DailyListController::class, 'index'])->name('attendance.index');
-  Route::get('/attendance/{id}', [AdminAttendanceDetailController::class, 'show'])->name('attendance.detail');
-  Route::put('/attendance/{id}', [AdminAttendanceDetailController::class, 'update'])->name('attendance.update');
+  Route::get('/application/list', [AdminApplicationListController::class, 'index'])->name('application.list');
+  Route::get('/application/{id}', [AdminApplicationDetailController::class, 'show'])->name('application.detail');
+  Route::post('/application/{id}/approve', [AdminApplicationDetailController::class, 'approve'])->name('application.approve');
 
   Route::get('/staff/list', [StaffListController::class, 'index'])->name('staff.list');
-  Route::get('/attendance/staff/{id}', [MonthlyAttendanceListController::class, 'show'])->name('attendance.staff');
-  Route::get('/attendance/staff/{id}/csv', [MonthlyAttendanceListController::class, 'downloadCsv'])->name('attendance.staff.csv');
-
-
-  Route::get('/stamp_correction_request/list', [AdminApplicationListController::class, 'index'])->name('application.list');
-  Route::get('/stamp_correction_request/{id}', [AdminApplicationDetailController::class, 'show'])->name('application.detail');
-
-
-  Route::post('/stamp_correction_request/approve/{attendance_correct_request}', [AdminApplicationDetailController::class, 'approve'])->name('application.approve');
+  Route::get('/staff/{id}/attendance', [MonthlyAttendanceListController::class, 'show'])->name('staff.attendance');
+  Route::get('/staff/{id}/attendance/csv', [MonthlyAttendanceListController::class, 'downloadCsv'])->name('staff.attendance.csv');
 });
