@@ -10,8 +10,7 @@
 </head>
 <body>
     <header>
-        <h1 class="app-title">勤怠管理アプリ</h1>
-
+        <h1 class="app-title">COACHTECH</h1>
         @auth
         @php
             $user = Auth::user();
