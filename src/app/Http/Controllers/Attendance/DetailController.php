@@ -16,15 +16,18 @@ class DetailController extends Controller
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
 
-        if ($attendance->user_id !== Auth::id()) {
-            abort(403, '他人の勤怠にはアクセスできません。');
+        if ($attendance->user_id != Auth::id()) {
+            return redirect()->route('attendance.list')->with('error', '他人の勤怠にはアクセスできません。');
         }
 
         $alreadyApplied = Application::where('user_id', Auth::id())
             ->where('attendance_id', $attendance->id)
             ->exists();
 
-        return view('attendance.show', compact('attendance', 'alreadyApplied'));
+        return view('attendance.show', [
+            'attendance' => $attendance,
+            'alreadyApplied' => $alreadyApplied,
+        ]);
     }
 
     public function update(AttendanceFormRequest $request, $id)

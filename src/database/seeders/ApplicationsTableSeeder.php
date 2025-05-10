@@ -65,5 +65,28 @@ class ApplicationsTableSeeder extends Seeder
                 ]);
             }
         }
+
+        //テストで確実に使うデータ：note に「退勤打刻を忘れました。」を含む申請を1件追加
+        $targetUser = $users->first();
+        $targetAttendance = Attendance::where('user_id', $targetUser->id)
+            ->whereNotNull('clock_in_time')
+            ->whereNotNull('clock_out_time')
+            ->first();
+
+        if ($targetAttendance) {
+            Application::create([
+                'user_id'           => $targetUser->id,
+                'attendance_id'     => $targetAttendance->id,
+                'request_clock_in'  => '09:00:00',
+                'request_clock_out' => '18:00:00',
+                'note'              => '退勤打刻を忘れました。',
+                'request_breaks'    => json_encode([
+                    ['start' => '12:00', 'end' => '13:00']
+                ]),
+                'request_at'        => Carbon::now()->subDays(1),
+                'status'            => 'pending',
+                'approved_at'       => null,
+            ]);
+        }
     }
 }

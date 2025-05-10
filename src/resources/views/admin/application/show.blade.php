@@ -22,6 +22,7 @@
             <td>{{ $clockIn ?? '--:--' }} ～ {{ $clockOut ?? '--:--' }}</td>
         </tr>
 
+        {{-- 休憩時間 --}}
         @php
             $breaks = $application->attendance->breakTimes->sortBy('break_start')->values();
         @endphp
@@ -30,8 +31,8 @@
             <tr>
                 <th>休憩{{ $index + 1 }}</th>
                 <td>
-                    {{ \Carbon\Carbon::parse($break->break_start)->format('H:i') }} ～
-                    {{ \Carbon\Carbon::parse($break->break_end)->format('H:i') }}
+                    {{ \Carbon\Carbon::parse($break->break_start)->format('H:i') }}
+                    ～ {{ \Carbon\Carbon::parse($break->break_end)->format('H:i') }}
                 </td>
             </tr>
         @empty
@@ -54,9 +55,10 @@
         @endif
     </table>
 
-    <div class="form-actions">
+    {{-- 承認ボタン or 承認済み表示 --}}
+    <div class="form-actions mt-4">
         @if ($application->status === 'pending')
-            <form method="POST" action="{{ route('admin.application.approve', ['id' => $application->id]) }}">
+            <form method="POST" action="{{ route('admin.application.approve', $application->id) }}">
                 @csrf
                 <button type="submit" class="btn btn-approve" onclick="this.disabled = true; this.form.submit();">
                     承認する
@@ -67,8 +69,8 @@
         @endif
     </div>
 
-    <div class="back-link">
-        <a href="{{ route('admin.application.list') }}" class="btn btn-back">← 申請一覧に戻る</a>
+    <div class="back-link mt-3">
+        <a href="{{ route('admin.application.list') }}">← 申請一覧に戻る</a>
     </div>
 </div>
 @endsection
