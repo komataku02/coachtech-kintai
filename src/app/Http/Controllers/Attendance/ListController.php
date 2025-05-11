@@ -24,7 +24,7 @@ class ListController extends Controller
         $attendances = Attendance::with('breakTimes')
             ->where('user_id', $user->id)
             ->whereBetween('work_date', [$month->copy()->startOfMonth(), $month->copy()->endOfMonth()])
-            ->orderBy('work_date', 'desc')
+            ->orderBy('work_date', 'asc')
             ->get();
 
         return view('attendance.list', compact('attendances', 'month'));

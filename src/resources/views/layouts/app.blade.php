@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>勤怠管理アプリ</title>
-    <link rel="stylesheet" href="{{ asset('css/reset.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/common/reset.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/common/style.css') }}?v={{ time() }}">
     @yield('page-css')
 </head>
 <body>
