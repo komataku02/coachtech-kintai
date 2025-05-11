@@ -13,14 +13,25 @@ class AttendancesTableSeeder extends Seeder
     {
         $users = User::where('role', 'user')->get();
 
-        foreach ($users as $index => $user) {
-            for ($i = 0; $i < 10; $i++) {
-                $workDate = Carbon::now()->subDays($index * 20 + $i)->toDateString();
+        $months = [
+            Carbon::now()->subMonth(), // 前月
+            Carbon::now(),             // 今月
+            Carbon::now()->addMonth(), // 翌月
+        ];
 
-                Attendance::factory()->create([
-                    'user_id' => $user->id,
-                    'work_date' => $workDate,
-                ]);
+        foreach ($users as $user) {
+            foreach ($months as $month) {
+                $daysInMonth = $month->daysInMonth;
+                $yearMonth = $month->format('Y-m');
+
+                for ($day = 1; $day <= $daysInMonth; $day++) {
+                    $date = Carbon::createFromFormat('Y-m-d', "$yearMonth-" . str_pad($day, 2, '0', STR_PAD_LEFT));
+
+                    Attendance::factory()->create([
+                        'user_id' => $user->id,
+                        'work_date' => $date->toDateString(),
+                    ]);
+                }
             }
         }
     }
