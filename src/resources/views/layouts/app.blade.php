@@ -50,7 +50,7 @@
         </div>
     @endif
 
-    <main class="main-content container">
+    <main class="main-content container @yield('main-class')">
         @yield('content')
     </main>
 </body>

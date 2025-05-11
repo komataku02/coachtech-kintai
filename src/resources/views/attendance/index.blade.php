@@ -39,7 +39,7 @@
                 <button type="submit" class="btn-clock break-out">休憩戻</button>
             </form>
         @elseif ($attendance->status === '退勤済')
-            <p class="thanks-message">お疲れさまでした。</p>
+            <p class="thanks-message">お疲れ様でした。</p>
         @endif
     </div>
 </div>

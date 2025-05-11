@@ -95,43 +95,42 @@ main.main-content {
   margin-top: 0.2rem;
 }
 
-/* === レスポンシブ対応 === */
-
-/* タブレット対応（768px以上） */
-@media screen and (min-width: 768px) {
+@media (max-width: 768px) {
   .form-container {
-    max-width: 600px;
-    padding: 2rem 3rem;
+    padding: 1.5rem 1rem;
   }
 
   .form-title {
-    font-size: 2rem;
-  }
-
-  .submit-button {
-    font-size: 1.1rem;
-    padding: 1rem;
-  }
-}
-
-/* PC対応（1400px以上） */
-@media screen and (min-width: 1400px) {
-  .form-container {
-    max-width: 720px;
-    padding: 3rem 4rem;
-  }
-
-  .form-title {
-    font-size: 2.2rem;
+    font-size: 1.5rem;
   }
 
   .form-input {
-    padding: 1rem;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
   }
 
   .submit-button {
-    padding: 1.2rem;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
+    padding: 0.9rem;
+  }
+}
+
+/* スマホ向け（480px以下） */
+@media (max-width: 480px) {
+  .form-container {
+    padding: 1rem;
+  }
+
+  .form-title {
+    font-size: 1.3rem;
+  }
+
+  .form-input {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  .submit-button {
+    font-size: 0.9rem;
+    padding: 0.8rem;
   }
 }
