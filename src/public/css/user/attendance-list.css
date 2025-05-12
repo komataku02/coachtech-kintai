@@ -6,22 +6,28 @@ body {
 }
 
 .attendance-container {
-  padding: 0 1rem 2rem;
+  padding: 6rem 1rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  text-align: center;
+  text-align: left;
   width: 100%;
   max-width: 800px;
   box-sizing: border-box;
   margin: 0 auto;
 }
 
+.attendance-inner {
+  width: 100%;
+  max-width: 800px;
+  text-align: left;
+}
+
 .title {
   font-size: 1.4rem;
   font-weight: bold;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   text-align: left;
   padding-left: 1rem;
   border-left: 5px solid #000;
@@ -29,33 +35,40 @@ body {
 
 .month-navigation {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   margin-bottom: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  white-space: nowrap;
 }
 
 .btn-nav {
-  background-color: #fff;
-  border: 1px solid #ccc;
   padding: 0.5rem 1rem;
   font-weight: bold;
   cursor: pointer;
   text-decoration: none;
   color: #000;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
 }
 
 .btn-nav:hover {
-  background-color: #eee;
+  color: #007bff;
 }
 
 .form-month-select input[type="month"] {
   font-size: 1rem;
   padding: 0.4rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: none;
+}
+
+.form-month-select {
+  flex-shrink: 1;
+  min-width: 100px;
 }
 
 .styled-table {
@@ -105,8 +118,19 @@ body {
   }
 
   .month-navigation {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 0.5rem;
+    justify-content: space-between;
+  }
+
+  .form-month-select {
+    flex: 1;
+  }
+
+  .form-month-select input[type="month"] {
+    width: 100%;
+    text-align: center;
   }
 
   .styled-table th,
