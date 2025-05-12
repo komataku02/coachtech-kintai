@@ -44,7 +44,7 @@
                         {{ \Carbon\Carbon::parse($break->break_start)->format('H:i') }} ～ {{ \Carbon\Carbon::parse($break->break_end)->format('H:i') }}
                     @else
                         <input type="time" name="break_start_times[{{ $i }}]" value="{{ old("break_start_times.$i", $break->break_start ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : '') }}">
-                        ～ 
+                        ～
                         <input type="time" name="break_end_times[{{ $i }}]"
                             value="{{ old("break_end_times.$i", $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}">
                     @endif
@@ -72,7 +72,7 @@
             <form action="{{ route('attendance.apply', $attendance->id) }}" method="POST">
                 @csrf
                 <div class="apply-link">
-                    <button type="submit" class="btn btn-apply">修正申請する</button>
+                    <button type="submit" class="btn btn-apply">修正</button>
                 </div>
             </form>
         @endif
