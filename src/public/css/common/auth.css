@@ -1,9 +1,9 @@
-/* === 認証画面用スタイル（修正済み） === */
-
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  /* ← 追加 */
 }
 
 main.main-content {
@@ -19,9 +19,11 @@ main.main-content {
   margin: 0 auto;
   padding: 2rem 2rem;
   background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* ← 追加 */
 }
 
-.form-box{
+.form-box {
   width: 100%;
 }
 
@@ -53,10 +55,6 @@ main.main-content {
   border: 1px solid #333;
   border-radius: 4px;
   box-sizing: border-box;
-}
-
-.form-group.center {
-  width: 100%;
 }
 
 .submit-button {
@@ -95,6 +93,7 @@ main.main-content {
   margin-top: 0.2rem;
 }
 
+/* レスポンシブ調整 */
 @media (max-width: 768px) {
   .form-container {
     padding: 1.5rem 1rem;
@@ -106,6 +105,7 @@ main.main-content {
 
   .form-input {
     font-size: 0.95rem;
+    padding: 0.5rem;
   }
 
   .submit-button {
@@ -114,19 +114,9 @@ main.main-content {
   }
 }
 
-/* スマホ向け（480px以下） */
 @media (max-width: 480px) {
-  .form-container {
-    padding: 1rem;
-  }
-
   .form-title {
     font-size: 1.3rem;
-  }
-
-  .form-input {
-    font-size: 0.9rem;
-    padding: 0.5rem;
   }
 
   .submit-button {
