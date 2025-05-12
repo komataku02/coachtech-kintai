@@ -4,8 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/user/attendance-list.css') }}">
 @endsection
 
-@section('main-class', 'scrollable-page')
-
 @section('content')
 <div class="attendance-container">
     <h2 class="title">勤怠一覧</h2>

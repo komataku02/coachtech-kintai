@@ -1,0 +1,74 @@
+/* 修正: body に高さ制限を付けて全体のスクロール制御 */
+body {
+  background-color: #f2f1f4;
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+}
+
+/* 修正: コンテナ幅を拡張 */
+.attendance-detail-container {
+  max-width: 1000px;
+  /* ←ここを拡張 */
+  margin: 2rem auto;
+  /* ←中央寄せ */
+  padding: 2rem;
+}
+
+/* タイトル位置調整（白枠の外に表示） */
+.page-title {
+  max-width: 1000px;
+  margin: 1rem;
+  margin-left: 3rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border-left: 5px solid #000;
+  padding-left: 1rem;
+  color: #000;
+}
+
+/* 修正: リスト風テーブルの幅広げ対応 */
+.attendance-table {
+  width: 100%;
+  max-width: 900px;
+  /* ←これも拡張 */
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.attendance-table tr {
+  display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.attendance-table th,
+.attendance-table td {
+  flex: 1;
+  padding: 1rem;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.attendance-table th {
+  font-weight: bold;
+  color: #333;
+  flex-basis: 30%;
+}
+
+.attendance-table td {
+  flex-basis: 70%;
+  color: #000;
+}
+
+.attendance-footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 1rem;
+}
+

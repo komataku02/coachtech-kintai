@@ -1,4 +1,4 @@
-/* === 共通レイアウト（全画面） === */
+/* === 共通ベース設定 === */
 html,
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -8,40 +8,6 @@ body {
   padding: 0;
   height: 100%;
   overflow-x: hidden;
-  overflow-y: auto;
-}
-
-header {
-  background-color: #000;
-  color: white;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-header .app-title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 0;
-  color: white;
-}
-
-main.main-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  box-sizing: border-box;
-  padding: 0;
-  min-height: calc(100vh - 64px);
-}
-
-main.main-content.scrollable-page {
-  align-items: flex-start;
-  min-height: auto;
-  padding-top: 120px;
-  width: 100%;
 }
 
 .container {
@@ -52,86 +18,92 @@ main.main-content.scrollable-page {
   padding: 0;
 }
 
-.text-center {
-  text-align: center;
+/* === ヘッダー === */
+header {
+  background-color: #000;
+  color: white;
+  height: 60px;
+  padding: 0 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* === ボタン（共通） === */
-button,
-.btn,
-.btn-link {
+header nav a,
+header form button {
   display: inline-block;
-  padding: 0.6rem 1.2rem;
-  border-radius: 4px;
+  color: white;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 1rem;
+  padding: 1rem 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-wrap: wrap;
+}
+
+header .app-title {
+  font-size: 2rem;
   font-weight: bold;
+  margin: 0;
+}
+
+.nav-header {
+  margin: 0;
+}
+
+.nav-list {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-list li a,
+.logout-link {
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 4px 8px;
+  text-decoration: none;
+}
+
+.nav-list li a:hover,
+.logout-link:hover {
+  text-decoration: underline;
+}
+
+.logout-link {
+  background: none;
+  border: none;
   cursor: pointer;
 }
 
-.btn {
-  background-color: #1976d2;
-  color: white;
-  border: none;
+/* === メイン領域 === */
+main.main-content {
+  box-sizing: border-box;
+  min-height: calc(100vh - 64px);
+  width: 100%;
 }
 
-.btn:hover,
-.btn-link:hover {
-  background-color: #0d47a1;
-  color: white;
-}
-
-.btn-approve {
-  background-color: #4caf50;
-}
-
-.btn-approve:hover {
-  background-color: #388e3c;
-}
-
-.btn-csv {
-  background-color: #4caf50;
-}
-
-.btn-csv:hover {
-  background-color: #388e3c;
-}
-
-/* === ラベルや見出し === */
+/* === タイトル・見出し === */
 .page-title {
   font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 1rem;
   border-left: 6px solid #1976d2;
   padding-left: 1rem;
-  color: #000;
 }
 
-.sub-title {
+.subtitle {
   font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-.label {
   font-weight: bold;
-  color: #555;
-  margin-right: 8px;
+  margin-bottom: 0.5rem;
 }
 
-.back-link {
-  margin-top: 1.5rem;
-}
-
-.back-link a {
-  color: #0d47a1;
-  text-decoration: none;
-}
-
-.back-link a:hover {
-  text-decoration: underline;
-}
-
+/* === アラートメッセージ === */
 .alert {
   position: fixed;
   top: 72px;
@@ -155,99 +127,39 @@ button,
   border: 1px solid #a00;
 }
 
-.nav-header {
-  margin: 0;
-}
-
-.nav-list {
-  display: flex;
-  gap: 24px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.nav-list li {
+/* === ボタン汎用 === */
+.btn,
+button,
+.btn-link {
   display: inline-block;
-}
-
-.nav-list li a,
-.logout-link {
-  color: white;
-  text-decoration: none;
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: bold;
-  padding: 4px 8px;
-}
-
-.nav-list li a:hover,
-.logout-link:hover {
-  text-decoration: underline;
-}
-
-.logout-link {
-  background: none;
-  border: none;
-  color: #fff;
-  text-decoration: none;
-  cursor: pointer;
-  font-size: 1rem;
-  padding: 0;
-}
-
-.btn-csv:hover {
-  background-color: #388e3c;
-}
-
-.btn-apply {
-  display: inline-block;
-  background-color: #4caf50;
-  color: white;
-  padding: 8px 16px;
-  text-decoration: none;
+  padding: 0.6rem 1.2rem;
   border-radius: 4px;
-  margin-top: 10px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+}
+
+.btn:hover,
+.btn-link:hover {
+  background-color: #0d47a1;
+  color: white;
+}
+
+/* === ボタン拡張 === */
+.btn-apply {
+  background-color: #4caf50;
+  color: #fff;
 }
 
 .btn-apply:hover {
   background-color: #45a049;
-}
-
-/* タイトルやセクション見出し */
-.subtitle {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-/* 申請リンク */
-.apply-link {
-  margin-top: 1.5rem;
-}
-
-.apply-alert {
-  color: #d32f2f;
-  font-weight: bold;
-}
-
-/* ボタン（汎用＋用途別） */
-.btn {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: bold;
-  text-align: center;
-}
-
-.btn-apply {
-  background-color: #2196f3;
-  color: #fff;
-}
-
-.btn-apply:hover {
-  background-color: #1976d2;
 }
 
 .btn-back {
@@ -259,13 +171,24 @@ button,
   background-color: #757575;
 }
 
-/* 休憩時間リスト */
-.breaks-list {
-  list-style-type: disc;
-  padding-left: 1.5rem;
+.btn-csv {
+  background-color: #4caf50;
+}
+
+.btn-csv:hover {
+  background-color: #388e3c;
+}
+
+/* === 備考・警告表示 === */
+.apply-alert {
+  color: #d32f2f;
+  font-weight: bold;
+  margin-top: 1rem;
+  text-align: right;
 }
 
 .back-link {
+  text-align: right;
   margin-top: 1rem;
 }
 
@@ -278,21 +201,38 @@ button,
   text-decoration: underline;
 }
 
+/* === レスポンシブ（タブレット以下） === */
 @media (max-width: 768px) {
   header {
-    padding: 0.8rem 1rem;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+      flex-direction: column;
+      align-items: flex-start;
+      height: auto;
+      /* 高さを自動にして折り返し許可 */
+      padding: 1rem;
+    }
+  
+    header nav {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+  
+    header nav a,
+    header form button {
+      padding: 0.5rem 1rem;
+      font-size: 0.95rem;
+      width: 100%;
+      text-align: left;
+    }
 
-  header .app-title {
+  .app-title {
     font-size: 1.6rem;
     margin-bottom: 0.5rem;
   }
 
   .nav-list {
     flex-direction: column;
-    align-items: flex-start;
     gap: 12px;
   }
 
@@ -300,8 +240,9 @@ button,
     font-size: 1.4rem;
   }
 
-  .sub-title {
-    font-size: 1rem;
+  .btn {
+    font-size: 13px;
+    padding: 0.5rem 1rem;
   }
 
   .alert {
@@ -310,8 +251,9 @@ button,
   }
 }
 
+/* === スマホサイズ === */
 @media (max-width: 480px) {
-  header .app-title {
+  .app-title {
     font-size: 1.4rem;
   }
 
@@ -322,7 +264,11 @@ button,
   }
 
   .btn {
-    font-size: 13px;
-    padding: 0.5rem 1rem;
+    font-size: 12px;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .page-title {
+    font-size: 1.2rem;
   }
 }
