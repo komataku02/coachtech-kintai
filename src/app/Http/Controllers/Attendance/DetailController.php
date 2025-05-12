@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Attendance;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -32,27 +33,45 @@ class DetailController extends Controller
 
     public function update(AttendanceFormRequest $request, $id)
     {
-        DB::transaction(function () use ($request, $id) {
-            $attendance = Attendance::findOrFail($id);
+        $attendance = Attendance::with('breakTimes')->findOrFail($id);
 
-            $attendance->clock_in_time = $request->clock_in_time;
-            $attendance->clock_out_time = $request->clock_out_time;
-            $attendance->note = $request->note;
-            $attendance->save();
+        if ($attendance->user_id !== Auth::id()) {
+            return redirect()->route('attendance.index')->with('error', '他ユーザーの勤怠は修正できません。');
+        }
 
-            if ($request->has('breaks')) {
-                foreach ($request->breaks as $breakId => $times) {
-                    $break = BreakTime::find($breakId);
-                    if ($break && $break->attendance_id == $attendance->id) {
-                        $break->break_start = $times['start'];
-                        $break->break_end = $times['end'];
-                        $break->save();
-                    }
-                }
+        $alreadyApplied = Application::where('attendance_id', $attendance->id)
+            ->where('user_id', Auth::id())
+            ->exists();
+
+        if ($alreadyApplied) {
+            return redirect()->route('attendance.show', $id)->with('error', 'すでに修正申請済みです。');
+        }
+
+        // 休憩時間（JSON形式）に整形
+        $breaks = [];
+        foreach ($request->input('break_start_times', []) as $index => $start) {
+            $end = $request->input('break_end_times.' . $index);
+            if ($start && $end) {
+                $breaks[] = [
+                    'start' => $start,
+                    'end' => $end,
+                ];
             }
-        });
+        }
 
-        return redirect()->route('attendance.show', $id)
-            ->with('message', '勤怠情報を更新しました。');
+        // Applicationに登録
+        Application::create([
+            'user_id'           => Auth::id(),
+            'attendance_id'     => $attendance->id,
+            'request_clock_in'  => $request->clock_in_time,
+            'request_clock_out' => $request->clock_out_time,
+            'note'              => $request->note,
+            'request_breaks'    => json_encode($breaks),
+            'request_at'        => now(),
+            'status'            => 'pending',
+        ]);
+
+        return redirect()->route('attendance.show', $attendance->id)
+            ->with('message', '修正申請を送信しました。');
     }
 }

@@ -54,6 +54,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::get('/attendance/list', [AttendanceListController::class, 'index'])->name('attendance.list');
   Route::get('/attendance/{id}', [DetailController::class, 'show'])->name('attendance.show');
+  Route::post('/attendance/{id}/apply', [DetailController::class, 'update'])->name('attendance.apply');
+
 
   // 修正申請（ユーザー）
   Route::get('/application/list', [ApplicationListController::class, 'index'])->name('application.list');
