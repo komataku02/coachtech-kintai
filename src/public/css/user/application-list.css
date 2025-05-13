@@ -1,0 +1,216 @@
+body {
+  background-color: #f3f2f2;
+  margin: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.container {
+  max-width: 960px;
+  margin: 6rem auto 2rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-left: 5px solid #000;
+  padding-left: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.tab-switch {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tab-switch a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.tab-switch a:hover {
+  background-color: #f0f0f0;
+}
+
+.tab-switch a.active {
+  background-color: #000;
+  color: #fff;
+}
+
+.notice {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.table th,
+.table td {
+  padding: 0.8rem;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.status {
+  font-weight: bold;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  display: inline-block;
+  font-size: 0.9rem;
+}
+
+.status.pending {
+  background-color: #f9a825;
+  color: white;
+}
+
+.status.approved {
+  background-color: #4caf50;
+  color: white;
+}
+
+.link {
+  text-decoration: underline;
+  color: #1976d2;
+  font-weight: bold;
+}
+
+.cell-center {
+  text-align: center;
+}
+
+.pagination {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.application-wrapper {
+  max-width: 960px;
+  margin: 6rem auto 2rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.title-box {
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-left: 5px solid #000;
+  padding-left: 0.75rem;
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.tab-box {
+  margin-bottom: 1.5rem;
+}
+
+.tab-switch {
+  display: flex;
+  gap: 1rem;
+}
+
+.tab-switch a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.tab-switch a:hover {
+  background-color: #f0f0f0;
+}
+
+.tab-switch a.active {
+  background-color: #000;
+  color: #fff;
+}
+
+/* 下線：タブの下にテーブル幅と同じ長さの細い線 */
+.tab-underline {
+  margin-top: 0.5rem;
+  height: 2px;
+  background-color: #ccc;
+  width: 100%;
+}
+
+/* テーブル周り */
+.table-box {
+  margin-top: 1rem;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #fff;
+}
+
+.notice {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pagination {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.pagination .page-link {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  color: #000;
+  text-decoration: none;
+}
+
+.pagination .page-link:hover {
+  background-color: #eee;
+}
+
+.pagination .active .page-link {
+  background-color: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* 以下既存の.table や .status などはそのままでOK */
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .tab-switch {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .table th,
+  .table td {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+}

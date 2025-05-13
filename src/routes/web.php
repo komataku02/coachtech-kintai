@@ -59,8 +59,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   // 修正申請（ユーザー）
   Route::get('/application/list', [ApplicationListController::class, 'index'])->name('application.list');
-  Route::get('/application/{id}', [ApplicationDetailController::class, 'show'])->name('application.detail');
-  Route::get('/application/create/{attendance_id}', [SubmitController::class, 'create'])->name('application.create');
   Route::post('/application/store', [SubmitController::class, 'store'])->name('application.store');
 });
 
