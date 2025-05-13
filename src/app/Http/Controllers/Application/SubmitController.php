@@ -10,32 +10,24 @@ use App\Models\Application;
 
 class SubmitController extends Controller
 {
-    public function create($attendance_id)
-    {
-        $attendance = Attendance::with('breakTimes')->findOrFail($attendance_id);
-
-        if ($attendance->user_id !== Auth::id()) {
-            return redirect()->route('attendance.index')->with('error', '他のユーザーの勤怠には申請できません。');
-        }
-
-        $alreadyApplied = Application::where('attendance_id', $attendance->id)
-            ->where('user_id', Auth::id())
-            ->exists();
-
-        return view('application.create', compact('attendance', 'alreadyApplied'));
-    }
 
     public function store(ApplicationFormRequest $request)
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($request->attendance_id);
 
+        if (Application::where('attendance_id', $attendance->id)->where('user_id', Auth::id())->exists()) {
+            return redirect()->route('attendance.show', ['id' => $attendance->id])
+                ->with('error', 'この勤怠にはすでに申請済みです。');
+        }
+
         $breaks = [];
-        foreach ($attendance->breakTimes as $break) {
-            $id = $break->id;
-            if (isset($request->breaks[$id]['start'], $request->breaks[$id]['end'])) {
+        $startTimes = $request->input('break_start_times', []);
+        $endTimes = $request->input('break_end_times', []);
+        foreach ($startTimes as $i => $start) {
+            if (!empty($start) && !empty($endTimes[$i])) {
                 $breaks[] = [
-                    'start' => $request->breaks[$id]['start'],
-                    'end'   => $request->breaks[$id]['end'],
+                    'start' => $start,
+                    'end'   => $endTimes[$i],
                 ];
             }
         }
@@ -51,7 +43,7 @@ class SubmitController extends Controller
             'status'            => 'pending',
         ]);
 
-        return redirect()->route('application.list')
+        return redirect()->route('attendance.show', ['id' => $attendance->id])
             ->with('message', '修正申請を送信しました。');
     }
 }
