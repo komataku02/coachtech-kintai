@@ -4,14 +4,14 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 /* 修正: コンテナ幅を拡張 */
 .attendance-detail-container {
   max-width: 1000px;
   /* ←ここを拡張 */
-  margin: 2rem auto;
+  margin: 0 auto;
   /* ←中央寄せ */
   padding: 2rem;
 }
