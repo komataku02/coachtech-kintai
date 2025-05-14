@@ -6,7 +6,7 @@ body {
 
 .container {
   max-width: 960px;
-  margin: 6rem auto 2rem;
+  margin: 2rem auto 2rem;
   padding: 0 1rem;
   box-sizing: border-box;
 }
@@ -63,6 +63,7 @@ body {
   padding: 0.8rem;
   text-align: center;
   border-bottom: 1px solid #ddd;
+  white-space: nowrap;
 }
 
 .status {
@@ -93,16 +94,11 @@ body {
   text-align: center;
 }
 
-.pagination {
-  margin-top: 2rem;
-  text-align: center;
-}
-
 .application-wrapper {
   max-width: 960px;
-  margin: 6rem auto 2rem;
-  padding: 0 1rem;
+  margin: 1rem auto 1rem;
   box-sizing: border-box;
+  max-width: 960px;
 }
 
 .title-box {
@@ -171,9 +167,10 @@ body {
 }
 
 .pagination {
-  margin-top: 2rem;
+  margin: 1rem auto 0 auto;
   display: flex;
   justify-content: center;
+  text-align: center;
   gap: 0.5rem;
 }
 
@@ -183,6 +180,8 @@ body {
   border-radius: 6px;
   color: #000;
   text-decoration: none;
+  min-width: 36px;
+  text-align: center;
 }
 
 .pagination .page-link:hover {
@@ -194,8 +193,6 @@ body {
   color: #fff;
   border-color: #000;
 }
-
-/* 以下既存の.table や .status などはそのままでOK */
 
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
