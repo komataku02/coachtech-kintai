@@ -64,7 +64,7 @@
                     <th>出勤・退勤</th>
                     <td>
                         <input type="time" name="clock_in_time" value="{{ old('clock_in_time', $attendance->clock_in_time ? \Carbon\Carbon::parse($attendance->clock_in_time)->format('H:i') : '') }}">
-                        ～ 
+                        ～
                         <input type="time" name="clock_out_time" value="{{ old('clock_out_time', $attendance->clock_out_time ? \Carbon\Carbon::parse($attendance->clock_out_time)->format('H:i') : '') }}">
                     </td>
                 </tr>
@@ -74,7 +74,7 @@
                         <th>休憩{{ $i + 1 }}</th>
                         <td>
                             <input type="time" name="break_start_times[{{ $i }}]" value="{{ old("break_start_times.$i", $break->break_start ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : '') }}">
-                            ～ 
+                            ～
                             <input type="time" name="break_end_times[{{ $i }}]" value="{{ old("break_end_times.$i", $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}">
                         </td>
                     </tr>
@@ -92,7 +92,7 @@
             </table>
 
             <div class="attendance-footer-right">
-                <button type="submit" class="btn btn-apply">修正申請する</button>
+                <button type="submit" class="btn btn-apply">修正</button>
                 <div class="back-link">
                     <a href="{{ route('attendance.list') }}" class="btn btn-back">← 勤怠一覧</a>
                 </div>

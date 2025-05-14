@@ -6,7 +6,11 @@ body {
   color: #000;
   margin: 0;
   padding: 0;
+<<<<<<< HEAD
 ;
+=======
+  height: auto;
+>>>>>>> develop
   min-height: 100vh;
   overflow-x: hidden;
 }
