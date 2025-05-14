@@ -57,11 +57,12 @@
                     @endforeach
                 </tbody>
             </table>
-
-            <div class="pagination">
-                {{ $applications->links() }}
-            </div>
         @endif
     </div>
+    @if (!$applications->isEmpty())
+        <div class="pagination">
+            {{ $applications->links() }}
+        </div>
+    @endif
 </div>
 @endsection

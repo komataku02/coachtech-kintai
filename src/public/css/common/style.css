@@ -6,7 +6,12 @@ body {
   color: #000;
   margin: 0;
   padding: 0;
-  height: 100%;
+<<<<<<< HEAD
+;
+=======
+  height: auto;
+>>>>>>> develop
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
@@ -84,7 +89,7 @@ header .app-title {
 /* === メイン領域 === */
 main.main-content {
   box-sizing: border-box;
-  min-height: calc(100vh - 64px);
+  height: calc(100vh - 64px);
   width: 100%;
 }
 
