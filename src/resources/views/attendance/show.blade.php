@@ -92,7 +92,7 @@
             </table>
 
             <div class="attendance-footer-right">
-                <button type="submit" class="btn btn-apply">修正申請する</button>
+                <button type="submit" class="btn btn-apply">修正</button>
                 <div class="back-link">
                     <a href="{{ route('attendance.list') }}" class="btn btn-back">← 勤怠一覧</a>
                 </div>
