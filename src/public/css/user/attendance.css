@@ -1,8 +1,7 @@
-/* === 勤怠打刻画面スタイル === */
-
 body {
-  height: 100vh;
+  background-color: #f3f2f2;
   margin: 0;
+  padding: 0;
 }
 
 .attendance-container {
@@ -10,11 +9,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(100vh - 60px);
-  padding: 1rem;
+  height: calc(100vh - 80px);
+  /* ヘッダーの高さ分を除く */
   text-align: center;
-  background-color: #f8f8f8;
-  box-sizing: border-box;
 }
 
 .user-info {
@@ -22,87 +19,93 @@ body {
 }
 
 .status-label {
-  font-size: 1.2rem;
-  background-color: #ccc;
-  color: #000;
-  padding: 0.3rem 1rem;
-  border-radius: 20px;
   display: inline-block;
-  margin-bottom: 1rem;
+  background-color: #ccc;
+  color: #333;
+  font-size: 0.9rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .current-date {
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  color: #000;
 }
 
 .time-display {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: bold;
-  margin: 0.5rem 0;
+  color: #000;
 }
 
 .button-group {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-top: 2rem;
+}
+
+.button-group form {
+  width: auto;
 }
 
 .btn-clock {
-  font-size: 1rem;
+  min-width: 160px;
   padding: 1rem 2rem;
-  border: none;
-  border-radius: 4px;
+  font-size: 1.4rem;
   font-weight: bold;
+  border: none;
+  border-radius: 14px;
+  background-color: #000;
+  color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s;
-  width: 200px;
-  margin: 0 auto;
-}
-
-.clock-in {
-  background-color: #1976d2;
-  color: white;
-}
-
-.clock-out {
-  background-color: #d32f2f;
-  color: white;
-}
-
-.break-in {
-  background-color: #f9a825;
-  color: white;
-}
-
-.break-out {
-  background-color: #388e3c;
-  color: white;
+  transition: background-color 0.2s ease;
+  text-align: center;
 }
 
 .btn-clock:hover {
-  opacity: 0.9;
+  background-color: #333;
+}
+
+/* 状態別ボタン色（任意） */
+.btn-clock.break-in,
+.btn-clock.break-out {
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
+  box-sizing: border-box;
+}
+
+.btn-clock.break-in:hover,
+.btn-clock.break-out:hover {
+  background-color: #eee;
 }
 
 .thanks-message {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
-  color: #333;
+  color: #000;
   margin-top: 2rem;
 }
 
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
-  .attendance-container {
-    padding: 1rem;
+  .btn-clock {
+    font-size: 1.1rem;
+    padding: 0.9rem 0;
+    width: 200px;
   }
 
   .time-display {
     font-size: 2.5rem;
   }
 
-  .btn-clock {
-    width: 100%;
-    font-size: 1rem;
+  .current-date {
+    font-size: 1.4rem;
   }
 }
