@@ -3,7 +3,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  /* ← 追加 */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 main.main-content {
@@ -11,6 +11,7 @@ main.main-content {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 2rem 1rem;
 }
 
 .form-container {
@@ -20,7 +21,6 @@ main.main-content {
   padding: 2rem 2rem;
   background-color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  /* ← 追加 */
 }
 
 .form-box {
@@ -93,6 +93,73 @@ main.main-content {
   margin-top: 0.2rem;
 }
 
+/* ===== メール認証画面レイアウト ===== */
+.verify-container {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  background-color: #fff;
+}
+
+.message-box {
+  padding: 2rem;
+  text-align: center;
+}
+
+.message-box p {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* ===== 認証ボタン ===== */
+.btn-wrapper {
+  margin-bottom: 1rem;
+}
+
+.btn-verify {
+  display: inline-block;
+  background-color: #eee;
+  color: #000;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.8rem 2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  border: 1px solid #aaa;
+  transition: background-color 0.3s;
+}
+
+.btn-verify:hover {
+  background-color: #ccc;
+}
+
+/* ===== 再送リンク ===== */
+.resend-link {
+  margin-top: 0.5rem;
+}
+
+.resend-link form {
+  margin: 0;
+}
+
+.link-resend {
+  background: none;
+  border: none;
+  color: #1976d2;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.link-resend:hover {
+  color: #0d47a1;
+}
+
 /* レスポンシブ調整 */
 @media (max-width: 768px) {
   .form-container {
@@ -112,6 +179,23 @@ main.main-content {
     font-size: 0.95rem;
     padding: 0.9rem;
   }
+
+  .message-box {
+    padding: 1.5rem 1rem;
+  }
+
+  .message-box p {
+    font-size: 0.95rem;
+  }
+
+  .btn-verify {
+    width: 100%;
+    padding: 0.9rem;
+  }
+
+  .link-resend {
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -122,5 +206,14 @@ main.main-content {
   .submit-button {
     font-size: 0.9rem;
     padding: 0.8rem;
+  }
+
+  .btn-verify {
+    font-size: 0.95rem;
+    padding: 0.8rem;
+  }
+
+  .message-box p {
+    font-size: 0.9rem;
   }
 }
