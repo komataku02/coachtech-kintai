@@ -51,7 +51,7 @@
                             <td>{{ $app->note }}</td>
                             <td>{{ \Carbon\Carbon::parse($app->request_at)->format('Y/m/d') }}</td>
                             <td class="cell-center">
-                                <a href="{{ route('attendance.show', $app->id) }}" class="link">詳細</a>
+                                <a href="{{ route('attendance.show', $app->attendance->id) }}" class="link">詳細</a>
                             </td>
                         </tr>
                     @endforeach
