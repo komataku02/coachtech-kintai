@@ -1,0 +1,238 @@
+/* === ページ全体 === */
+body {
+  background-color: #f3f2f2;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* === コンテナ === */
+.admin-application-list {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* === タイトル === */
+.page-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-left: 5px solid #000;
+  padding-left: 0.75rem;
+  margin-bottom: 1.5rem;
+  color: #000;
+}
+
+/* === タブ切り替え === */
+.tab-switch {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.tab-switch .tab-link {
+  text-decoration: none;
+  font-weight: bold;
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.tab-switch .tab-link:hover {
+  background-color: #f0f0f0;
+}
+
+.tab-switch .active {
+  background-color: #000;
+  color: #fff;
+}
+
+/* === テーブルボックス（ラッパー） === */
+.table-box {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #fff;
+  overflow-x: auto;
+}
+
+/* === テーブル === */
+.application-table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.application-table th,
+.application-table td {
+  padding: 0.8rem;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  white-space: nowrap;
+  word-break: break-word;
+}
+
+.status-cell {
+  font-weight: bold;
+  color: #000;
+}
+
+/* === 詳細リンク === */
+.btn-detail {
+  color: #000;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.btn-detail:hover {
+  color: #1976d2;
+}
+
+/* === ページネーション === */
+.pagination-wrapper {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination {
+  display: flex;
+  list-style: none;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination li {
+  display: inline-block;
+}
+
+.pagination li a,
+.pagination li span {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  color: #000;
+  text-decoration: none;
+  font-size: 0.9rem;
+  background-color: #fff;
+  min-width: 36px;
+  text-align: center;
+}
+
+.pagination li a:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination li.active span {
+  background-color: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* === データなしメッセージ === */
+.no-data {
+  font-size: 1rem;
+  color: #666;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+/* === 戻るリンク === */
+.back-link {
+  text-align: right;
+  margin-top: 2rem;
+}
+
+.btn-back {
+  background-color: #f2f1f4;
+  color: #000;
+  padding: 0.6rem 1.2rem;
+  font-weight: bold;
+  border-radius: 6px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+}
+
+.btn-back:hover {
+  background-color: #e0e0e0;
+}
+
+/* === レスポンシブ対応 === */
+/* === レスポンシブ対応 === */
+@media (max-width: 768px) {
+  .admin-application-list {
+    padding: 0 0.5rem;
+    overflow-x: hidden;
+    /* ← 横はみ出し防止 */
+  }
+
+  .page-title {
+    font-size: 1.3rem;
+  }
+
+  .tab-switch {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .application-table th,
+  .application-table td {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+
+  .btn-back {
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin: 1rem 0 0;
+    box-sizing: border-box;
+  }
+
+  .pagination-wrapper {
+    overflow-x: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  .pagination li a,
+  .pagination li span {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+    min-width: auto;
+    /* ← 固定幅解除 */
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.1rem;
+  }
+
+  .tab-switch .tab-link {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .btn-back {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+}
