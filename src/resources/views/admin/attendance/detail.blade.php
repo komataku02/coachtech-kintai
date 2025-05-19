@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('page-css')
-<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/admin-attendance-detail.css') }}">
 @endsection
 
 @section('content')
 <div class="admin-attendance-detail">
-    <h2 class="page-title">勤怠詳細（管理者編集）</h2>
+    <h2 class="page-title">勤怠詳細</h2>
 
     @if ($errors->any())
         <div class="alert-error">
@@ -73,7 +73,7 @@
         </table>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-approve">更新する</button>
+            <button type="submit" class="btn btn-approve">修正</button>
         </div>
     </form>
 
