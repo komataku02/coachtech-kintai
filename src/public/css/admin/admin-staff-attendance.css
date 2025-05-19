@@ -1,0 +1,196 @@
+body {
+  background-color: #f3f2f2;
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* コンテナ全体 */
+.admin-staff-attendance {
+  padding: 6rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* タイトル */
+.page-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  padding-left: 1rem;
+  border-left: 5px solid #000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 月ナビゲーション */
+.month-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 0.75rem 1rem;
+}
+
+.btn-nav {
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  color: #000;
+}
+
+.btn-nav:hover {
+  color: #007bff;
+}
+
+.month-form {
+  flex-shrink: 1;
+  min-width: 100px;
+}
+
+.month-input {
+  font-size: 1rem;
+  padding: 0.4rem;
+  border: none;
+}
+
+/* 勤怠テーブル */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background-color: #fff;
+  margin-top: 1rem;
+}
+
+.styled-table thead {
+  background-color: #eee;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 0.8rem;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.btn-detail {
+  color: #000;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.btn-detail:hover {
+  color: #1976d2;
+}
+
+/* CSVボタン */
+.csv-download {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.btn-csv {
+  background-color: #000;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-csv:hover {
+  background-color: #333;
+}
+
+/* 戻るリンク */
+.back-link {
+  margin-top: 1rem;
+  text-align: right;
+  width: 100%;
+}
+
+.back-link a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-link a:hover {
+  text-decoration: underline;
+}
+
+/* データなし表示 */
+.no-data {
+  padding: 1.5rem;
+  text-align: center;
+  color: #666;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.2rem;
+    padding-left: 0.75rem;
+  }
+
+  .month-navigation {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: space-between;
+  }
+
+  .month-input {
+    width: 100%;
+    text-align: center;
+  }
+
+  .styled-table th,
+  .styled-table td {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .btn-csv {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1rem;
+  }
+
+  .btn-nav {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .styled-table th,
+  .styled-table td {
+    font-size: 0.8rem;
+  }
+}

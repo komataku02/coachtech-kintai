@@ -78,7 +78,7 @@
     </form>
 
     <div class="back-link">
-        <a href="{{ route('admin.attendance.index') }}" class="btn btn-back">← 一覧に戻る</a>
+        <a href="{{ route('admin.attendance.index') }}" class="btn btn-back">← 勤怠一覧に戻る</a>
     </div>
 </div>
 @endsection
