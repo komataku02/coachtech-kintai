@@ -18,7 +18,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('admin.login.submit') }}" class="login-form-box">
+    <form method="POST" action="{{ route('admin.login') }}" class="login-form-box">
         @csrf
 
         <div class="form-group">
