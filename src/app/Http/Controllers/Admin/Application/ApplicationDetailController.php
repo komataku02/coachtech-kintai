@@ -87,7 +87,7 @@ class ApplicationDetailController extends Controller
         $application->approved_at = now();
         $application->save();
 
-        return redirect()->route('admin.application.list')
+        return redirect()->route('admin.application.detail', $application->id)
             ->with('message', '申請を承認し、勤怠情報を更新しました。');
     }
 }
