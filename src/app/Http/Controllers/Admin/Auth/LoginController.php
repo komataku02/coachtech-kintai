@@ -18,7 +18,7 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt(array_merge($credentials, ['role' => 'admin']))) {
-            return redirect()->route('admin.application.list')->with('message', 'ログインしました');
+            return redirect()->route('admin.attendance.index')->with('message', 'ログインしました');
         }
 
         return back()->withErrors([
