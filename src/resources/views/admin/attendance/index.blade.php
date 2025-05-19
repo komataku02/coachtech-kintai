@@ -1,12 +1,14 @@
 @extends('layouts.app')
 
 @section('page-css')
-<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/admin-attendance.css') }}">
 @endsection
 
 @section('content')
 <div class="admin-attendance-container">
-    <h2 class="page-title">日別勤怠一覧</h2>
+    <h2 class="page-title">
+        {{ \Carbon\Carbon::parse($date)->format('Y年n月j日') }}の勤怠
+    </h2>
 
     <div class="date-navigation">
         <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->subDay()->format('Y-m-d')]) }}" class="btn-nav btn-prev">← 前日</a>

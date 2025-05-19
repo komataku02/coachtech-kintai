@@ -8,7 +8,6 @@ body {
   padding: 0;
   height: auto;
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
 .container {
@@ -85,8 +84,8 @@ header .app-title {
 /* === メイン領域 === */
 main.main-content {
   box-sizing: border-box;
-  height: calc(100vh - 64px);
   width: 100%;
+  padding: 2rem 0;
 }
 
 /* === タイトル・見出し === */

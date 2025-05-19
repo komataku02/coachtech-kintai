@@ -1,0 +1,115 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+main.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.login-form-wrapper {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.form-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #000;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.btn-login {
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  padding: 1rem;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-login:hover {
+  background-color: #333;
+}
+
+/* エラーメッセージ */
+.alert-error {
+  background-color: #ffe0e0;
+  border: 1px solid #a00;
+  color: #a00;
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .login-form-wrapper {
+    padding: 1.5rem 1rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+
+  .form-input {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+
+  .btn-login {
+    font-size: 0.95rem;
+    padding: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-title {
+    font-size: 1.3rem;
+  }
+
+  .btn-login {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
+}
