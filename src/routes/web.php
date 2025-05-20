@@ -9,7 +9,6 @@ use App\Http\Controllers\Attendance\StampController;
 use App\Http\Controllers\Attendance\ListController as AttendanceListController;
 use App\Http\Controllers\Attendance\DetailController;
 use App\Http\Controllers\Application\ListController as ApplicationListController;
-use App\Http\Controllers\Application\DetailController as ApplicationDetailController;
 use App\Http\Controllers\Application\SubmitController;
 use App\Http\Controllers\Admin\Application\ApplicationListController as AdminApplicationListController;
 use App\Http\Controllers\Admin\Application\ApplicationDetailController as AdminApplicationDetailController;
@@ -19,7 +18,6 @@ use App\Http\Controllers\Admin\Staff\StaffListController;
 use App\Http\Controllers\Admin\Staff\MonthlyAttendanceListController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 
-// ユーザー認証
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -29,7 +27,6 @@ Route::post('/logout', function () {
   return redirect('/login');
 })->name('logout');
 
-// メール認証
 Route::get('/email/verify', function () {
   return view('auth.verify');
 })->middleware('auth')->name('verification.notice');
@@ -44,7 +41,6 @@ Route::post('/email/verification-notification', function (Illuminate\Http\Reques
   return back()->with('message', '確認リンクを再送しました');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-// 打刻・勤怠画面（ユーザー）
 Route::middleware(['auth', 'verified'])->group(function () {
   Route::get('/', [StampController::class, 'index'])->name('attendance.index');
   Route::post('/clock-in', [StampController::class, 'clockIn'])->name('attendance.clockIn');
@@ -56,13 +52,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::get('/attendance/{id}', [DetailController::class, 'show'])->name('attendance.show');
   Route::post('/attendance/{id}/apply', [DetailController::class, 'update'])->name('attendance.apply');
 
-
-  // 修正申請（ユーザー）
   Route::get('/application/list', [ApplicationListController::class, 'index'])->name('application.list');
   Route::post('/application/store', [SubmitController::class, 'store'])->name('application.store');
 });
 
-// 管理者ログイン
 Route::prefix('admin')->name('admin.')->group(function () {
   Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
   Route::post('/login', [AdminLoginController::class, 'login']);
@@ -72,7 +65,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
   })->name('logout');
 });
 
-// 管理者専用ルーティング
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
   Route::get('/attendance', [DailyListController::class, 'index'])->name('attendance.index');
   Route::get('/attendance/{id}/detail', [AdminAttendanceDetailController::class, 'show'])->name('attendance.detail');

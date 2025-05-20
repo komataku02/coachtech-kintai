@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Attendance;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use App\Models\Attendance;
-use App\Models\BreakTime;
+use App\Models\Attendance;;
 use App\Models\Application;
 use App\Http\Requests\User\AttendanceFormRequest;
 
@@ -47,7 +44,6 @@ class DetailController extends Controller
             return redirect()->route('attendance.show', $id)->with('error', 'すでに修正申請済みです。');
         }
 
-        // 休憩時間（JSON形式）に整形
         $breaks = [];
         foreach ($request->input('break_start_times', []) as $index => $start) {
             $end = $request->input('break_end_times.' . $index);
@@ -59,7 +55,6 @@ class DetailController extends Controller
             }
         }
 
-        // Applicationに登録
         Application::create([
             'user_id'           => Auth::id(),
             'attendance_id'     => $attendance->id,

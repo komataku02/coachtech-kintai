@@ -36,7 +36,6 @@ class LoginTest extends TestCase
   /** @test */
   public function 登録内容と一致しない場合_バリデーションメッセージが表示される()
   {
-    // 管理者ユーザーは登録済みである前提
     User::factory()->create([
       'email' => 'admin@example.com',
       'password' => Hash::make('correct-password'),

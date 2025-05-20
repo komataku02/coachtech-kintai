@@ -9,7 +9,6 @@
     <h2 class="page-title">勤怠詳細</h2>
 
     @if ($alreadyApplied)
-        {{-- 承認待ちメッセージのみ --}}
         <table class="attendance-table">
             <tr>
                 <th>名前</th>
@@ -23,7 +22,7 @@
                 <th>出勤・退勤</th>
                 <td>
                     {{ $attendance->clock_in_time ? \Carbon\Carbon::parse($attendance->clock_in_time)->format('H:i') : '--:--' }}
-                    ～ 
+                    ～
                     {{ $attendance->clock_out_time ? \Carbon\Carbon::parse($attendance->clock_out_time)->format('H:i') : '--:--' }}
                 </td>
             </tr>
@@ -46,7 +45,6 @@
         </div>
 
     @else
-        {{-- 修正申請フォーム --}}
         <form action="{{ route('application.store') }}" method="POST">
             @csrf
             <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">

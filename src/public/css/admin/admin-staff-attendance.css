@@ -5,7 +5,6 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* コンテナ全体 */
 .admin-staff-attendance {
   padding: 6rem 1rem 2rem;
   display: flex;
@@ -18,7 +17,6 @@ body {
   box-sizing: border-box;
 }
 
-/* タイトル */
 .page-title {
   font-size: 1.4rem;
   font-weight: bold;
@@ -30,7 +28,6 @@ body {
   box-sizing: border-box;
 }
 
-/* 月ナビゲーション */
 .month-navigation {
   display: flex;
   justify-content: space-between;
@@ -68,7 +65,6 @@ body {
   border: none;
 }
 
-/* 勤怠テーブル */
 .styled-table {
   width: 100%;
   border-collapse: collapse;
@@ -103,7 +99,6 @@ body {
   color: #1976d2;
 }
 
-/* CSVボタン */
 .csv-download {
   margin-top: 2rem;
   display: flex;
@@ -124,7 +119,6 @@ body {
   background-color: #333;
 }
 
-/* 戻るリンク */
 .back-link {
   margin-top: 1rem;
   text-align: right;
@@ -141,14 +135,12 @@ body {
   text-decoration: underline;
 }
 
-/* データなし表示 */
 .no-data {
   padding: 1.5rem;
   text-align: center;
   color: #666;
 }
 
-/* レスポンシブ対応 */
 @media (max-width: 768px) {
   .page-title {
     font-size: 1.2rem;

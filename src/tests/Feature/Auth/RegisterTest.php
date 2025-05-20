@@ -88,10 +88,8 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        // 登録後はメール認証画面へリダイレクトされる想定
         $response->assertRedirect(route('verification.notice'));
 
-        // ユーザーがDBに保存されているか確認
         $this->assertDatabaseHas('users', [
             'name' => '新規ユーザー',
             'email' => 'newuser@example.com',
