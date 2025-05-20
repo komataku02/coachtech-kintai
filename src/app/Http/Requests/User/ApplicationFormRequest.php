@@ -30,14 +30,19 @@ class ApplicationFormRequest extends FormRequest
         $validator->after(function ($validator) {
             $starts = $this->input('break_start_times', []);
             $ends = $this->input('break_end_times', []);
+            $clockIn = $this->input('clock_in_time');
             $clockOut = $this->input('clock_out_time');
 
-            $clockOutTime = null;
-            if ($clockOut) {
-                try {
-                    $clockOutTime = Carbon::createFromFormat('H:i', $clockOut);
-                } catch (\Exception $e) {
+            $clockInTime = $clockOutTime = null;
+
+            try {
+                if ($clockIn) {
+                    $clockInTime = Carbon::createFromFormat('H:i', $clockIn);
                 }
+                if ($clockOut) {
+                    $clockOutTime = Carbon::createFromFormat('H:i', $clockOut);
+                }
+            } catch (\Exception $e) {
             }
 
             foreach ($starts as $i => $start) {
@@ -60,16 +65,20 @@ class ApplicationFormRequest extends FormRequest
                             $validator->errors()->add("break_end_times.$i", '休憩終了は開始より後の時刻にしてください。');
                         }
 
+                        if ($clockInTime && $startTime->lt($clockInTime)) {
+                            $validator->errors()->add("break_start_times.$i", '休憩時間が勤務時間外です。');
+                        }
+
                         if ($clockOutTime && ($startTime->gt($clockOutTime) || $endTime->gt($clockOutTime))) {
-                            $validator->errors()->add("break_end_times.$i", '出勤時間もしくは退勤時間が不適切な値です');
+                            $validator->errors()->add("break_end_times.$i", '休憩時間が勤務時間外です。');
                         }
                     } catch (\Exception $e) {
-                        // 無視
                     }
                 }
             }
         });
     }
+
 
     public function messages(): array
     {

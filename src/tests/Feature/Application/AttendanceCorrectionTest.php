@@ -8,7 +8,6 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\BreakTime;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class AttendanceCorrectionTest extends TestCase
@@ -148,7 +147,6 @@ class AttendanceCorrectionTest extends TestCase
   /** @test */
   public function 承認待ちタブに自分の申請が表示される()
   {
-    // 修正申請を送信
     $this->post(route('application.store'), [
       'attendance_id' => $this->attendance->id,
       'clock_in_time' => '09:00',
@@ -157,7 +155,6 @@ class AttendanceCorrectionTest extends TestCase
       'breaks' => [],
     ])->assertRedirect(route('application.list'));
 
-    // 承認待ち一覧に表示されるか確認
     $response = $this->get(route('application.list', ['status' => 'pending']));
     $response->assertOk();
     $response->assertSee('承認待ちテスト');
@@ -166,7 +163,6 @@ class AttendanceCorrectionTest extends TestCase
   /** @test */
   public function 承認済みに管理者が承認した申請が表示される()
   {
-    // ユーザーが修正申請
     $this->post(route('application.store'), [
       'attendance_id' => $this->attendance->id,
       'clock_in_time' => '09:00',
@@ -177,17 +173,14 @@ class AttendanceCorrectionTest extends TestCase
 
     $application = \App\Models\Application::latest()->first();
 
-    // 管理者作成 & ログイン
     $admin = User::factory()->create([
       'role' => 'admin',
       'email_verified_at' => now(),
     ]);
     $this->actingAs($admin instanceof Authenticatable ? $admin : User::find($admin->id));
 
-    // 承認処理
     $this->post(route('admin.application.approve', $application->id));
 
-    // 承認済み一覧に表示されるか確認
     $response = $this->get(route('admin.application.list', ['status' => 'approved']));
     $response->assertOk();
     $response->assertSee('承認済みテスト');

@@ -1,4 +1,3 @@
-/* === ページ全体 === */
 body {
   background-color: #f3f2f2;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -6,7 +5,6 @@ body {
   padding: 0;
 }
 
-/* === コンテナ === */
 .admin-application-list {
   max-width: 960px;
   margin: 2rem auto;
@@ -14,7 +12,6 @@ body {
   box-sizing: border-box;
 }
 
-/* === タイトル === */
 .page-title {
   font-size: 1.5rem;
   font-weight: bold;
@@ -24,7 +21,6 @@ body {
   color: #000;
 }
 
-/* === タブ切り替え === */
 .tab-switch {
   display: flex;
   gap: 1rem;
@@ -52,7 +48,6 @@ body {
   color: #fff;
 }
 
-/* === テーブルボックス（ラッパー） === */
 .table-box {
   width: 100%;
   background-color: #fff;
@@ -61,7 +56,6 @@ body {
   overflow-x: auto;
 }
 
-/* === テーブル === */
 .application-table {
   width: 100%;
   min-width: 600px;
@@ -83,7 +77,6 @@ body {
   color: #000;
 }
 
-/* === 詳細リンク === */
 .btn-detail {
   color: #000;
   font-weight: bold;
@@ -95,7 +88,6 @@ body {
   color: #1976d2;
 }
 
-/* === ページネーション === */
 .pagination-wrapper {
   margin-top: 2rem;
   display: flex;
@@ -138,7 +130,6 @@ body {
   border-color: #000;
 }
 
-/* === データなしメッセージ === */
 .no-data {
   font-size: 1rem;
   color: #666;
@@ -146,7 +137,6 @@ body {
   text-align: center;
 }
 
-/* === 戻るリンク === */
 .back-link {
   text-align: right;
   margin-top: 2rem;
@@ -166,13 +156,10 @@ body {
   background-color: #e0e0e0;
 }
 
-/* === レスポンシブ対応 === */
-/* === レスポンシブ対応 === */
 @media (max-width: 768px) {
   .admin-application-list {
     padding: 0 0.5rem;
     overflow-x: hidden;
-    /* ← 横はみ出し防止 */
   }
 
   .page-title {
@@ -217,7 +204,6 @@ body {
     padding: 0.4rem 0.6rem;
     font-size: 0.85rem;
     min-width: auto;
-    /* ← 固定幅解除 */
   }
 }
 

@@ -19,7 +19,6 @@ class AdminApplicationApprovalTest extends TestCase
   {
     parent::setUp();
 
-    // Seeder実行（Users, Attendances, Applications）
     $this->artisan('db:seed');
 
     $this->admin = User::where('role', 'admin')->first();

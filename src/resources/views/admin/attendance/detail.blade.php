@@ -8,16 +8,6 @@
 <div class="admin-attendance-detail">
     <h2 class="page-title">勤怠詳細</h2>
 
-    @if ($errors->any())
-        <div class="alert-error">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <form method="POST" action="{{ route('admin.attendance.update', $attendance->id) }}" class="attendance-edit-form">
         @csrf
         @method('PUT')
@@ -37,8 +27,16 @@
                 <th>出勤・退勤</th>
                 <td>
                     <input type="time" name="clock_in_time" class="form-input" value="{{ old('clock_in_time', \Carbon\Carbon::parse($attendance->clock_in_time)->format('H:i')) }}">
+                    @error('clock_in_time')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
+
                     ～
+
                     <input type="time" name="clock_out_time" class="form-input" value="{{ old('clock_out_time', \Carbon\Carbon::parse($attendance->clock_out_time)->format('H:i')) }}">
+                    @error('clock_out_time')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
                 </td>
             </tr>
 
@@ -46,20 +44,36 @@
                 <tr>
                     <th>休憩{{ $index + 1 }}</th>
                     <td>
-                        <input type="time" name="break_start_times[]" class="form-input"
+                        <input type="time" name="break_start_times[{{ $index }}]" class="form-input"
                             value="{{ old('break_start_times.' . $index, \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}">
+                        @error("break_start_times.$index")
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
+
                         ～
-                        <input type="time" name="break_end_times[]" class="form-input"
+
+                        <input type="time" name="break_end_times[{{ $index }}]" class="form-input"
                             value="{{ old('break_end_times.' . $index, \Carbon\Carbon::parse($break->break_end)->format('H:i')) }}">
+                        @error("break_end_times.$index")
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
                     </td>
                 </tr>
             @empty
                 <tr>
                     <th>休憩1</th>
                     <td>
-                        <input type="time" name="break_start_times[]" class="form-input">
+                        <input type="time" name="break_start_times[0]" class="form-input">
+                        @error("break_start_times.0")
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
+
                         ～
-                        <input type="time" name="break_end_times[]" class="form-input">
+
+                        <input type="time" name="break_end_times[0]" class="form-input">
+                        @error("break_end_times.0")
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
                     </td>
                 </tr>
             @endforelse
@@ -68,6 +82,9 @@
                 <th>備考</th>
                 <td>
                     <textarea name="note" class="form-textarea" rows="3">{{ old('note', $attendance->note) }}</textarea>
+                    @error('note')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
                 </td>
             </tr>
         </table>
@@ -82,4 +99,3 @@
     </div>
 </div>
 @endsection
-

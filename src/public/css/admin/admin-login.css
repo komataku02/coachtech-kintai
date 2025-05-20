@@ -70,7 +70,6 @@ main.main-content {
   background-color: #333;
 }
 
-/* エラーメッセージ */
 .alert-error {
   background-color: #ffe0e0;
   border: 1px solid #a00;
@@ -82,7 +81,6 @@ main.main-content {
   border-radius: 6px;
 }
 
-/* レスポンシブ対応 */
 @media (max-width: 768px) {
   .login-form-wrapper {
     padding: 1.5rem 1rem;

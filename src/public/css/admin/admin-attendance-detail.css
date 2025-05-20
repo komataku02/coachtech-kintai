@@ -127,7 +127,12 @@ main.main-content {
   background-color: #ddd;
 }
 
-/* レスポンシブ対応 */
+.error-message {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
 @media (max-width: 768px) {
   .page-title {
     font-size: 1.4rem;
