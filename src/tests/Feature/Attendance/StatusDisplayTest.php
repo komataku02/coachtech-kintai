@@ -18,7 +18,6 @@ class StatusDisplayTest extends TestCase
       'email_verified_at' => Carbon::now(),
     ]);
 
-    // ステータスが null（勤務外）でない場合のみ出勤レコードを登録
     if ($status) {
       Attendance::create([
         'user_id' => $user->id,

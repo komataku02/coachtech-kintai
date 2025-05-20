@@ -25,7 +25,7 @@ class ClockInTest extends TestCase
     $response = $this->get(route('attendance.index'));
 
     $response->assertStatus(200);
-    $response->assertSee('出勤'); // ボタン表示確認
+    $response->assertSee('出勤');
   }
 
   /** @test */
@@ -53,12 +53,11 @@ class ClockInTest extends TestCase
       'email_verified_at' => now(),
     ]);
 
-    // 出勤済の勤怠を登録
     Attendance::factory()->create([
       'user_id' => $user->id,
       'work_date' => Carbon::today()->toDateString(),
       'clock_in_time' => '09:00:00',
-      'status' => '退勤済', // または '出勤'
+      'status' => '退勤済',
     ]);
 
     $this->actingAs($user instanceof Authenticatable ? $user : User::find($user->id));
@@ -66,7 +65,7 @@ class ClockInTest extends TestCase
     $response = $this->get(route('attendance.index'));
 
     $response->assertStatus(200);
-    $response->assertDontSee('出勤'); // 出勤ボタンが非表示
+    $response->assertDontSee('出勤');
   }
 
   /** @test */
@@ -89,11 +88,11 @@ class ClockInTest extends TestCase
       'status' => '出勤',
     ]);
 
-    $this->actingAs($user instanceof Authenticatable ? $user : User::find($user->id)); // 管理者ログイン
+    $this->actingAs($user instanceof Authenticatable ? $user : User::find($user->id));
 
     $response = $this->get(route('admin.attendance.index'));
 
     $response->assertStatus(200);
-    $response->assertSee('08:45'); // 管理画面上に表示されているか
+    $response->assertSee('08:45');
   }
 }

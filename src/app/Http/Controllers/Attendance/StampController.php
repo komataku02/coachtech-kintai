@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Attendance;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
-use Carbon\Carbon;
 
 class StampController extends Controller
 {

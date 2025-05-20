@@ -20,7 +20,6 @@ class AdminStaffListTest extends TestCase
   {
     parent::setUp();
 
-    // テスト用に現在時刻を固定（Carbonのnow()の返り値が一定になる）
     Carbon::setTestNow(Carbon::create(2025, 5, 15));
 
     $this->admin = User::factory()->create([
@@ -38,7 +37,7 @@ class AdminStaffListTest extends TestCase
 
     foreach ($this->users as $user) {
       foreach ([-1, 0, 1] as $monthOffset) {
-        $date = Carbon::now()->copy()->addMonths($monthOffset); // ← now() を使う
+        $date = Carbon::now()->copy()->addMonths($monthOffset);
 
         Attendance::factory()->create([
           'user_id' => $user->id,

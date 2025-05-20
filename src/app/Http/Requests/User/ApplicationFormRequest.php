@@ -64,7 +64,6 @@ class ApplicationFormRequest extends FormRequest
                             $validator->errors()->add("break_end_times.$i", '出勤時間もしくは退勤時間が不適切な値です');
                         }
                     } catch (\Exception $e) {
-                        // 無視
                     }
                 }
             }

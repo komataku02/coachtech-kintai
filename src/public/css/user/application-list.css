@@ -1,11 +1,9 @@
-/* === ベース設定 === */
 body {
   background-color: #f3f2f2;
   margin: 0;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* === 全体コンテナ === */
 .application-wrapper {
   max-width: 960px;
   margin: 0.5rem auto;
@@ -13,7 +11,6 @@ body {
   box-sizing: border-box;
 }
 
-/* === タイトル・タブ === */
 .title-box {
   margin-bottom: 1rem;
 }
@@ -64,7 +61,6 @@ body {
   width: 100%;
 }
 
-/* === テーブルエリア === */
 .table-box {
   background-color: #fff;
   border-radius: 6px;
@@ -87,7 +83,6 @@ body {
   white-space: nowrap;
 }
 
-/* === ステータス表示 === */
 .status {
   font-weight: bold;
   padding: 0.3rem 0.75rem;
@@ -106,7 +101,6 @@ body {
   color: white;
 }
 
-/* === 詳細リンク === */
 .link {
   text-decoration: underline;
   color: #1976d2;
@@ -117,7 +111,6 @@ body {
   text-align: center;
 }
 
-/* === ページネーション === */
 .pagination {
   margin: 0.5rem auto 0;
   display: flex;
@@ -145,7 +138,7 @@ body {
   border-color: #000;
 }
 
-/* === お知らせ文 === */
+
 .notice {
   font-size: 1rem;
   color: #666;
@@ -153,7 +146,6 @@ body {
   text-align: center;
 }
 
-/* === レスポンシブ対応（スマホ・タブレット） === */
 @media (max-width: 768px) {
   .title {
     font-size: 1.2rem;

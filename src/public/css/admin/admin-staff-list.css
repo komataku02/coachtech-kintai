@@ -5,7 +5,6 @@ body {
   padding: 0;
 }
 
-/* コンテナ全体 */
 .admin-staff-list {
   max-width: 900px;
   margin: 4rem auto;
@@ -13,7 +12,6 @@ body {
   box-sizing: border-box;
 }
 
-/* タイトル */
 .page-title {
   font-size: 1.5rem;
   font-weight: bold;
@@ -23,7 +21,6 @@ body {
   color: #000;
 }
 
-/* テーブル全体 */
 .staff-table {
   width: 100%;
   border-collapse: collapse;
@@ -33,7 +30,6 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* ヘッダー */
 .staff-table thead {
   background-color: #f5f5f5;
 }
@@ -46,7 +42,6 @@ body {
   border-bottom: 1px solid #ddd;
 }
 
-/* リンクボタン */
 .btn-detail {
   color: #000;
   font-weight: bold;
@@ -58,7 +53,6 @@ body {
   color: #1976d2;
 }
 
-/* データなし */
 .no-data {
   text-align: center;
   font-size: 1rem;
@@ -66,7 +60,6 @@ body {
   margin-top: 3rem;
 }
 
-/* レスポンシブ対応 */
 @media (max-width: 768px) {
   .page-title {
     font-size: 1.2rem;

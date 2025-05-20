@@ -20,7 +20,6 @@ class AttendanceListTest extends TestCase
   {
     parent::setUp();
 
-    // 管理者ユーザー
     $this->admin = User::factory()->create([
       'name' => '管理者太郎',
       'email' => 'admin@example.com',
@@ -29,10 +28,8 @@ class AttendanceListTest extends TestCase
       'email_verified_at' => Carbon::now(),
     ]);
 
-    // 一般ユーザー5人
     $this->users = User::factory()->count(5)->create();
 
-    // 勤怠データ（本日）
     foreach ($this->users as $user) {
       Attendance::factory()->create([
         'user_id' => $user->id,

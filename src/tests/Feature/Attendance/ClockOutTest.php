@@ -16,7 +16,7 @@ class ClockOutTest extends TestCase
   protected function setUp(): void
   {
     parent::setUp();
-    Carbon::setTestNow(Carbon::create(2025, 5, 3, 18, 0, 0)); // テスト基準時刻を固定
+    Carbon::setTestNow(Carbon::create(2025, 5, 3, 18, 0, 0));
   }
 
   /** @test */
