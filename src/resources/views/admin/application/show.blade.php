@@ -6,9 +6,8 @@
 
 @section('content')
 <div class="container admin-application-detail">
-    <h2 class="page-title">修正申請詳細</h2>
+    <h2 class="page-title">勤怠詳細</h2>
 
-    {{-- バリデーションエラー表示 --}}
     @if ($errors->any())
         <div class="alert-error">
             <ul>
