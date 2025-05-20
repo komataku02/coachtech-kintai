@@ -62,8 +62,16 @@
                     <th>出勤・退勤</th>
                     <td>
                         <input type="time" name="clock_in_time" value="{{ old('clock_in_time', $attendance->clock_in_time ? \Carbon\Carbon::parse($attendance->clock_in_time)->format('H:i') : '') }}">
+                        @error('clock_in_time')
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
+
                         ～
+
                         <input type="time" name="clock_out_time" value="{{ old('clock_out_time', $attendance->clock_out_time ? \Carbon\Carbon::parse($attendance->clock_out_time)->format('H:i') : '') }}">
+                        @error('clock_out_time')
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
                     </td>
                 </tr>
 
@@ -72,12 +80,35 @@
                         <th>休憩{{ $i + 1 }}</th>
                         <td>
                             <input type="time" name="break_start_times[{{ $i }}]" value="{{ old("break_start_times.$i", $break->break_start ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : '') }}">
+                            @error("break_start_times.$i")
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror
+
                             ～
+
                             <input type="time" name="break_end_times[{{ $i }}]" value="{{ old("break_end_times.$i", $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}">
+                            @error("break_end_times.$i")
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror
                         </td>
                     </tr>
                 @endforeach
+                <tr>
+                    <th>休憩{{ count($attendance->breakTimes) + 1 }}</th>
+                    <td>
+                        <input type="time" name="break_start_times[{{ count($attendance->breakTimes) }}]" value="{{ old('break_start_times.' . count($attendance->breakTimes)) }}">
+                        @error('break_start_times.' . count($attendance->breakTimes))
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
 
+                    ～
+
+                        <input type="time" name="break_end_times[{{ count($attendance->breakTimes) }}]" value="{{ old('break_end_times.' . count($attendance->breakTimes)) }}">
+                        @error('break_end_times.' . count($attendance->breakTimes))
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
+                    </td>
+                </tr>
                 <tr>
                     <th>備考</th>
                     <td>
