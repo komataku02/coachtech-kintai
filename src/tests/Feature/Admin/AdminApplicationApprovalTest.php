@@ -5,6 +5,7 @@ namespace Tests\Feature\Admin;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
+use App\Models\Attendance;
 use App\Models\Application;
 use Illuminate\Contracts\Auth\Authenticatable;
 
@@ -19,98 +20,112 @@ class AdminApplicationApprovalTest extends TestCase
   {
     parent::setUp();
 
-    $this->artisan('db:seed');
-
-    $this->admin = User::where('role', 'admin')->first();
-    $this->user = User::where('role', 'user')->first();
+    // Seederを使わず、必要なユーザーのみをFactoryで用意
+    $this->admin = User::factory()->create(['role' => 'admin']);
+    $this->user = User::factory()->create(['role' => 'user']);
   }
 
   /** @test */
   public function 承認待ちの修正申請が全て表示される()
   {
-    $response = $this->actingAs($this->admin instanceof Authenticatable ? $this->admin : User::find($this->admin->id))
-      ->get(route('admin.application.list', ['status' => 'pending']));
+    $attendance = Attendance::factory()->create([
+      'user_id' => $this->user->id,
+      'work_date' => now()->subDays(1)->format('Y-m-d'),
+    ]);
+
+    Application::factory()->create([
+      'user_id' => $this->user->id,
+      'attendance_id' => $attendance->id,
+      'status' => 'pending',
+      'note' => '出勤打刻を忘れました。',
+    ]);
+
+    $response = $this->actingAs($this->admin)->get(route('admin.application.list', ['status' => 'pending']));
 
     $response->assertStatus(200);
     $response->assertSee('承認待ち');
-
-    $application = Application::where('status', 'pending')->first();
-    $response->assertSeeText($application->user->name);
-    $response->assertSeeText($application->note);
-    }
+    $response->assertSeeText($this->user->name);
+    $response->assertSeeText('出勤打刻を忘れました。');
+  }
 
   /** @test */
   public function 承認済みの修正申請が全て表示される()
   {
-    Application::where('status', 'pending')->first()->update([
+    $attendance = Attendance::factory()->create([
+      'user_id' => $this->user->id,
+    ]);
+
+    $application = Application::factory()->create([
+      'user_id' => $this->user->id,
+      'attendance_id' => $attendance->id,
       'status' => 'approved',
       'approved_at' => now(),
     ]);
 
-    $response = $this->actingAs($this->admin instanceof Authenticatable ? $this->admin : User::find($this->admin->id))
-      ->get(route('admin.application.list', ['status' => 'approved']));
+    $response = $this->actingAs($this->admin)->get(route('admin.application.list', ['status' => 'approved']));
 
     $response->assertStatus(200);
     $response->assertSee('承認済み');
-
-    $approvedApps = Application::where('status', 'approved')->get();
-    foreach ($approvedApps as $app) {
-      $response->assertSee($app->user->name);
-      $response->assertSee($app->note);
-    }
+    $response->assertSeeText($this->user->name);
+    $response->assertSeeText($application->note);
   }
 
   /** @test */
   public function 修正申請の詳細内容が正しく表示される()
   {
-    $application = Application::with('user', 'attendance.breakTimes')
-      ->where('status', 'pending')
-      ->firstOrFail();
+    $attendance = Attendance::factory()->create(['user_id' => $this->user->id]);
 
-    $response = $this->actingAs($this->admin instanceof Authenticatable ? $this->admin : User::find($this->admin->id))
-      ->get(route('admin.application.detail', $application->id));
+    $application = Application::factory()->create([
+      'user_id' => $this->user->id,
+      'attendance_id' => $attendance->id,
+      'status' => 'pending',
+    ]);
+
+    $response = $this->actingAs($this->admin)->get(route('admin.application.detail', $application->id));
 
     $response->assertStatus(200);
-    $response->assertSeeText($application->user->name);
+    $response->assertSeeText($this->user->name);
     $response->assertSeeText($application->note);
 
-    $workDate = \Carbon\Carbon::parse($application->attendance->work_date)->format('Y年n月j日');
+    $workDate = \Carbon\Carbon::parse($attendance->work_date)->format('Y年n月j日');
     $response->assertSeeText($workDate);
   }
-
 
   /** @test */
   public function 修正申請の承認処理が正しく行われる()
   {
-    $application = Application::where('status', 'pending')->first();
-    $attendance = $application->attendance;
+    $attendance = Attendance::factory()->create(['user_id' => $this->user->id]);
 
-    $response = $this->actingAs($this->admin instanceof Authenticatable ? $this->admin : User::find($this->admin->id))
-      ->post(route('admin.application.approve', $application->id));
+    $application = Application::factory()->create([
+      'user_id' => $this->user->id,
+      'attendance_id' => $attendance->id,
+      'status' => 'pending',
+      'request_clock_in' => '09:00',
+      'request_clock_out' => '18:00',
+      'request_breaks' => json_encode([
+        ['start' => '12:00', 'end' => '13:00']
+      ]),
+    ]);
 
-    $response->assertRedirect(route('admin.application.list'));
+    $response = $this->actingAs($this->admin)->post(route('admin.application.approve', $application->id));
+
+    $response->assertRedirect(route('admin.application.detail', $application->id));
 
     $this->assertDatabaseHas('applications', [
       'id' => $application->id,
       'status' => 'approved',
     ]);
 
-    if ($application->request_clock_in) {
-      $this->assertDatabaseHas('attendances', [
-        'id' => $attendance->id,
-        'clock_in_time' => $application->request_clock_in,
-      ]);
-    }
+    $this->assertDatabaseHas('attendances', [
+      'id' => $attendance->id,
+      'clock_in_time' => '09:00',
+      'clock_out_time' => '18:00',
+    ]);
 
-    if ($application->request_breaks) {
-      $breaks = json_decode($application->request_breaks, true);
-      foreach ($breaks as $break) {
-        $this->assertDatabaseHas('breaks', [
-          'attendance_id' => $attendance->id,
-          'break_start' => $break['start'],
-          'break_end' => $break['end'],
-        ]);
-      }
-    }
+    $this->assertDatabaseHas('breaks', [
+      'attendance_id' => $attendance->id,
+      'break_start' => '12:00',
+      'break_end' => '13:00',
+    ]);
   }
 }
