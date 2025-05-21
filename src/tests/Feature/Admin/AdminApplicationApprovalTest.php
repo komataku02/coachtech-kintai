@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Application;
-use Illuminate\Contracts\Auth\Authenticatable;
 
 class AdminApplicationApprovalTest extends TestCase
 {
@@ -20,7 +19,6 @@ class AdminApplicationApprovalTest extends TestCase
   {
     parent::setUp();
 
-    // Seederを使わず、必要なユーザーのみをFactoryで用意
     $this->admin = User::factory()->create(['role' => 'admin']);
     $this->user = User::factory()->create(['role' => 'user']);
   }
