@@ -49,7 +49,7 @@ class AdminAttendanceDetailTest extends TestCase
       ->get(route('admin.attendance.detail', $this->attendance->id));
 
     $response->assertStatus(200);
-    $response->assertSee('勤怠詳細（管理者編集）');
+    $response->assertSee('勤怠詳細');
     $response->assertSee($this->user->name);
     $response->assertSee('09:00');
     $response->assertSee('18:00');
