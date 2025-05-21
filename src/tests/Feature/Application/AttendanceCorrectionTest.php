@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\BreakTime;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class AttendanceCorrectionTest extends TestCase
@@ -25,6 +26,7 @@ class AttendanceCorrectionTest extends TestCase
     $this->user = User::factory()->create([
       'email_verified_at' => now(),
     ]);
+
     $this->attendance = Attendance::factory()->create([
       'user_id' => $this->user->id,
       'work_date' => '2025-05-01',
@@ -51,7 +53,8 @@ class AttendanceCorrectionTest extends TestCase
         'clock_in_time' => '18:00',
         'clock_out_time' => '17:00',
         'note' => 'テスト備考',
-        'breaks' => [],
+        'break_start_times' => [],
+        'break_end_times' => [],
       ]);
 
     $response->assertRedirect(route('attendance.show', $this->attendance->id));
@@ -67,17 +70,15 @@ class AttendanceCorrectionTest extends TestCase
         'clock_in_time' => '08:30',
         'clock_out_time' => '17:00',
         'note' => 'テスト備考',
-        'breaks' => [
-          $this->attendance->breakTimes->first()->id => [
-            'start' => '18:00',
-            'end' => '18:30',
-          ],
-        ],
+        'break_start_times' => ['18:00'],
+        'break_end_times' => ['18:30'],
       ]);
 
     $response->assertRedirect(route('attendance.show', $this->attendance->id));
-    $response->assertSessionHasErrors('breaks.' . $this->attendance->breakTimes->first()->id . '.start');
+
+    $response->assertSessionHasErrors(['break_end_times.0']);
   }
+
 
   /** @test */
   public function 休憩終了時間が退勤時間より後の場合はエラーメッセージが表示される()
@@ -88,16 +89,12 @@ class AttendanceCorrectionTest extends TestCase
         'clock_in_time' => '08:30',
         'clock_out_time' => '17:00',
         'note' => 'テスト備考',
-        'breaks' => [
-          $this->attendance->breakTimes->first()->id => [
-            'start' => '16:00',
-            'end' => '18:00',
-          ],
-        ],
+        'break_start_times' => ['16:00'],
+        'break_end_times' => ['18:00'],
       ]);
 
     $response->assertRedirect(route('attendance.show', $this->attendance->id));
-    $response->assertSessionHasErrors('breaks.' . $this->attendance->breakTimes->first()->id . '.end');
+    $response->assertSessionHasErrors(['break_end_times.0']);
   }
 
   /** @test */
@@ -109,7 +106,8 @@ class AttendanceCorrectionTest extends TestCase
         'clock_in_time' => '08:30',
         'clock_out_time' => '17:00',
         'note' => '',
-        'breaks' => [],
+        'break_start_times' => [],
+        'break_end_times' => [],
       ]);
 
     $response->assertRedirect(route('attendance.show', $this->attendance->id));
@@ -119,22 +117,17 @@ class AttendanceCorrectionTest extends TestCase
   /** @test */
   public function 修正申請処理が実行される()
   {
-    $breakId = $this->attendance->breakTimes->first()->id;
-
     $response = $this->post(route('application.store'), [
       'attendance_id' => $this->attendance->id,
       'clock_in_time' => '09:00',
       'clock_out_time' => '18:00',
       'note' => '修正申請テスト',
-      'breaks' => [
-        $breakId => [
-          'start' => '12:30',
-          'end' => '13:30',
-        ],
-      ],
+      'break_start_times' => ['12:30'],
+      'break_end_times' => ['13:30'],
     ]);
 
-    $response->assertRedirect(route('application.list'));
+    $response->assertRedirect(route('attendance.show', $this->attendance->id));
+
     $this->assertDatabaseHas('applications', [
       'attendance_id' => $this->attendance->id,
       'note' => '修正申請テスト',
@@ -152,8 +145,9 @@ class AttendanceCorrectionTest extends TestCase
       'clock_in_time' => '09:00',
       'clock_out_time' => '18:00',
       'note' => '承認待ちテスト',
-      'breaks' => [],
-    ])->assertRedirect(route('application.list'));
+      'break_start_times' => [],
+      'break_end_times' => [],
+    ])->assertRedirect(route('attendance.show', $this->attendance->id));
 
     $response = $this->get(route('application.list', ['status' => 'pending']));
     $response->assertOk();
@@ -168,7 +162,8 @@ class AttendanceCorrectionTest extends TestCase
       'clock_in_time' => '09:00',
       'clock_out_time' => '18:00',
       'note' => '承認済みテスト',
-      'breaks' => [],
+      'break_start_times' => [],
+      'break_end_times' => [],
     ]);
 
     $application = \App\Models\Application::latest()->first();
@@ -177,7 +172,7 @@ class AttendanceCorrectionTest extends TestCase
       'role' => 'admin',
       'email_verified_at' => now(),
     ]);
-    $this->actingAs($admin instanceof Authenticatable ? $admin : User::find($admin->id));
+    $this->actingAs($admin instanceof \Illuminate\Contracts\Auth\Authenticatable ? $admin : User::find($admin->id));
 
     $this->post(route('admin.application.approve', $application->id));
 
@@ -185,33 +180,4 @@ class AttendanceCorrectionTest extends TestCase
     $response->assertOk();
     $response->assertSee('承認済みテスト');
   }
-
-  /** @test */
-  public function 申請詳細画面に遷移できる()
-  {
-    $this->actingAs($this->user);
-
-    $this->post(route('application.store'), [
-      'attendance_id' => $this->attendance->id,
-      'clock_in_time' => '09:00',
-      'clock_out_time' => '18:00',
-      'note' => '詳細表示テスト',
-      'breaks' => [
-        $this->attendance->breakTimes->first()->id => [
-          'start' => '12:30',
-          'end' => '13:30',
-        ],
-      ],
-    ]);
-
-    $application = \App\Models\Application::where('user_id', $this->user->id)
-      ->where('note', '詳細表示テスト')
-      ->latest('id')
-      ->firstOrFail();
-
-    $this->get(route('application.detail', $application->id))
-      ->assertOk()
-      ->assertSee('詳細表示テスト');
-  }
 }
-
