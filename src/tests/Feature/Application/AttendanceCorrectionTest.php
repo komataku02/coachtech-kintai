@@ -8,7 +8,6 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\BreakTime;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class AttendanceCorrectionTest extends TestCase

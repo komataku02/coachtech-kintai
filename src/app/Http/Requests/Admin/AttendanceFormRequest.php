@@ -64,7 +64,11 @@ class AttendanceFormRequest extends FormRequest
               $validator->errors()->add("break_start_times.$i", '休憩時間が勤務時間外です。');
             }
 
-            if ($clockOutTime && ($startTime->gt($clockOutTime) || $endTime->gt($clockOutTime))) {
+            if ($clockOutTime && $startTime->gt($clockOutTime)) {
+              $validator->errors()->add("break_start_times.$i", '休憩時間が勤務時間外です。');
+            }
+
+            if ($clockOutTime && $endTime->gt($clockOutTime)) {
               $validator->errors()->add("break_end_times.$i", '休憩時間が勤務時間外です。');
             }
           }
@@ -73,7 +77,6 @@ class AttendanceFormRequest extends FormRequest
       }
     });
   }
-
 
   public function messages(): array
   {

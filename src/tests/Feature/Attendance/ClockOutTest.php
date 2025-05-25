@@ -74,7 +74,7 @@ class ClockOutTest extends TestCase
     ]);
 
     $this->actingAs($admin instanceof Authenticatable ? $admin : User::find($admin->id));
-    $response = $this->get(route('admin.attendance.index', ['date' => now()->toDateString()]));
+    $response = $this->get(route('admin.attendance.list', ['date' => now()->toDateString()]));
 
     $response->assertStatus(200);
     $response->assertSee('18:00');

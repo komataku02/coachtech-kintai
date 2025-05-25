@@ -11,13 +11,13 @@
     </h2>
 
     <div class="date-navigation">
-        <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->subDay()->format('Y-m-d')]) }}" class="btn-nav btn-prev">← 前日</a>
+        <a href="{{ route('admin.attendance.list', ['date' => \Carbon\Carbon::parse($date)->copy()->subDay()->format('Y-m-d')]) }}" class="btn-nav btn-prev">← 前日</a>
 
-        <form method="GET" action="{{ route('admin.attendance.index') }}" class="date-form">
+        <form method="GET" action="{{ route('admin.attendance.list') }}" class="date-form">
             <input type="date" name="date" class="date-input" value="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}" onchange="this.form.submit()">
         </form>
 
-        <a href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($date)->copy()->addDay()->format('Y-m-d')]) }}" class="btn-nav btn-next">翌日 →</a>
+        <a href="{{ route('admin.attendance.list', ['date' => \Carbon\Carbon::parse($date)->copy()->addDay()->format('Y-m-d')]) }}" class="btn-nav btn-next">翌日 →</a>
     </div>
 
     @if ($attendances->isEmpty())
@@ -61,7 +61,7 @@
                         <td>{{ $attendance->breakTimes->isNotEmpty() ? $breakFormatted : '-' }}</td>
                         <td>{{ $workFormatted }}</td>
                         <td>
-                            <a href="{{ route('admin.attendance.detail', $attendance->id) }}" class="btn-detail">詳細</a>
+                            <a href="{{ route('attendance.show', $attendance->id) }}" class="btn-detail">詳細</a>
                         </td>
                     </tr>
                 @endforeach
