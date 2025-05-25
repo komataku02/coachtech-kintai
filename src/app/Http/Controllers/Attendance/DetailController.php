@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;;
 use App\Models\Application;
-use App\Http\Requests\User\AttendanceFormRequest;
+
 
 class DetailController extends Controller
 {

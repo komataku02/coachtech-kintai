@@ -19,11 +19,9 @@ class BreaksTableSeeder extends Seeder
             $clockIn = Carbon::createFromFormat('H:i:s', $attendance->clock_in_time);
             $clockOut = Carbon::createFromFormat('H:i:s', $attendance->clock_out_time);
 
-            // 休憩は出勤＋4時間後から1時間休憩（固定）
             $breakStart = (clone $clockIn)->addHours(4);
             $breakEnd = (clone $breakStart)->addHour();
 
-            // 勤務時間内に収まるかチェック（安全策）
             if ($breakEnd->lte($clockOut)) {
                 BreakTime::create([
                     'attendance_id' => $attendance->id,
