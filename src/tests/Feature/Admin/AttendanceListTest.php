@@ -41,7 +41,8 @@ class AttendanceListTest extends TestCase
   /** @test */
   public function その日になされた全ユーザーの勤怠情報が正確に確認できる()
   {
-    $response = $this->actingAs($this->admin)->get(route('admin.attendance.index'));
+    $response = $this->actingAs($this->admin)->get(route('admin.attendance.list'));
+
 
     $response->assertStatus(200);
 
@@ -53,7 +54,7 @@ class AttendanceListTest extends TestCase
   /** @test */
   public function 遷移した際に現在の日付が表示される()
   {
-    $response = $this->actingAs($this->admin)->get(route('admin.attendance.index'));
+    $response = $this->actingAs($this->admin)->get(route('admin.attendance.list'));
 
     $response->assertStatus(200);
     $response->assertSee(Carbon::today()->format('Y-m-d'));
@@ -71,7 +72,8 @@ class AttendanceListTest extends TestCase
       ]);
     }
 
-    $response = $this->actingAs($this->admin)->get(route('admin.attendance.index', ['date' => $yesterday]));
+    $response = $this->actingAs($this->admin)->get(route('admin.attendance.list', ['date' => $yesterday]));
+
 
     $response->assertStatus(200);
     $response->assertSee($yesterday);
@@ -89,7 +91,8 @@ class AttendanceListTest extends TestCase
       ]);
     }
 
-    $response = $this->actingAs($this->admin)->get(route('admin.attendance.index', ['date' => $tomorrow]));
+    $response = $this->actingAs($this->admin)->get(route('admin.attendance.list', ['date' => $tomorrow]));
+
 
     $response->assertStatus(200);
     $response->assertSee($tomorrow);

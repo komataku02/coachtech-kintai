@@ -45,8 +45,7 @@ class AdminAttendanceDetailTest extends TestCase
   /** @test */
   public function 勤怠詳細画面に表示されるデータが選択したものになっている()
   {
-    $response = $this->actingAs($this->admin)
-      ->get(route('admin.attendance.detail', $this->attendance->id));
+    $response = $this->actingAs($this->admin)->get(route('attendance.show', $this->attendance->id));
 
     $response->assertStatus(200);
     $response->assertSee('勤怠詳細');

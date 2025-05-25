@@ -113,8 +113,7 @@ class AdminStaffListTest extends TestCase
   {
     $attendance = Attendance::first();
 
-    $response = $this->actingAs($this->admin)
-      ->get(route('admin.attendance.detail', $attendance->id));
+    $response = $this->actingAs($this->admin)->get(route('attendance.show', $attendance->id));
 
     $response->assertStatus(200);
     $response->assertSee('勤怠詳細');

@@ -8,7 +8,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Attendance\StampController;
 use App\Http\Controllers\Attendance\ListController as AttendanceListController;
-use App\Http\Controllers\Attendance\DetailController;
+use App\Http\Controllers\Attendance\DetailController as UserAttendanceDetailController;
 use App\Http\Controllers\Application\ListController as ApplicationListController;
 use App\Http\Controllers\Application\SubmitController;
 use App\Http\Controllers\Admin\Application\ApplicationListController as AdminApplicationListController;
@@ -34,8 +34,7 @@ Route::post('/logout', function () {
 /**
  * メール認証
  */
-Route::get('/email/verify', fn() => view('auth.verify'))
-  ->middleware('auth')->name('verification.notice');
+Route::get('/email/verify', fn() => view('auth.verify'))->middleware('auth')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
   $request->fulfill();
@@ -58,11 +57,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::post('/attendance/break-start', [StampController::class, 'breakIn'])->name('attendance.breakIn');
   Route::post('/attendance/break-end', [StampController::class, 'breakOut'])->name('attendance.breakOut');
 
-  // PG04 勤怠一覧、PG05 勤怠詳細
+  // PG04 勤怠一覧
   Route::get('/attendance/list', [AttendanceListController::class, 'index'])->name('attendance.list');
-  Route::get('/attendance/{id}', [DetailController::class, 'show'])->name('attendance.show');
 
-  // PG06 申請一覧、修正申請登録
+  // PG05 & PG09 勤怠詳細（共通パス）
+  Route::get('/attendance/{id}', function ($id) {
+    $user = auth()->user();
+    return $user->role === 'admin'
+      ? app(AdminAttendanceDetailController::class)->show($id)
+      : app(UserAttendanceDetailController::class)->show($id);
+  })->name('attendance.show');
+
+  // PG06 申請一覧
   Route::get('/stamp_correction_request/list', [ApplicationListController::class, 'index'])->name('application.list');
   Route::post('/stamp_correction_request/store', [SubmitController::class, 'store'])->name('application.store');
 });
@@ -86,14 +92,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
   // PG08 勤怠一覧（管理者）
   Route::get('/attendance/list', [DailyListController::class, 'index'])->name('attendance.list');
 
-  // PG09 勤怠詳細（管理者）
-  Route::get('/attendance/{id}', [AdminAttendanceDetailController::class, 'show'])->name('attendance.detail');
+  // PG09：ルート統合済みのため `/attendance/{id}` ルートは削除
+
   Route::put('/attendance/{id}/update', [AdminAttendanceDetailController::class, 'update'])->name('attendance.update');
 
-  // PG12 申請一覧（管理者）
+  // PG12 管理者：申請一覧
   Route::get('/stamp_correction_request/list', [AdminApplicationListController::class, 'index'])->name('application.list');
 
-  // PG13 申請承認（管理者）
+  // PG13 管理者：申請詳細・承認
   Route::get('/stamp_correction_request/approve/{id}', [AdminApplicationDetailController::class, 'show'])->name('application.detail');
   Route::post('/stamp_correction_request/approve/{id}', [AdminApplicationDetailController::class, 'approve'])->name('application.approve');
 

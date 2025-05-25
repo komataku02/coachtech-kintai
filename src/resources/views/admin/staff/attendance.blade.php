@@ -66,7 +66,7 @@
                         <td>{{ $breakFormatted }}</td>
                         <td>{{ $totalFormatted }}</td>
                         <td>
-                            <a href="{{ route('admin.attendance.detail', $attendance->id) }}" class="btn-link btn-detail">詳細</a>
+                            <a href="{{ route('attendance.show', $attendance->id) }}">詳細</a>
                         </td>
                     </tr>
                 @endforeach

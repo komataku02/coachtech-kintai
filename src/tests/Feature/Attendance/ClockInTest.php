@@ -90,7 +90,7 @@ class ClockInTest extends TestCase
 
     $this->actingAs($user instanceof Authenticatable ? $user : User::find($user->id));
 
-    $response = $this->get(route('admin.attendance.index'));
+    $response = $this->get(route('admin.attendance.list'));
 
     $response->assertStatus(200);
     $response->assertSee('08:45');

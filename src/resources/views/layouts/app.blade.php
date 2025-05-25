@@ -19,7 +19,7 @@
         <nav class="nav-header">
             <ul class="nav-list">
                 @if ($user->role === 'admin')
-                    <li><a href="{{ route('admin.attendance.index') }}">日別勤怠</a></li>
+                    <li><a href="{{ route('admin.attendance.list') }}">日別勤怠</a></li>
                     <li><a href="{{ route('admin.staff.list') }}">スタッフ一覧</a></li>
                     <li><a href="{{ route('admin.application.list') }}">申請一覧</a></li>
                 @else

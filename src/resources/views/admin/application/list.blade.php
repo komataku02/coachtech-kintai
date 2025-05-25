@@ -57,7 +57,7 @@
     @endif
 
     <div class="back-link">
-        <a href="{{ route('admin.attendance.index') }}" class="btn btn-back">← 日別勤怠一覧</a>
+        <a href="{{ route('admin.attendance.list') }}" class="btn btn-back">← 日別勤怠一覧</a>
     </div>
 </div>
 @endsection
