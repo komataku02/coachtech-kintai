@@ -38,7 +38,7 @@ class StampController extends Controller
             'user_id' => $user->id,
             'work_date' => $today,
             'clock_in_time' => now()->format('H:i:s'),
-            'status' => '出勤',
+            'status' => '出勤中',
         ]);
 
         return redirect()->route('attendance.index')->with('message', '出勤しました。');
@@ -71,7 +71,7 @@ class StampController extends Controller
             ->where('work_date', $today)
             ->first();
 
-        if (!$attendance || $attendance->status !== '出勤') {
+        if (!$attendance || $attendance->status !== '出勤中') {
             return redirect()->route('attendance.index')->with('message', '休憩は出勤中のみ行えます。');
         }
 
@@ -103,7 +103,7 @@ class StampController extends Controller
             'break_end' => now()->format('H:i:s'),
         ]);
 
-        $this->updateStatus('出勤');
+        $this->updateStatus('出勤中');
 
         return redirect()->route('attendance.index')->with('message', '休憩終了しました。');
     }

@@ -29,7 +29,7 @@ class ClockInTest extends TestCase
   }
 
   /** @test */
-  public function 出勤ボタンを押すとステータスが出勤に更新される()
+  public function 出勤ボタンを押すとステータスが出勤中に更新される()
   {
     $user = User::factory()->create([
       'email_verified_at' => now(),
@@ -42,7 +42,7 @@ class ClockInTest extends TestCase
     $response->assertRedirect(route('attendance.index'));
     $this->assertDatabaseHas('attendances', [
       'user_id' => $user->id,
-      'status' => '出勤',
+      'status' => '出勤中',
     ]);
   }
 
@@ -85,7 +85,7 @@ class ClockInTest extends TestCase
       'user_id' => $employee->id,
       'work_date' => Carbon::today()->toDateString(),
       'clock_in_time' => '08:45:00',
-      'status' => '出勤',
+      'status' => '出勤中',
     ]);
 
     $this->actingAs($user instanceof Authenticatable ? $user : User::find($user->id));
