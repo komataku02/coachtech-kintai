@@ -9,8 +9,13 @@
     <div class="user-info">
         <p class="status-label">{{ $attendance->status ?? '勤務外' }}</p>
 
-        <p class="current-date" id="current-date">--年--月--日（--）</p>
-        <p class="time-display" id="current-time">--:--</p>
+        @php
+            $now = \Carbon\Carbon::now();
+            $weekDays = ['日', '月', '火', '水', '木', '金', '土'];
+        @endphp
+
+        <p class="current-date">{{ $now->format('Y年n月j日') }}（{{ $weekDays[$now->dayOfWeek] }}）</p>
+        <p class="time-display">{{ $now->format('H:i') }}</p>
     </div>
 
     <div class="button-group">
@@ -38,28 +43,4 @@
         @endif
     </div>
 </div>
-@endsection
-
-@section('scripts')
-<script>
-    function updateDateTime() {
-        const now = new Date();
-        const weekDays = ['日', '月', '火', '水', '木', '金', '土'];
-
-        const year = now.getFullYear();
-        const month = now.getMonth() + 1;
-        const date = now.getDate();
-        const day = weekDays[now.getDay()];
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-
-        document.getElementById('current-date').textContent = `${year}年${month}月${date}日（${day}）`;
-        document.getElementById('current-time').textContent = `${hours}:${minutes}`;
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
-    });
-</script>
 @endsection

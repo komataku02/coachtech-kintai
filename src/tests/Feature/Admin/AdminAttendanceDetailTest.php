@@ -78,7 +78,7 @@ class AdminAttendanceDetailTest extends TestCase
       'note' => 'テスト',
     ]);
 
-    $response->assertSessionHasErrors(['break_start_times.0']);
+    $response->assertSessionHasErrors(['break_range_error']);
   }
 
   /** @test */
@@ -92,7 +92,7 @@ class AdminAttendanceDetailTest extends TestCase
       'note' => 'テスト',
     ]);
 
-    $response->assertSessionHasErrors(['break_end_times.0']);
+    $response->assertSessionHasErrors(['break_range_error']);
   }
 
   /** @test */

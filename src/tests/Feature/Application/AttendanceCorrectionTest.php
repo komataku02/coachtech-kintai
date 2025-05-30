@@ -75,7 +75,7 @@ class AttendanceCorrectionTest extends TestCase
 
     $response->assertRedirect(route('attendance.show', $this->attendance->id));
 
-    $response->assertSessionHasErrors(['break_end_times.0']);
+    $response->assertSessionHasErrors(['break_range_error']);
   }
 
 
@@ -93,7 +93,7 @@ class AttendanceCorrectionTest extends TestCase
       ]);
 
     $response->assertRedirect(route('attendance.show', $this->attendance->id));
-    $response->assertSessionHasErrors(['break_end_times.0']);
+    $response->assertSessionHasErrors(['break_range_error']);
   }
 
   /** @test */
