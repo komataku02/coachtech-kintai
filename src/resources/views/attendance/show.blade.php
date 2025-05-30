@@ -10,16 +10,9 @@
 
     @if ($alreadyApplied)
         <table class="attendance-table">
-            <tr>
-                <th>名前</th>
-                <td>{{ Auth::user()->name }}</td>
-            </tr>
-            <tr>
-                <th>日付</th>
-                <td>{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年n月j日') }}</td>
-            </tr>
-            <tr>
-                <th>出勤・退勤</th>
+            <tr><th>名前</th><td>{{ Auth::user()->name }}</td></tr>
+            <tr><th>日付</th><td>{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年n月j日') }}</td></tr>
+            <tr><th>出勤・退勤</th>
                 <td>{{ $attendance->clock_in_time ? \Carbon\Carbon::parse($attendance->clock_in_time)->format('H:i') : '--:--' }} ～ {{ $attendance->clock_out_time ? \Carbon\Carbon::parse($attendance->clock_out_time)->format('H:i') : '--:--' }}</td>
             </tr>
             @foreach ($attendance->breakTimes as $i => $break)
@@ -28,10 +21,7 @@
                     <td>{{ \Carbon\Carbon::parse($break->break_start)->format('H:i') }} ～ {{ \Carbon\Carbon::parse($break->break_end)->format('H:i') }}</td>
                 </tr>
             @endforeach
-            <tr>
-                <th>備考</th>
-                <td>{{ $attendance->note ?? '―' }}</td>
-            </tr>
+            <tr><th>備考</th><td>{{ $attendance->note ?? '―' }}</td></tr>
         </table>
 
         <p class="apply-alert">※承認待ちのため修正はできません。</p>
@@ -70,6 +60,9 @@
                             <input type="time" name="break_start_times[{{ $i }}]" value="{{ old("break_start_times.$i", $break->break_start ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : '') }}">
                             ～ 
                             <input type="time" name="break_end_times[{{ $i }}]" value="{{ old("break_end_times.$i", $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}">
+                            @error("break_range_error.$i")
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror
                         </td>
                     </tr>
                 @endforeach
@@ -80,7 +73,7 @@
                         <input type="time" name="break_start_times[{{ count($attendance->breakTimes) }}]" value="{{ old('break_start_times.' . count($attendance->breakTimes)) }}">
                         ～ 
                         <input type="time" name="break_end_times[{{ count($attendance->breakTimes) }}]" value="{{ old('break_end_times.' . count($attendance->breakTimes)) }}">
-                        @error('break_range_error')
+                        @error("break_range_error." . count($attendance->breakTimes))
                             <div class="error-message">{{ $message }}</div>
                         @enderror
                     </td>
