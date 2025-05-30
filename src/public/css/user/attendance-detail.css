@@ -3,24 +3,27 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  height: 100vh;
+}
+
+main.main-content {
+  padding: 2rem 1rem 4rem;
+  box-sizing: border-box;
 }
 
 .attendance-detail-container {
   max-width: 1000px;
-  margin: 2rem auto;
   margin: 0 auto;
   padding: 2rem;
+  box-sizing: border-box;
+  background-color: transparent;
 }
 
 .page-title {
-  max-width: 1000px;
-  margin: 1rem;
-  margin-left: 3rem;
   font-size: 1.6rem;
   font-weight: bold;
-  border-left: 5px solid #000;
+  margin: 1rem 0 2rem 3rem;
   padding-left: 1rem;
+  border-left: 5px solid #000;
   color: #000;
 }
 
@@ -56,14 +59,119 @@ body {
 
 .attendance-table td {
   flex-basis: 70%;
+  width: 100%;
   color: #000;
+}
+
+input[type="time"],
+textarea {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 45%;
+  max-width: 150px;
+  margin-right: 0.5rem;
+  box-sizing: border-box;
+}
+
+textarea {
+  display: block;
+  width: 70%;
+  max-width: 70%;
+  resize: vertical;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 4px;
 }
 
 .attendance-footer-right {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-top: 1rem;
+  gap: 1rem;
+  margin-top: 2rem;
   margin-right: 3rem;
 }
 
+.btn {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn-apply {
+  background-color: #000;
+  color: #fff;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-apply:hover {
+  background-color: #333;
+}
+
+.btn-back {
+  background-color: #f2f2f2;
+  color: #000;
+  border: 1px solid #ccc;
+  font-weight: bold;
+}
+
+.btn-back:hover {
+  background-color: #ddd;
+}
+
+.back-link {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.4rem;
+    margin-left: 1rem;
+  }
+
+  .attendance-table tr {
+    flex-direction: column;
+    padding: 0.5rem;
+  }
+
+  .attendance-table th,
+  .attendance-table td {
+    flex-basis: 100%;
+    padding: 0.5rem 1rem;
+  }
+
+  input[type="time"] {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  textarea {
+    width: 100%;
+  }
+
+  .attendance-footer-right {
+    justify-content: center;
+    margin-right: 0;
+  }
+
+  .back-link {
+    text-align: center;
+    margin-right: 0;
+  }
+}

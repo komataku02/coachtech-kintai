@@ -27,7 +27,7 @@ class ClockOutTest extends TestCase
       'user_id' => $user->id,
       'work_date' => now()->toDateString(),
       'clock_in_time' => '09:00:00',
-      'status' => '出勤',
+      'status' => '出勤中',
     ]);
 
     $this->actingAs($user instanceof Authenticatable ? $user : User::find($user->id));
@@ -45,7 +45,7 @@ class ClockOutTest extends TestCase
       'user_id' => $user->id,
       'work_date' => now()->toDateString(),
       'clock_in_time' => '09:00:00',
-      'status' => '出勤',
+      'status' => '出勤中',
     ]);
 
     $this->actingAs($user instanceof Authenticatable ? $user : User::find($user->id));

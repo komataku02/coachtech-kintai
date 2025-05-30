@@ -39,44 +39,43 @@ class AttendanceFormRequest extends FormRequest
           $clockOutTime = Carbon::createFromFormat('H:i', $clockOut);
         }
 
+        // 出退勤チェック
         if ($clockInTime && $clockOutTime && $clockOutTime->lt($clockInTime)) {
-          $validator->errors()->add('clock_out_time', '出勤時間もしくは退勤時間が不適切な値です。');
+          $validator->errors()->add('time_range_error', '出勤時間もしくは退勤時間が不適切な値です');
         }
-      } catch (\Exception $e) {
-      }
 
-      $starts = $this->input('break_start_times', []);
-      $ends = $this->input('break_end_times', []);
+        $starts = $this->input('break_start_times', []);
+        $ends = $this->input('break_end_times', []);
 
-      foreach ($starts as $i => $start) {
-        $end = $ends[$i] ?? null;
+        foreach ($starts as $i => $start) {
+          $end = $ends[$i] ?? null;
 
-        try {
           if ($start && $end) {
             $startTime = Carbon::createFromFormat('H:i', $start);
             $endTime = Carbon::createFromFormat('H:i', $end);
 
-            if ($endTime->lt($startTime)) {
-              $validator->errors()->add("break_end_times.$i", '休憩終了は開始より後の時刻にしてください。');
+            if ($endTime->lte($startTime)) {
+              $validator->errors()->add('break_range_error', '休憩時間が勤務時間外です');
+              break;
             }
 
             if ($clockInTime && $startTime->lt($clockInTime)) {
-              $validator->errors()->add("break_start_times.$i", '休憩時間が勤務時間外です。');
+              $validator->errors()->add('break_range_error', '休憩時間が勤務時間外です');
+              break;
             }
 
-            if ($clockOutTime && $startTime->gt($clockOutTime)) {
-              $validator->errors()->add("break_start_times.$i", '休憩時間が勤務時間外です。');
-            }
-
-            if ($clockOutTime && $endTime->gt($clockOutTime)) {
-              $validator->errors()->add("break_end_times.$i", '休憩時間が勤務時間外です。');
+            if ($clockOutTime && ($startTime->gt($clockOutTime) || $endTime->gt($clockOutTime))) {
+              $validator->errors()->add('break_range_error', '休憩時間が勤務時間外です');
+              break;
             }
           }
-        } catch (\Exception $e) {
         }
+      } catch (\Exception $e) {
+        // 無視
       }
     });
   }
+
 
   public function messages(): array
   {
