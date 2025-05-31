@@ -72,7 +72,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
   Route::get('/attendance/list', [DailyListController::class, 'index'])->name('attendance.list');
-
+  Route::get('/attendance/{id}', [DetailController::class, 'show'])->name('attendance.show');
   Route::put('/attendance/{id}/update', [AdminAttendanceDetailController::class, 'update'])->name('attendance.update');
 
   Route::get('/stamp_correction_request/list', [AdminApplicationListController::class, 'index'])->name('application.list');
