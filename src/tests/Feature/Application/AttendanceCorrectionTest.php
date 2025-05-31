@@ -75,9 +75,11 @@ class AttendanceCorrectionTest extends TestCase
 
     $response->assertRedirect(route('attendance.show', $this->attendance->id));
 
-    $response->assertSessionHasErrors(['break_range_error']);
+    $errors = session('errors')->getBag('default')->keys();
+    $this->assertTrue(collect($errors)->contains(function ($key) {
+      return str_starts_with($key, 'break_range_error');
+    }));
   }
-
 
   /** @test */
   public function 休憩終了時間が退勤時間より後の場合はエラーメッセージが表示される()
@@ -93,7 +95,11 @@ class AttendanceCorrectionTest extends TestCase
       ]);
 
     $response->assertRedirect(route('attendance.show', $this->attendance->id));
-    $response->assertSessionHasErrors(['break_range_error']);
+
+    $errors = session('errors')->getBag('default')->keys();
+    $this->assertTrue(collect($errors)->contains(function ($key) {
+      return str_starts_with($key, 'break_range_error');
+    }));
   }
 
   /** @test */
