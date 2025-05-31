@@ -43,7 +43,7 @@ class DetailController extends Controller
             }
         });
 
-        return redirect()->route('admin.attendance.detail', $id)
+        return redirect()->route('attendance.show', $id)
             ->with('message', '勤怠情報を更新しました');
     }
 }
