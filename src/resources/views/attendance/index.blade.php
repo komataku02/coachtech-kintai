@@ -24,7 +24,7 @@
                 @csrf
                 <button type="submit" class="btn-clock clock-in">出勤</button>
             </form>
-        @elseif ($attendance->status === '出勤')
+        @elseif ($attendance->status === '出勤中')
             <form method="POST" action="{{ route('attendance.clockOut') }}">
                 @csrf
                 <button type="submit" class="btn-clock clock-out">退勤</button>

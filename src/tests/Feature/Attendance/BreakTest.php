@@ -29,7 +29,7 @@ class BreakTest extends TestCase
       'user_id' => $user->id,
       'work_date' => now()->toDateString(),
       'clock_in_time' => '08:00:00',
-      'status' => '出勤',
+      'status' => '出勤中',
     ]);
 
     $this->actingAs($user instanceof Authenticatable ? $user : User::find($user->id));
@@ -47,7 +47,7 @@ class BreakTest extends TestCase
       'user_id' => $user->id,
       'work_date' => now()->toDateString(),
       'clock_in_time' => '08:00:00',
-      'status' => '出勤',
+      'status' => '出勤中',
     ]);
 
     $this->actingAs($user instanceof Authenticatable ? $user : User::find($user->id));
@@ -79,7 +79,7 @@ class BreakTest extends TestCase
     $this->post(route('attendance.breakOut'));
 
     $attendance->refresh();
-    $this->assertEquals('出勤', $attendance->status);
+    $this->assertEquals('出勤中', $attendance->status);
   }
 
   /** @test */
@@ -90,7 +90,7 @@ class BreakTest extends TestCase
       'user_id' => $user->id,
       'work_date' => now()->toDateString(),
       'clock_in_time' => '08:00:00',
-      'status' => '出勤',
+      'status' => '出勤中',
     ]);
 
     $this->actingAs($user instanceof Authenticatable ? $user : User::find($user->id));

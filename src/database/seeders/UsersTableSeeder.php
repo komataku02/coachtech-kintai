@@ -11,7 +11,6 @@ class UsersTableSeeder extends Seeder
 {
     public function run(): void
     {
-        // 管理者
         User::create([
             'name' => '管理者太郎',
             'email' => 'admin@example.com',
@@ -20,7 +19,6 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => Carbon::now(),
         ]);
 
-        // 一般ユーザー
         User::factory()->count(5)->create();
     }
 }

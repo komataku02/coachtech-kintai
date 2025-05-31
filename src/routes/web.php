@@ -19,9 +19,6 @@ use App\Http\Controllers\Admin\Staff\StaffListController;
 use App\Http\Controllers\Admin\Staff\MonthlyAttendanceListController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 
-/**
- * 一般ユーザー：認証前
- */
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -31,9 +28,6 @@ Route::post('/logout', function () {
   return redirect('/login');
 })->name('logout');
 
-/**
- * メール認証
- */
 Route::get('/email/verify', fn() => view('auth.verify'))->middleware('auth')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
@@ -46,21 +40,15 @@ Route::post('/email/verification-notification', function (Request $request) {
   return back()->with('message', '確認リンクを再送しました');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-/**
- * 一般ユーザー：認証済み
- */
 Route::middleware(['auth', 'verified'])->group(function () {
-  // PG03 勤怠登録画面
   Route::get('/attendance', [StampController::class, 'index'])->name('attendance.index');
   Route::post('/attendance/clock-in', [StampController::class, 'clockIn'])->name('attendance.clockIn');
   Route::post('/attendance/clock-out', [StampController::class, 'clockOut'])->name('attendance.clockOut');
   Route::post('/attendance/break-start', [StampController::class, 'breakIn'])->name('attendance.breakIn');
   Route::post('/attendance/break-end', [StampController::class, 'breakOut'])->name('attendance.breakOut');
 
-  // PG04 勤怠一覧
   Route::get('/attendance/list', [AttendanceListController::class, 'index'])->name('attendance.list');
 
-  // PG05 & PG09 勤怠詳細（共通パス）
   Route::get('/attendance/{id}', function ($id) {
     $user = auth()->user();
     return $user->role === 'admin'
@@ -68,14 +56,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
       : app(UserAttendanceDetailController::class)->show($id);
   })->name('attendance.show');
 
-  // PG06 申請一覧
   Route::get('/stamp_correction_request/list', [ApplicationListController::class, 'index'])->name('application.list');
   Route::post('/stamp_correction_request/store', [SubmitController::class, 'store'])->name('application.store');
 });
 
-/**
- * 管理者：認証前
- */
+
 Route::prefix('admin')->name('admin.')->group(function () {
   Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
   Route::post('/login', [AdminLoginController::class, 'login']);
@@ -85,28 +70,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
   })->name('logout');
 });
 
-/**
- * 管理者：認証後
- */
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
-  // PG08 勤怠一覧（管理者）
   Route::get('/attendance/list', [DailyListController::class, 'index'])->name('attendance.list');
-
-  // PG09：ルート統合済みのため `/attendance/{id}` ルートは削除
 
   Route::put('/attendance/{id}/update', [AdminAttendanceDetailController::class, 'update'])->name('attendance.update');
 
-  // PG12 管理者：申請一覧
   Route::get('/stamp_correction_request/list', [AdminApplicationListController::class, 'index'])->name('application.list');
 
-  // PG13 管理者：申請詳細・承認
   Route::get('/stamp_correction_request/approve/{id}', [AdminApplicationDetailController::class, 'show'])->name('application.detail');
   Route::post('/stamp_correction_request/approve/{id}', [AdminApplicationDetailController::class, 'approve'])->name('application.approve');
 
-  // PG10 スタッフ一覧
   Route::get('/staff/list', [StaffListController::class, 'index'])->name('staff.list');
 
-  // PG11 スタッフ別勤怠
   Route::get('/attendance/staff/{id}', [MonthlyAttendanceListController::class, 'show'])->name('staff.attendance');
   Route::get('/attendance/staff/{id}/csv', [MonthlyAttendanceListController::class, 'downloadCsv'])->name('staff.attendance.csv');
 });

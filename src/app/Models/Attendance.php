@@ -34,4 +34,9 @@ class Attendance extends Model
     {
         return $this->hasMany(Application::class);
     }
+
+    public function application()
+    {
+        return $this->hasOne(Application::class)->latestOfMany();
+    }
 }

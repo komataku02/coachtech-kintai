@@ -21,7 +21,6 @@ class ApplicationFormRequest extends FormRequest
             'clock_out_time' => 'nullable|date_format:H:i|after_or_equal:clock_in_time',
             'break_start_times.*' => 'nullable|date_format:H:i',
             'break_end_times.*' => 'nullable|date_format:H:i',
-            'note' => 'required|string|max:255',
         ];
     }
 
@@ -33,52 +32,46 @@ class ApplicationFormRequest extends FormRequest
             $clockIn = $this->input('clock_in_time');
             $clockOut = $this->input('clock_out_time');
 
-            $clockInTime = $clockOutTime = null;
+            $clockInTime = $clockIn ? Carbon::createFromFormat('H:i', $clockIn) : null;
+            $clockOutTime = $clockOut ? Carbon::createFromFormat('H:i', $clockOut) : null;
 
-            try {
-                if ($clockIn) {
-                    $clockInTime = Carbon::createFromFormat('H:i', $clockIn);
-                }
-                if ($clockOut) {
-                    $clockOutTime = Carbon::createFromFormat('H:i', $clockOut);
-                }
-            } catch (\Exception $e) {
+            if ($clockInTime && $clockOutTime && $clockOutTime->lt($clockInTime)) {
+                $validator->errors()->add('time_range_error', '出勤時間もしくは退勤時間が不適切な値です');
             }
 
             foreach ($starts as $i => $start) {
                 $end = $ends[$i] ?? null;
 
-                if ($start && !$end) {
-                    $validator->errors()->add("break_end_times.$i", '休憩終了時刻を入力してください。');
+                if (!$start && !$end) {
+                    continue;
                 }
 
-                if (!$start && $end) {
-                    $validator->errors()->add("break_start_times.$i", '休憩開始時刻を入力してください。');
+                if (!$start || !$end) {
+                    $validator->errors()->add("break_range_error.$i", '休憩時間が勤務時間外です');
+                    continue;
                 }
 
-                if ($start && $end) {
-                    try {
-                        $startTime = Carbon::createFromFormat('H:i', $start);
-                        $endTime = Carbon::createFromFormat('H:i', $end);
+                try {
+                    $startTime = Carbon::createFromFormat('H:i', $start);
+                    $endTime = Carbon::createFromFormat('H:i', $end);
 
-                        if ($endTime->lessThanOrEqualTo($startTime)) {
-                            $validator->errors()->add("break_end_times.$i", '休憩終了は開始より後の時刻にしてください。');
-                        }
-
-                        if ($clockInTime && $startTime->lt($clockInTime)) {
-                            $validator->errors()->add("break_start_times.$i", '休憩時間が勤務時間外です。');
-                        }
-
-                        if ($clockOutTime && ($startTime->gt($clockOutTime) || $endTime->gt($clockOutTime))) {
-                            $validator->errors()->add("break_end_times.$i", '休憩時間が勤務時間外です。');
-                        }
-                    } catch (\Exception $e) {
+                    if ($endTime->lte($startTime)) {
+                        $validator->errors()->add("break_range_error.$i", '休憩時間が勤務時間外です');
                     }
+
+                    if ($clockInTime && $startTime->lt($clockInTime)) {
+                        $validator->errors()->add("break_range_error.$i", '休憩時間が勤務時間外です');
+                    }
+
+                    if ($clockOutTime && ($startTime->gt($clockOutTime) || $endTime->gt($clockOutTime))) {
+                        $validator->errors()->add("break_range_error.$i", '休憩時間が勤務時間外です');
+                    }
+                } catch (\Exception $e) {
+                    continue;
                 }
             }
         });
     }
-
 
     public function messages(): array
     {
@@ -96,8 +89,6 @@ class ApplicationFormRequest extends FormRequest
 
             'break_start_times.*.date_format' => '休憩開始時刻の形式が不正です（例：12:00）。',
             'break_end_times.*.date_format' => '休憩終了時刻の形式が不正です（例：13:00）。',
-            'note.required' => '備考を入力してください。',
-            'note.max' => '備考は255文字以内で入力してください。',
         ];
     }
 }

@@ -37,7 +37,6 @@ class ApplicationsTableSeeder extends Seeder
                     continue;
                 }
 
-                // 30分スロット＋1分間隔で休憩時間候補を生成
                 $availableSlots = [];
                 $slotStart = $clockIn->copy()->addMinutes(30);
                 while ($slotStart->copy()->addMinutes(30)->lte($clockOut)) {
@@ -66,7 +65,6 @@ class ApplicationsTableSeeder extends Seeder
             }
         }
 
-        //テストで確実に使うデータ：note に「退勤打刻を忘れました。」を含む申請を1件追加
         $targetUser = $users->first();
         $targetAttendance = Attendance::where('user_id', $targetUser->id)
             ->whereNotNull('clock_in_time')

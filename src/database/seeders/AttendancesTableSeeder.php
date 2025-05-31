@@ -14,9 +14,9 @@ class AttendancesTableSeeder extends Seeder
         $users = User::where('role', 'user')->get();
 
         $months = [
-            Carbon::now()->subMonth(), // 前月
-            Carbon::now(),             // 今月
-            Carbon::now()->addMonth(), // 翌月
+            Carbon::now()->subMonth(),
+            Carbon::now(),
+            Carbon::now()->addMonth(),
         ];
 
         foreach ($users as $user) {
