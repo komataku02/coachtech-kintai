@@ -25,7 +25,6 @@
                 $requestBreaks = json_decode($application->request_breaks ?? '[]', true);
             @endphp
 
-            {{-- 休憩時間（申請されたものを優先表示） --}}
             @foreach ($requestBreaks as $i => $break)
                 <tr>
                     <th>休憩{{ $i + 1 }}</th>
@@ -37,7 +36,6 @@
                 </tr>
             @endforeach
 
-            {{-- 元データにあるが申請にはない休憩が存在する場合（古いデータ表示） --}}
             @for ($j = count($requestBreaks); $j < count($attendance->breakTimes); $j++)
                 <tr>
                     <th>休憩{{ $j + 1 }}</th>

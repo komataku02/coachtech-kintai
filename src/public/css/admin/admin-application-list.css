@@ -36,7 +36,7 @@ body {
   border-radius: 6px;
   border: 1px solid #ccc;
   background-color: #fff;
-  transition: background-color 0.2s ease;
+  transition: 0.2s ease;
 }
 
 .tab-switch .tab-link:hover {

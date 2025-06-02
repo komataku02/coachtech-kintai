@@ -27,7 +27,7 @@
                 <th>出勤・退勤</th>
                 <td>
                     <input type="time" name="clock_in_time" class="form-input" value="{{ old('clock_in_time', \Carbon\Carbon::parse($attendance->clock_in_time)->format('H:i')) }}">
-                    ～ 
+                    ～
                     <input type="time" name="clock_out_time" class="form-input" value="{{ old('clock_out_time', \Carbon\Carbon::parse($attendance->clock_out_time)->format('H:i')) }}">
                     @error('time_range_error')
                         <div class="error-message">{{ $message }}</div>
@@ -41,7 +41,7 @@
                     <td>
                         <input type="time" name="break_start_times[{{ $index }}]" class="form-input"
                             value="{{ old('break_start_times.' . $index, \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}">
-                        ～ 
+                        ～
                         <input type="time" name="break_end_times[{{ $index }}]" class="form-input"
                             value="{{ old('break_end_times.' . $index, \Carbon\Carbon::parse($break->break_end)->format('H:i')) }}">
                         @error('break_range_error')
@@ -54,7 +54,7 @@
                     <th>休憩1</th>
                     <td>
                         <input type="time" name="break_start_times[0]" class="form-input">
-                        ～ 
+                        ～
                         <input type="time" name="break_end_times[0]" class="form-input">
                     </td>
                 </tr>

@@ -185,4 +185,21 @@ class AttendanceCorrectionTest extends TestCase
     $response->assertOk();
     $response->assertSee('承認済みテスト');
   }
+
+  /** @test */
+  public function 申請一覧から詳細を押すと勤怠詳細画面に遷移する()
+  {
+    $this->post(route('application.store'), [
+      'attendance_id' => $this->attendance->id,
+      'clock_in_time' => '09:00',
+      'clock_out_time' => '18:00',
+      'note' => '詳細確認テスト',
+      'break_start_times' => ['12:00'],
+      'break_end_times' => ['13:00'],
+    ]);
+
+    $response = $this->get(route('attendance.show', $this->attendance->id));
+    $response->assertOk();
+    $response->assertSee('詳細確認テスト');
+  }
 }
