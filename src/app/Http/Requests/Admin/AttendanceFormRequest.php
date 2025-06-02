@@ -39,7 +39,6 @@ class AttendanceFormRequest extends FormRequest
           $clockOutTime = Carbon::createFromFormat('H:i', $clockOut);
         }
 
-        // 出退勤チェック
         if ($clockInTime && $clockOutTime && $clockOutTime->lt($clockInTime)) {
           $validator->errors()->add('time_range_error', '出勤時間もしくは退勤時間が不適切な値です');
         }
@@ -71,7 +70,6 @@ class AttendanceFormRequest extends FormRequest
           }
         }
       } catch (\Exception $e) {
-        // 無視
       }
     });
   }
