@@ -56,6 +56,15 @@ composer install
 php artisan migrate --seed
 ```
 ---
+## キャッシュクリア（必要に応じて実行）
+設定ファイルや .env の内容が反映されない場合は、以下のコマンドを実行してください：
+```bash
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan cache:clear
+```
+---
 
 ## テスト環境でのマイグレーション
 
