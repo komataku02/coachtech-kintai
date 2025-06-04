@@ -58,7 +58,19 @@ php artisan migrate --seed
 ---
 
 ## テスト環境でのマイグレーション
+
+### SQLiteファイルの作成（初回のみ）
+
+テスト実行時に SQLite を使用するため、以下のコマンドで空ファイルを作成してください：
 ```bash
+# PHP コンテナに入る
+
+docker compose exec php bash
+
+# Laravelプロジェクトのルート（/var/www）にいる状態で
+
+touch database/database.sqlite
+
 # テスト用 DB を初期化
 
 php artisan migrate:fresh --env=testing
