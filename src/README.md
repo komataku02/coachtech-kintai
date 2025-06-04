@@ -1,64 +1,112 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# COACHTECH 勤怠管理アプリ
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 概要
 
-## About Laravel
+本アプリは、**出退勤打刻・勤怠一覧確認・修正申請・管理者による承認**などの機能を備えた、シンプルかつ実用的な勤怠管理システムです。
+一般ユーザーと管理者の役割に応じた画面・機能の切り分けがなされており、Figma 準拠のデザインを元に**レスポンシブ対応**も行っています。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 使用技術
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| カテゴリ       | 使用技術               |
+| -------------- | ---------------------- |
+| フレームワーク | Laravel 8.83.8         |
+| 言語           | PHP 7.4.9 / HTML / CSS     |
+| フロントエンド | Blade テンプレート/ CSS |
+| データベース   | MySQL 8.0.29           |
+| 環境構築       | Docker / Docker Compose  |
+| テスト         | PHPUnit                |
+| バージョン管理 | Git / GitHub             |
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## クローン・セットアップ手順
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
 
-## Laravel Sponsors
+# 1.プロジェクトをクローン
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+git clone https://github.com/komataku02/coachtech-kintai.git
 
-### Premium Partners
+# 2.ディレクトリ移動
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+cd coachtech-kintai
 
-## Contributing
+# 3. .env ファイルの作成とキー生成
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+cp .env.example .env
 
-## Code of Conduct
+php artisan key:generate
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 4. Docker コンテナビルド＆起動
 
-## Security Vulnerabilities
+docker-compose up -d --build
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# 5. PHP コンテナに入る
 
-## License
+docker compose exec php bash
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# 6. 依存パッケージインストール
+
+composer install
+
+# 7. マイグレーションとシーディング（本番用）
+
+php artisan migrate --seed
+```
+---
+
+## テスト環境でのマイグレーション
+```bash
+# テスト用 DB を初期化
+
+php artisan migrate:fresh --env=testing
+
+# テスト用シーディング
+
+php artisan db:seed --env=testing
+
+## テスト実行方法
+
+php artisan test
+```
+---
+
+## ログイン情報(管理者)
+
+| ロール | メールアドレス    | パスワード  |
+| ------ | ----------------- | ----------- |
+| 管理者 | admin@example.com | password123 |
+
+
+---
+
+## アプリ URL
+
+・開発環境：http://localhost
+
+・phpMyAdmin：http://localhost:8080/
+
+## 主な機能
+
+### 一般ユーザー
+
+-   出退勤打刻（出勤・退勤・休憩開始/終了）
+-   勤怠一覧確認（月単位）
+-   勤怠詳細閲覧・修正申請
+-   修正申請一覧（承認待ち・承認済み）
+
+### 管理者
+
+- 日別勤怠一覧（全ユーザー）
+- 個別勤怠詳細の閲覧・修正
+- 勤怠修正申請一覧（承認処理）
+- ユーザー一覧の確認
+- スタッフ別勤怠一覧（CSV 出力含む）
+
+---
+
+## ER図
+
+![ER図](https://github.com/komataku02/coachtech-kintai/blob/main/er-diagram.png?raw=true)
